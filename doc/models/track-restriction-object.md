@@ -1,0 +1,29 @@
+
+# Track Restriction Object
+
+*This model accepts additional fields of type unknown.*
+
+## Structure
+
+`TrackRestrictionObject`
+
+## Fields
+
+| Name | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `reason` | `string \| undefined` | Optional | The reason for the restriction. Supported values:<br><br>- `market` - The content item is not available in the given market.<br>- `product` - The content item is not available for the user's subscription type.<br>- `explicit` - The content item is explicit and the user's account is set to not play explicit content.<br><br>Additional reasons may be added in the future.<br>**Note**: If you use this field, make sure that your application safely handles unknown values. |
+| `additionalProperties` | `Record<string, unknown>` | Optional | - |
+
+## Example
+
+```ts
+import { TrackRestrictionObject } from 'spotify-web-apilib';
+
+const trackRestrictionObject: TrackRestrictionObject = {
+  reason: 'reason6',
+  additionalProperties: {
+    'exampleAdditionalProperty': { 'key1': 'val1', 'key2': 'val2' }
+  },
+};
+```
+
