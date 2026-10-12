@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The precision with which `release_date` value is known. */
 export const ReleaseDatePrecision = {
   Year: "year",
   Month: "month",

@@ -5,10 +5,21 @@ import { typeSchema, type Type } from "./type.js";
 
 export type SimplifiedArtistObject = {
   externalUrls?: ExternalUrlObject;
+  /** A link to the Web API endpoint providing full details of the artist. */
   href?: string;
+  /**
+   * The [Spotify ID](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids)
+   * for the artist.
+   */
   id?: string;
+  /** The name of the artist. */
   name?: string;
   type?: Type;
+  /**
+   * The [Spotify
+   * URI](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids) for the
+   * artist.
+   */
   uri?: string;
 };
 

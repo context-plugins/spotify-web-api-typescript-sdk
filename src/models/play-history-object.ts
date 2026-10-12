@@ -5,6 +5,7 @@ import { trackObjectSchema, type TrackObject } from "./track-object.js";
 
 export type PlayHistoryObject = {
   track?: TrackObject;
+  /** The date and time the track was played. */
   playedAt?: Date;
   context?: ContextObject;
 };

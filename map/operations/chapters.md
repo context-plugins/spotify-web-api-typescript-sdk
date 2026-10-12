@@ -4,7 +4,7 @@
 
 Accessor: `client.chapters` · Source: `src/resources/chapters.ts` · 3 operations · Request and error types: namespace `Chapters`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAChapter
 
@@ -13,7 +13,7 @@ Accessor: `client.chapters` · Source: `src/resources/chapters.ts` · 3 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ChapterObject`
-- **Error**: `Chapters.GetAChapterError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Chapters.GetAChapterError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Chapters.GetAChapterRequest` (2):
@@ -37,7 +37,7 @@ Accessor: `client.chapters` · Source: `src/resources/chapters.ts` · 3 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedChapterObject`
-- **Error**: `Chapters.GetAudiobookChaptersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Chapters.GetAudiobookChaptersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Chapters.GetAudiobookChaptersRequest` (4):
@@ -63,7 +63,7 @@ Accessor: `client.chapters` · Source: `src/resources/chapters.ts` · 3 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyChapters`
-- **Error**: `Chapters.GetSeveralChaptersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Chapters.GetSeveralChaptersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Chapters.GetSeveralChaptersRequest` (2):

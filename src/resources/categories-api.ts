@@ -1,8 +1,8 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import { categoryObjectSchema, type CategoryObject } from "../models/category-object.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
@@ -26,6 +26,21 @@ export class CategoriesApi {
     this.#auth = auth;
   }
 
+  /**
+   * get-a-categories-playlists
+   *
+   * @remarks
+   * Get a list of Spotify playlists tagged with a particular category.
+   *
+   * @returns A paged set of playlists
+   *
+   * @throws {@link CategoriesApi.GetACategoriesPlaylistsError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getACategoriesPlaylists(
     request: CategoriesApi.GetACategoriesPlaylistsRequest,
     options?: RequestOptions,
@@ -33,13 +48,14 @@ export class CategoriesApi {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/browse/categories/{category_id}/playlists"),
+        urlTemplate: this.#servers.default("/browse/categories/{category_id}/playlists"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "category_id", value: request.categoryId, schema: s.string() }],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -50,6 +66,22 @@ export class CategoriesApi {
     );
   }
 
+  /**
+   * get-a-category
+   *
+   * @remarks
+   * Get a single category used to tag items in Spotify (on, for example, the Spotify player’s
+   * “Browse” tab).
+   *
+   * @returns A category
+   *
+   * @throws {@link CategoriesApi.GetACategoryError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getACategory(
     request: CategoriesApi.GetACategoryRequest,
     options?: RequestOptions,
@@ -57,10 +89,11 @@ export class CategoriesApi {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/browse/categories/{category_id}"),
+        urlTemplate: this.#servers.default("/browse/categories/{category_id}"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "category_id", value: request.categoryId, schema: s.string() }],
         query: [{ name: "locale", value: request.locale, schema: s.optional(s.string()) }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -71,6 +104,22 @@ export class CategoriesApi {
     );
   }
 
+  /**
+   * get-categories
+   *
+   * @remarks
+   * Get a list of categories used to tag items in Spotify (on, for example, the Spotify player’s
+   * “Browse” tab).
+   *
+   * @returns A paged set of categories
+   *
+   * @throws {@link CategoriesApi.GetCategoriesError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getCategories(
     request: CategoriesApi.GetCategoriesRequest,
     options?: RequestOptions,
@@ -78,13 +127,15 @@ export class CategoriesApi {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/browse/categories"),
+        urlTemplate: this.#servers.default("/browse/categories"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "locale", value: request.locale, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -99,15 +150,19 @@ export class CategoriesApi {
 export namespace CategoriesApi {
   export type GetACategoriesPlaylistsRequest = {
     categoryId: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetACategoriesPlaylistsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetACategoriesPlaylistsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetACategoriesPlaylistsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -120,11 +175,13 @@ export namespace CategoriesApi {
     locale?: string;
   };
 
-  export class GetACategoryError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetACategoryError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetACategoryError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -134,15 +191,19 @@ export namespace CategoriesApi {
 
   export type GetCategoriesRequest = {
     locale?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetCategoriesError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetCategoriesError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetCategoriesError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

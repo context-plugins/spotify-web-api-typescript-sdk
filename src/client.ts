@@ -1,6 +1,9 @@
 import { buildAuthSchemes, type AuthSchemes } from "./auth-schemes.js";
-import { DEFAULT_CLIENT_OPTIONS, type ClientOptions } from "./client-options.js";
+import type { ClientOptions } from "./client-options.js";
+import { buildCoreClientOptions } from "./core/client-options.js";
 import { RawClient } from "./core/raw-client.js";
+import * as host from "./core/runtime-environment.js";
+import * as s from "./core/validation/index.js";
 import { Albums } from "./resources/albums.js";
 import { Artists } from "./resources/artists.js";
 import { Audiobooks } from "./resources/audiobooks.js";
@@ -18,6 +21,23 @@ import { Tracks } from "./resources/tracks.js";
 import { Users } from "./resources/users.js";
 import { buildServers, type Servers } from "./servers.js";
 
+/**
+ * You can use Spotify's Web API to discover music and podcasts, manage your Spotify library,
+ * control audio playback, and much more. Browse our available Web API endpoints using the sidebar
+ * at left, or via the navigation bar on top of this page on smaller screens.
+ *
+ * In order to make successful Web API requests your app will need a valid access token. One can be
+ * obtained through <a
+ * href="https://developer.spotify.com/documentation/general/guides/authorization-guide/">OAuth
+ * 2.0</a>.
+ *
+ * The base URI for all Web API requests is `https://api.spotify.com/v1`.
+ *
+ * Need help? See our <a href="https://developer.spotify.com/documentation/web-api/">Web API</a> for
+ * more information, or visit the <a
+ * href="https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer">Spotify for
+ * Developers community forum</a> to ask questions and connect with other developers.
+ */
 export class SpotifyWebApiClient {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -38,18 +58,22 @@ export class SpotifyWebApiClient {
   #search?: Search;
   #shows?: Shows;
 
-  constructor(clientOptions: Partial<ClientOptions> = {}) {
-    const options = { ...DEFAULT_CLIENT_OPTIONS, ...clientOptions };
-
+  constructor(options: ClientOptions = {}) {
     this.#rawClient = new RawClient({
-      timeout: options.timeout,
-      defaultHeaders: [],
+      ...buildCoreClientOptions(options, "SPOTIFY_WEB_API_CLIENT_LOG"),
+      defaultHeaders: [
+        { name: "User-Agent", value: "SpotifyWebApiClient/2024.3.3 TypeScript", schema: s.string() },
+        { name: "X-APIMatic-Lang", value: "TypeScript", schema: s.string() },
+        { name: "X-APIMatic-Package-Version", value: "2024.3.3", schema: s.string() },
+        { name: "X-APIMatic-Gen-Version", value: "4.0.0", schema: s.string() },
+        { name: "X-APIMatic-OS", value: host.operatingSystem(), schema: s.optional(s.string()) },
+        { name: "X-APIMatic-Runtime", value: host.runtimeDescription(), schema: s.optional(s.string()) },
+      ],
       defaultQuery: [],
       defaultPathParams: [],
-      fetch: options.fetch,
     });
 
-    this.#servers = buildServers(options.serverEnvironment, options.serverOptions);
+    this.#servers = buildServers(options);
 
     this.#auth = buildAuthSchemes(options, this.#servers, this.#rawClient);
   }

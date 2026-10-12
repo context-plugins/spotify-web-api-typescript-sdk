@@ -3,9 +3,16 @@ import type { Schema } from "../core/validation/schema.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
 
 export type ContextObject = {
+  /** The object type, e.g. "artist", "playlist", "album", "show". */
   type?: string;
+  /** A link to the Web API endpoint providing full details of the track. */
   href?: string;
   externalUrls?: ExternalUrlObject;
+  /**
+   * The [Spotify
+   * URI](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids) for the
+   * context.
+   */
   uri?: string;
 };
 

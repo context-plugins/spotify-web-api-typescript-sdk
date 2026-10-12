@@ -1,9 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { anyAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
 import { includeExternalSchema, type IncludeExternal } from "../models/include-external.js";
@@ -24,6 +24,23 @@ export class Search {
     this.#auth = auth;
   }
 
+  /**
+   * search
+   *
+   * @remarks
+   * Get Spotify catalog information about albums, artists, playlists, tracks, shows, episodes or
+   * audiobooks that match a keyword string. Audiobooks are only available within the US, UK,
+   * Canada, Ireland, New Zealand and Australia markets.
+   *
+   * @returns Search response
+   *
+   * @throws {@link Search.SearchError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   search(
     request: Search.SearchRequest,
     options?: RequestOptions,
@@ -31,20 +48,22 @@ export class Search {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/search"),
+        urlTemplate: this.#servers.default("/search"),
         auth: anyAuth(this.#auth.oauth20, this.#auth.oauth20ClientCredentials),
+        pathParams: [],
         query: [
           { name: "q", value: request.q, schema: s.string() },
           { name: "type", value: request.type, schema: s.array(s.lazy(() => itemtypeSchema)) },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
           {
             name: "include_external",
             value: request.includeExternal,
             schema: s.optional(s.lazy(() => includeExternalSchema)),
           },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -61,16 +80,20 @@ export namespace Search {
     q: string;
     type: Itemtype[];
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
     includeExternal?: IncludeExternal;
   };
 
-  export class SearchError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SearchError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SearchError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { anyAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { albumObjectSchema, type AlbumObject } from "../models/album-object.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
@@ -38,6 +39,22 @@ export class Albums {
     this.#auth = auth;
   }
 
+  /**
+   * check-users-saved-albums
+   *
+   * @remarks
+   * Check if one or more albums is already saved in the current Spotify user's 'Your Music'
+   * library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Albums.CheckUsersSavedAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedAlbums(
     request: Albums.CheckUsersSavedAlbumsRequest,
     options?: RequestOptions,
@@ -45,9 +62,11 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/albums/contains"),
+        urlTemplate: this.#servers.default("/me/albums/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -58,6 +77,21 @@ export class Albums {
     );
   }
 
+  /**
+   * get-an-album
+   *
+   * @remarks
+   * Get Spotify catalog information for a single album.
+   *
+   * @returns An album
+   *
+   * @throws {@link Albums.GetAnAlbumError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAnAlbum(
     request: Albums.GetAnAlbumRequest,
     options?: RequestOptions,
@@ -65,10 +99,11 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/albums/{id}"),
+        urlTemplate: this.#servers.default("/albums/{id}"),
         auth: anyAuth(this.#auth.oauth20, this.#auth.oauth20ClientCredentials),
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [{ name: "market", value: request.market, schema: s.optional(s.string()) }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -79,6 +114,22 @@ export class Albums {
     );
   }
 
+  /**
+   * get-an-albums-tracks
+   *
+   * @remarks
+   * Get Spotify catalog information about an album’s tracks. Optional parameters can be used to
+   * limit the number of tracks returned.
+   *
+   * @returns Pages of tracks
+   *
+   * @throws {@link Albums.GetAnAlbumsTracksError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAnAlbumsTracks(
     request: Albums.GetAnAlbumsTracksRequest,
     options?: RequestOptions,
@@ -86,14 +137,15 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/albums/{id}/tracks"),
+        urlTemplate: this.#servers.default("/albums/{id}/tracks"),
         auth: anyAuth(this.#auth.oauth20, this.#auth.oauth20ClientCredentials),
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -104,6 +156,21 @@ export class Albums {
     );
   }
 
+  /**
+   * get-an-artists-albums
+   *
+   * @remarks
+   * Get Spotify catalog information about an artist's albums.
+   *
+   * @returns Pages of albums
+   *
+   * @throws {@link Albums.GetAnArtistsAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAnArtistsAlbums(
     request: Albums.GetAnArtistsAlbumsRequest,
     options?: RequestOptions,
@@ -111,15 +178,16 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/artists/{id}/albums"),
+        urlTemplate: this.#servers.default("/artists/{id}/albums"),
         auth: anyAuth(this.#auth.oauth20, this.#auth.oauth20ClientCredentials),
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [
           { name: "include_groups", value: request.includeGroups, schema: s.optional(s.string()) },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -130,6 +198,21 @@ export class Albums {
     );
   }
 
+  /**
+   * get-multiple-albums
+   *
+   * @remarks
+   * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+   *
+   * @returns A set of albums
+   *
+   * @throws {@link Albums.GetMultipleAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getMultipleAlbums(
     request: Albums.GetMultipleAlbumsRequest,
     options?: RequestOptions,
@@ -137,12 +220,14 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/albums"),
+        urlTemplate: this.#servers.default("/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -153,6 +238,22 @@ export class Albums {
     );
   }
 
+  /**
+   * get-new-releases
+   *
+   * @remarks
+   * Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s
+   * “Browse” tab).
+   *
+   * @returns A paged set of albums
+   *
+   * @throws {@link Albums.GetNewReleasesError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getNewReleases(
     request: Albums.GetNewReleasesRequest,
     options?: RequestOptions,
@@ -160,12 +261,14 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/browse/new-releases"),
+        urlTemplate: this.#servers.default("/browse/new-releases"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -176,6 +279,21 @@ export class Albums {
     );
   }
 
+  /**
+   * get-users-saved-albums
+   *
+   * @remarks
+   * Get a list of the albums saved in the current Spotify user's 'Your Music' library.
+   *
+   * @returns Pages of albums
+   *
+   * @throws {@link Albums.GetUsersSavedAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedAlbums(
     request: Albums.GetUsersSavedAlbumsRequest,
     options?: RequestOptions,
@@ -183,13 +301,15 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -200,6 +320,21 @@ export class Albums {
     );
   }
 
+  /**
+   * remove-albums-user
+   *
+   * @remarks
+   * Remove one or more albums from the current user's 'Your Music' library.
+   *
+   * @returns Album(s) have been removed from the library
+   *
+   * @throws {@link Albums.RemoveAlbumsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeAlbumsUser(
     request: Albums.RemoveAlbumsUserRequest,
     options?: RequestOptions,
@@ -207,9 +342,11 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -224,6 +361,21 @@ export class Albums {
     );
   }
 
+  /**
+   * save-albums-user
+   *
+   * @remarks
+   * Save one or more albums to the current user's 'Your Music' library.
+   *
+   * @returns The album is saved
+   *
+   * @throws {@link Albums.SaveAlbumsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveAlbumsUser(
     request: Albums.SaveAlbumsUserRequest,
     options?: RequestOptions,
@@ -231,9 +383,11 @@ export class Albums {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -254,11 +408,13 @@ export namespace Albums {
     ids: string;
   };
 
-  export class CheckUsersSavedAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -271,11 +427,13 @@ export namespace Albums {
     market?: string;
   };
 
-  export class GetAnAlbumError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAnAlbumError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAnAlbumError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -286,15 +444,19 @@ export namespace Albums {
   export type GetAnAlbumsTracksRequest = {
     id: string;
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAnAlbumsTracksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAnAlbumsTracksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAnAlbumsTracksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -306,15 +468,19 @@ export namespace Albums {
     id: string;
     includeGroups?: string;
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAnArtistsAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAnArtistsAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAnArtistsAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -327,11 +493,13 @@ export namespace Albums {
     market?: string;
   };
 
-  export class GetMultipleAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetMultipleAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetMultipleAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -340,15 +508,19 @@ export namespace Albums {
   }
 
   export type GetNewReleasesRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetNewReleasesError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetNewReleasesError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetNewReleasesError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -357,16 +529,20 @@ export namespace Albums {
   }
 
   export type GetUsersSavedAlbumsRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
     market?: string;
   };
 
-  export class GetUsersSavedAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -379,11 +555,13 @@ export namespace Albums {
     body?: RemoveAlbumsRequest;
   };
 
-  export class RemoveAlbumsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveAlbumsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveAlbumsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -396,11 +574,13 @@ export namespace Albums {
     body?: SaveAlbumsRequest;
   };
 
-  export class SaveAlbumsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveAlbumsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveAlbumsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

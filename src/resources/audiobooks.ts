@@ -1,8 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { audiobookObjectSchema, type AudiobookObject } from "../models/audiobook-object.js";
 import { badRequest1Schema, type BadRequest1 } from "../models/bad-request1.js";
@@ -32,6 +33,21 @@ export class Audiobooks {
     this.#auth = auth;
   }
 
+  /**
+   * check-users-saved-audiobooks
+   *
+   * @remarks
+   * Check if one or more audiobooks are already saved in the current Spotify user's library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Audiobooks.CheckUsersSavedAudiobooksError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedAudiobooks(
     request: Audiobooks.CheckUsersSavedAudiobooksRequest,
     options?: RequestOptions,
@@ -39,9 +55,11 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/audiobooks/contains"),
+        urlTemplate: this.#servers.default("/me/audiobooks/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -52,6 +70,22 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * get-an-audiobook
+   *
+   * @remarks
+   * Get Spotify catalog information for a single audiobook. Audiobooks are only available within
+   * the US, UK, Canada, Ireland, New Zealand and Australia markets.
+   *
+   * @returns An Audiobook
+   *
+   * @throws {@link Audiobooks.GetAnAudiobookError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAnAudiobook(
     request: Audiobooks.GetAnAudiobookRequest,
     options?: RequestOptions,
@@ -59,10 +93,11 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/audiobooks/{id}"),
+        urlTemplate: this.#servers.default("/audiobooks/{id}"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [{ name: "market", value: request.market, schema: s.optional(s.string()) }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -73,6 +108,22 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * get-audiobook-chapters
+   *
+   * @remarks
+   * Get Spotify catalog information about an audiobook's chapters. Audiobooks are only available
+   * within the US, UK, Canada, Ireland, New Zealand and Australia markets.
+   *
+   * @returns Pages of chapters
+   *
+   * @throws {@link Audiobooks.GetAudiobookChaptersError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAudiobookChapters(
     request: Audiobooks.GetAudiobookChaptersRequest,
     options?: RequestOptions,
@@ -80,14 +131,15 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/audiobooks/{id}/chapters"),
+        urlTemplate: this.#servers.default("/audiobooks/{id}/chapters"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -98,6 +150,24 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * get-multiple-audiobooks
+   *
+   * @remarks
+   * Get Spotify catalog information for several audiobooks identified by their Spotify IDs.
+   * Audiobooks are only available within the US, UK, Canada, Ireland, New Zealand and Australia
+   * markets.
+   *
+   * @returns A set of audiobooks. If one of the requested audiobooks is unavailable then you'll
+   * find a `null` item in the `audiobooks` array where the audiobook object would otherwise be.
+   *
+   * @throws {@link Audiobooks.GetMultipleAudiobooksError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getMultipleAudiobooks(
     request: Audiobooks.GetMultipleAudiobooksRequest,
     options?: RequestOptions,
@@ -105,12 +175,14 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/audiobooks"),
+        urlTemplate: this.#servers.default("/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -121,6 +193,21 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * get-users-saved-audiobooks
+   *
+   * @remarks
+   * Get a list of the audiobooks saved in the current Spotify user's 'Your Music' library.
+   *
+   * @returns Pages of saved audiobooks
+   *
+   * @throws {@link Audiobooks.GetUsersSavedAudiobooksError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedAudiobooks(
     request: Audiobooks.GetUsersSavedAudiobooksRequest,
     options?: RequestOptions,
@@ -128,12 +215,14 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -144,6 +233,21 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * remove-audiobooks-user
+   *
+   * @remarks
+   * Remove one or more audiobooks from the Spotify user's library.
+   *
+   * @returns Audiobook(s) have been removed from the library
+   *
+   * @throws {@link Audiobooks.RemoveAudiobooksUserError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeAudiobooksUser(
     request: Audiobooks.RemoveAudiobooksUserRequest,
     options?: RequestOptions,
@@ -151,9 +255,11 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -164,6 +270,21 @@ export class Audiobooks {
     );
   }
 
+  /**
+   * save-audiobooks-user
+   *
+   * @remarks
+   * Save one or more audiobooks to the current Spotify user's library.
+   *
+   * @returns Audiobook(s) are saved to the library
+   *
+   * @throws {@link Audiobooks.SaveAudiobooksUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveAudiobooksUser(
     request: Audiobooks.SaveAudiobooksUserRequest,
     options?: RequestOptions,
@@ -171,9 +292,11 @@ export class Audiobooks {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -190,11 +313,13 @@ export namespace Audiobooks {
     ids: string;
   };
 
-  export class CheckUsersSavedAudiobooksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedAudiobooksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedAudiobooksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -207,13 +332,15 @@ export namespace Audiobooks {
     market?: string;
   };
 
-  export class GetAnAudiobookError extends ResponseError<
-    | Declared<"badRequest1", BadRequest1>
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"notFound1", NotFound1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAnAudiobookError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"badRequest1", BadRequest1>
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"notFound1", NotFound1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAnAudiobookError> = [
       { on: 400, kind: "badRequest1", decode: { kind: "json", schema: badRequest1Schema } },
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
@@ -226,15 +353,19 @@ export namespace Audiobooks {
   export type GetAudiobookChaptersRequest = {
     id: string;
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAudiobookChaptersError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAudiobookChaptersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAudiobookChaptersError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -247,11 +378,13 @@ export namespace Audiobooks {
     market?: string;
   };
 
-  export class GetMultipleAudiobooksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetMultipleAudiobooksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetMultipleAudiobooksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -260,15 +393,19 @@ export namespace Audiobooks {
   }
 
   export type GetUsersSavedAudiobooksRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedAudiobooksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedAudiobooksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedAudiobooksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -280,11 +417,13 @@ export namespace Audiobooks {
     ids: string;
   };
 
-  export class RemoveAudiobooksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveAudiobooksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveAudiobooksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -296,11 +435,13 @@ export namespace Audiobooks {
     ids: string;
   };
 
-  export class SaveAudiobooksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveAudiobooksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveAudiobooksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

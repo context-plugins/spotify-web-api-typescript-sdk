@@ -1,8 +1,8 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
 import { manyGenresSchema, type ManyGenres } from "../models/many-genres.js";
 import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
@@ -20,14 +20,33 @@ export class Genres {
     this.#auth = auth;
   }
 
+  /**
+   * get-recommendation-genres
+   *
+   * @remarks
+   * Retrieve a list of available genres seed parameter values for
+   * [recommendations](https://developer.spotify.com/documentation/web-api/reference/get-recommendations).
+   *
+   * @returns A set of genres
+   *
+   * @throws {@link Genres.GetRecommendationGenresError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getRecommendationGenres(
     options?: RequestOptions,
   ): ApiPromise<ManyGenres, Genres.GetRecommendationGenresError> {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/recommendations/available-genre-seeds"),
+        urlTemplate: this.#servers.default("/recommendations/available-genre-seeds"),
         auth: this.#auth.oauth20,
+        pathParams: [],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -40,11 +59,13 @@ export class Genres {
 }
 
 export namespace Genres {
-  export class GetRecommendationGenresError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetRecommendationGenresError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetRecommendationGenresError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

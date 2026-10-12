@@ -3,6 +3,7 @@ import type { Schema } from "../../core/validation/schema.js";
 import { episodeObjectSchema, type EpisodeObject } from "../episode-object.js";
 import { trackObjectSchema, type TrackObject } from "../track-object.js";
 
+/** Information about the track or episode. */
 export type Track11 = TrackObject | EpisodeObject;
 
 export const track11Schema: Schema<Track11> = s.of<Track11>(

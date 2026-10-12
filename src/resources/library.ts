@@ -1,8 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { cursorPagedArtistsSchema, type CursorPagedArtists } from "../models/cursor-paged-artists.js";
 import {
@@ -72,6 +73,22 @@ export class Library {
     this.#auth = auth;
   }
 
+  /**
+   * change-playlist-details
+   *
+   * @remarks
+   * Change a playlist's name and public/private state. (The user must, of course, own the
+   * playlist.)
+   *
+   * @returns Playlist updated
+   *
+   * @throws {@link Library.ChangePlaylistDetailsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   changePlaylistDetails(
     request: Library.ChangePlaylistDetailsRequest,
     options?: RequestOptions,
@@ -79,9 +96,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/playlists/{playlist_id}"),
+        urlTemplate: this.#servers.default("/playlists/{playlist_id}"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "playlist_id", value: request.playlistId, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: s.optional(s.lazy(() => playlistsRequestSchema)) },
       },
       {
@@ -92,6 +111,21 @@ export class Library {
     );
   }
 
+  /**
+   * check-current-user-follows
+   *
+   * @remarks
+   * Check to see if the current user is following one or more artists or other Spotify users.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckCurrentUserFollowsError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkCurrentUserFollows(
     request: Library.CheckCurrentUserFollowsRequest,
     options?: RequestOptions,
@@ -99,12 +133,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/following/contains"),
+        urlTemplate: this.#servers.default("/me/following/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "type", value: request.type, schema: itemType3Schema },
           { name: "ids", value: request.ids, schema: s.string() },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -115,6 +151,22 @@ export class Library {
     );
   }
 
+  /**
+   * check-users-saved-albums
+   *
+   * @remarks
+   * Check if one or more albums is already saved in the current Spotify user's 'Your Music'
+   * library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckUsersSavedAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedAlbums(
     request: Library.CheckUsersSavedAlbumsRequest,
     options?: RequestOptions,
@@ -122,9 +174,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/albums/contains"),
+        urlTemplate: this.#servers.default("/me/albums/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -135,6 +189,21 @@ export class Library {
     );
   }
 
+  /**
+   * check-users-saved-audiobooks
+   *
+   * @remarks
+   * Check if one or more audiobooks are already saved in the current Spotify user's library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckUsersSavedAudiobooksError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedAudiobooks(
     request: Library.CheckUsersSavedAudiobooksRequest,
     options?: RequestOptions,
@@ -142,9 +211,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/audiobooks/contains"),
+        urlTemplate: this.#servers.default("/me/audiobooks/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -155,6 +226,24 @@ export class Library {
     );
   }
 
+  /**
+   * check-users-saved-episodes
+   *
+   * @remarks
+   * Check if one or more episodes is already saved in the current Spotify user's 'Your Episodes'
+   * library.<br/> This API endpoint is in __beta__ and could change without warning. Please share
+   * any feedback that you have, or issues that you discover, in our [developer community
+   * forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer)..
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckUsersSavedEpisodesError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedEpisodes(
     request: Library.CheckUsersSavedEpisodesRequest,
     options?: RequestOptions,
@@ -162,9 +251,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/episodes/contains"),
+        urlTemplate: this.#servers.default("/me/episodes/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -175,6 +266,21 @@ export class Library {
     );
   }
 
+  /**
+   * check-users-saved-shows
+   *
+   * @remarks
+   * Check if one or more shows is already saved in the current Spotify user's library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckUsersSavedShowsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedShows(
     request: Library.CheckUsersSavedShowsRequest,
     options?: RequestOptions,
@@ -182,9 +288,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/shows/contains"),
+        urlTemplate: this.#servers.default("/me/shows/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -195,6 +303,22 @@ export class Library {
     );
   }
 
+  /**
+   * check-users-saved-tracks
+   *
+   * @remarks
+   * Check if one or more tracks is already saved in the current Spotify user's 'Your Music'
+   * library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Library.CheckUsersSavedTracksError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedTracks(
     request: Library.CheckUsersSavedTracksRequest,
     options?: RequestOptions,
@@ -202,9 +326,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/tracks/contains"),
+        urlTemplate: this.#servers.default("/me/tracks/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -215,6 +341,23 @@ export class Library {
     );
   }
 
+  /**
+   * create-playlist
+   *
+   * @remarks
+   * Create a playlist for a Spotify user. (The playlist will be empty until you [add
+   * tracks](https://developer.spotify.com/documentation/web-api/reference/add-tracks-to-playlist).)
+   * Each user is generally limited to a maximum of 11000 playlists.
+   *
+   * @returns A playlist
+   *
+   * @throws {@link Library.CreatePlaylistError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   createPlaylist(
     request: Library.CreatePlaylistRequest,
     options?: RequestOptions,
@@ -222,9 +365,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.default("/users/{user_id}/playlists"),
+        urlTemplate: this.#servers.default("/users/{user_id}/playlists"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "user_id", value: request.userId, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -239,6 +384,21 @@ export class Library {
     );
   }
 
+  /**
+   * follow-artists-users
+   *
+   * @remarks
+   * Add the current user as a follower of one or more artists or other Spotify users.
+   *
+   * @returns Artist or user followed
+   *
+   * @throws {@link Library.FollowArtistsUsersError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   followArtistsUsers(
     request: Library.FollowArtistsUsersRequest,
     options?: RequestOptions,
@@ -246,12 +406,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/following"),
+        urlTemplate: this.#servers.default("/me/following"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "type", value: request.type, schema: itemType2Schema },
           { name: "ids", value: request.ids, schema: s.string() },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -266,6 +428,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-a-list-of-current-users-playlists
+   *
+   * @remarks
+   * Get a list of the playlists owned or followed by the current Spotify user.
+   *
+   * @returns A paged set of playlists
+   *
+   * @throws {@link Library.GetAListOfCurrentUsersPlaylistsError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAListOfCurrentUsersPlaylists(
     request: Library.GetAListOfCurrentUsersPlaylistsRequest,
     options?: RequestOptions,
@@ -273,12 +450,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/playlists"),
+        urlTemplate: this.#servers.default("/me/playlists"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -289,6 +468,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-followed
+   *
+   * @remarks
+   * Get the current user's followed artists.
+   *
+   * @returns A paged set of artists
+   *
+   * @throws {@link Library.GetFollowedError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getFollowed(
     request: Library.GetFollowedRequest,
     options?: RequestOptions,
@@ -296,13 +490,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/following"),
+        urlTemplate: this.#servers.default("/me/following"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "type", value: request.type, schema: itemType1Schema },
           { name: "after", value: request.after, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -313,6 +509,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-saved-albums
+   *
+   * @remarks
+   * Get a list of the albums saved in the current Spotify user's 'Your Music' library.
+   *
+   * @returns Pages of albums
+   *
+   * @throws {@link Library.GetUsersSavedAlbumsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedAlbums(
     request: Library.GetUsersSavedAlbumsRequest,
     options?: RequestOptions,
@@ -320,13 +531,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -337,6 +550,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-saved-audiobooks
+   *
+   * @remarks
+   * Get a list of the audiobooks saved in the current Spotify user's 'Your Music' library.
+   *
+   * @returns Pages of saved audiobooks
+   *
+   * @throws {@link Library.GetUsersSavedAudiobooksError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedAudiobooks(
     request: Library.GetUsersSavedAudiobooksRequest,
     options?: RequestOptions,
@@ -344,12 +572,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -360,6 +590,24 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-saved-episodes
+   *
+   * @remarks
+   * Get a list of the episodes saved in the current Spotify user's library.<br/> This API endpoint
+   * is in __beta__ and could change without warning. Please share any feedback that you have, or
+   * issues that you discover, in our [developer community
+   * forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
+   *
+   * @returns Pages of episodes
+   *
+   * @throws {@link Library.GetUsersSavedEpisodesError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedEpisodes(
     request: Library.GetUsersSavedEpisodesRequest,
     options?: RequestOptions,
@@ -367,13 +615,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/episodes"),
+        urlTemplate: this.#servers.default("/me/episodes"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -384,6 +634,22 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-saved-shows
+   *
+   * @remarks
+   * Get a list of shows saved in the current Spotify user's library. Optional parameters can be
+   * used to limit the number of shows returned.
+   *
+   * @returns Pages of shows
+   *
+   * @throws {@link Library.GetUsersSavedShowsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedShows(
     request: Library.GetUsersSavedShowsRequest,
     options?: RequestOptions,
@@ -391,12 +657,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -407,6 +675,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-saved-tracks
+   *
+   * @remarks
+   * Get a list of the songs saved in the current Spotify user's 'Your Music' library.
+   *
+   * @returns Pages of tracks
+   *
+   * @throws {@link Library.GetUsersSavedTracksError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedTracks(
     request: Library.GetUsersSavedTracksRequest,
     options?: RequestOptions,
@@ -414,13 +697,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/tracks"),
+        urlTemplate: this.#servers.default("/me/tracks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -431,6 +716,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-top-artists
+   *
+   * @remarks
+   * Get the current user's top artists based on calculated affinity.
+   *
+   * @returns Pages of artists
+   *
+   * @throws {@link Library.GetUsersTopArtistsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersTopArtists(
     request: Library.GetUsersTopArtistsRequest,
     options?: RequestOptions,
@@ -438,13 +738,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/top/artists"),
+        urlTemplate: this.#servers.default("/me/top/artists"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "time_range", value: request.timeRange, schema: s.defaulted(s.string(), "medium_term") },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -455,6 +757,21 @@ export class Library {
     );
   }
 
+  /**
+   * get-users-top-tracks
+   *
+   * @remarks
+   * Get the current user's top tracks based on calculated affinity.
+   *
+   * @returns Pages of tracks
+   *
+   * @throws {@link Library.GetUsersTopTracksError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersTopTracks(
     request: Library.GetUsersTopTracksRequest,
     options?: RequestOptions,
@@ -462,13 +779,15 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/top/tracks"),
+        urlTemplate: this.#servers.default("/me/top/tracks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "time_range", value: request.timeRange, schema: s.defaulted(s.string(), "medium_term") },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -479,6 +798,21 @@ export class Library {
     );
   }
 
+  /**
+   * remove-albums-user
+   *
+   * @remarks
+   * Remove one or more albums from the current user's 'Your Music' library.
+   *
+   * @returns Album(s) have been removed from the library
+   *
+   * @throws {@link Library.RemoveAlbumsUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeAlbumsUser(
     request: Library.RemoveAlbumsUserRequest,
     options?: RequestOptions,
@@ -486,9 +820,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -503,6 +839,21 @@ export class Library {
     );
   }
 
+  /**
+   * remove-audiobooks-user
+   *
+   * @remarks
+   * Remove one or more audiobooks from the Spotify user's library.
+   *
+   * @returns Audiobook(s) have been removed from the library
+   *
+   * @throws {@link Library.RemoveAudiobooksUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeAudiobooksUser(
     request: Library.RemoveAudiobooksUserRequest,
     options?: RequestOptions,
@@ -510,9 +861,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -523,6 +876,24 @@ export class Library {
     );
   }
 
+  /**
+   * remove-episodes-user
+   *
+   * @remarks
+   * Remove one or more episodes from the current user's library.<br/> This API endpoint is in
+   * __beta__ and could change without warning. Please share any feedback that you have, or issues
+   * that you discover, in our [developer community
+   * forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
+   *
+   * @returns Episode removed
+   *
+   * @throws {@link Library.RemoveEpisodesUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeEpisodesUser(
     request: Library.RemoveEpisodesUserRequest,
     options?: RequestOptions,
@@ -530,9 +901,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/episodes"),
+        urlTemplate: this.#servers.default("/me/episodes"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -547,6 +920,21 @@ export class Library {
     );
   }
 
+  /**
+   * remove-shows-user
+   *
+   * @remarks
+   * Delete one or more shows from current Spotify user's library.
+   *
+   * @returns Show removed
+   *
+   * @throws {@link Library.RemoveShowsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeShowsUser(
     request: Library.RemoveShowsUserRequest,
     options?: RequestOptions,
@@ -554,12 +942,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -574,6 +964,21 @@ export class Library {
     );
   }
 
+  /**
+   * remove-tracks-user
+   *
+   * @remarks
+   * Remove one or more tracks from the current user's 'Your Music' library.
+   *
+   * @returns Track removed
+   *
+   * @throws {@link Library.RemoveTracksUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeTracksUser(
     request: Library.RemoveTracksUserRequest,
     options?: RequestOptions,
@@ -581,9 +986,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/tracks"),
+        urlTemplate: this.#servers.default("/me/tracks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -598,6 +1005,21 @@ export class Library {
     );
   }
 
+  /**
+   * save-albums-user
+   *
+   * @remarks
+   * Save one or more albums to the current user's 'Your Music' library.
+   *
+   * @returns The album is saved
+   *
+   * @throws {@link Library.SaveAlbumsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveAlbumsUser(
     request: Library.SaveAlbumsUserRequest,
     options?: RequestOptions,
@@ -605,9 +1027,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/albums"),
+        urlTemplate: this.#servers.default("/me/albums"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -622,6 +1046,21 @@ export class Library {
     );
   }
 
+  /**
+   * save-audiobooks-user
+   *
+   * @remarks
+   * Save one or more audiobooks to the current Spotify user's library.
+   *
+   * @returns Audiobook(s) are saved to the library
+   *
+   * @throws {@link Library.SaveAudiobooksUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveAudiobooksUser(
     request: Library.SaveAudiobooksUserRequest,
     options?: RequestOptions,
@@ -629,9 +1068,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/audiobooks"),
+        urlTemplate: this.#servers.default("/me/audiobooks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -642,6 +1083,24 @@ export class Library {
     );
   }
 
+  /**
+   * save-episodes-user
+   *
+   * @remarks
+   * Save one or more episodes to the current user's library.<br/> This API endpoint is in __beta__
+   * and could change without warning. Please share any feedback that you have, or issues that you
+   * discover, in our [developer community
+   * forum](https://community.spotify.com/t5/Spotify-for-Developers/bd-p/Spotify_Developer).
+   *
+   * @returns Episode saved
+   *
+   * @throws {@link Library.SaveEpisodesUserError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveEpisodesUser(
     request: Library.SaveEpisodesUserRequest,
     options?: RequestOptions,
@@ -649,9 +1108,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/episodes"),
+        urlTemplate: this.#servers.default("/me/episodes"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -666,6 +1127,21 @@ export class Library {
     );
   }
 
+  /**
+   * save-shows-user
+   *
+   * @remarks
+   * Save one or more shows to current Spotify user's library.
+   *
+   * @returns Show saved
+   *
+   * @throws {@link Library.SaveShowsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveShowsUser(
     request: Library.SaveShowsUserRequest,
     options?: RequestOptions,
@@ -673,9 +1149,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: s.optional(s.lazy(() => saveShowsRequestSchema)) },
       },
       {
@@ -686,6 +1164,21 @@ export class Library {
     );
   }
 
+  /**
+   * save-tracks-user
+   *
+   * @remarks
+   * Save one or more tracks to the current user's 'Your Music' library.
+   *
+   * @returns Track saved
+   *
+   * @throws {@link Library.SaveTracksUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveTracksUser(
     request: Library.SaveTracksUserRequest,
     options?: RequestOptions,
@@ -693,9 +1186,11 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/tracks"),
+        urlTemplate: this.#servers.default("/me/tracks"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -710,6 +1205,21 @@ export class Library {
     );
   }
 
+  /**
+   * unfollow-artists-users
+   *
+   * @remarks
+   * Remove the current user as a follower of one or more artists or other Spotify users.
+   *
+   * @returns Artist or user unfollowed
+   *
+   * @throws {@link Library.UnfollowArtistsUsersError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   unfollowArtistsUsers(
     request: Library.UnfollowArtistsUsersRequest,
     options?: RequestOptions,
@@ -717,12 +1227,14 @@ export class Library {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/following"),
+        urlTemplate: this.#servers.default("/me/following"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "type", value: request.type, schema: itemType3Schema },
           { name: "ids", value: request.ids, schema: s.string() },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -744,11 +1256,13 @@ export namespace Library {
     body?: PlaylistsRequest;
   };
 
-  export class ChangePlaylistDetailsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class ChangePlaylistDetailsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<ChangePlaylistDetailsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -761,11 +1275,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckCurrentUserFollowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckCurrentUserFollowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckCurrentUserFollowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -777,11 +1293,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckUsersSavedAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -793,11 +1311,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckUsersSavedAudiobooksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedAudiobooksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedAudiobooksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -809,11 +1329,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckUsersSavedEpisodesError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedEpisodesError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedEpisodesError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -825,11 +1347,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckUsersSavedShowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedShowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedShowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -841,11 +1365,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class CheckUsersSavedTracksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedTracksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedTracksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -858,11 +1384,13 @@ export namespace Library {
     body?: UsersPlaylistsRequest;
   };
 
-  export class CreatePlaylistError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CreatePlaylistError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CreatePlaylistError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -876,11 +1404,13 @@ export namespace Library {
     body?: FollowArtistsOrUsersRequest;
   };
 
-  export class FollowArtistsUsersError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class FollowArtistsUsersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<FollowArtistsUsersError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -889,15 +1419,19 @@ export namespace Library {
   }
 
   export type GetAListOfCurrentUsersPlaylistsRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAListOfCurrentUsersPlaylistsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAListOfCurrentUsersPlaylistsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAListOfCurrentUsersPlaylistsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -908,14 +1442,17 @@ export namespace Library {
   export type GetFollowedRequest = {
     type: ItemType1;
     after?: string;
+    /** @default 20 */
     limit?: number;
   };
 
-  export class GetFollowedError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetFollowedError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetFollowedError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -924,16 +1461,20 @@ export namespace Library {
   }
 
   export type GetUsersSavedAlbumsRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
     market?: string;
   };
 
-  export class GetUsersSavedAlbumsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedAlbumsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedAlbumsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -942,15 +1483,19 @@ export namespace Library {
   }
 
   export type GetUsersSavedAudiobooksRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedAudiobooksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedAudiobooksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedAudiobooksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -960,15 +1505,19 @@ export namespace Library {
 
   export type GetUsersSavedEpisodesRequest = {
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedEpisodesError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedEpisodesError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedEpisodesError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -977,15 +1526,19 @@ export namespace Library {
   }
 
   export type GetUsersSavedShowsRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedShowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedShowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedShowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -995,15 +1548,19 @@ export namespace Library {
 
   export type GetUsersSavedTracksRequest = {
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedTracksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedTracksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedTracksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1012,16 +1569,21 @@ export namespace Library {
   }
 
   export type GetUsersTopArtistsRequest = {
+    /** @default "medium_term" */
     timeRange?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersTopArtistsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersTopArtistsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersTopArtistsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1030,16 +1592,21 @@ export namespace Library {
   }
 
   export type GetUsersTopTracksRequest = {
+    /** @default "medium_term" */
     timeRange?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersTopTracksError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersTopTracksError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersTopTracksError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1052,11 +1619,13 @@ export namespace Library {
     body?: RemoveAlbumsRequest;
   };
 
-  export class RemoveAlbumsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveAlbumsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveAlbumsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1068,11 +1637,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class RemoveAudiobooksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveAudiobooksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveAudiobooksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1085,11 +1656,13 @@ export namespace Library {
     body?: RemoveEpisodesRequest;
   };
 
-  export class RemoveEpisodesUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveEpisodesUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveEpisodesUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1103,11 +1676,13 @@ export namespace Library {
     body?: RemoveShowsRequest;
   };
 
-  export class RemoveShowsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveShowsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveShowsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1120,11 +1695,13 @@ export namespace Library {
     body?: RemoveTracksRequest;
   };
 
-  export class RemoveTracksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveTracksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveTracksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1137,11 +1714,13 @@ export namespace Library {
     body?: SaveAlbumsRequest;
   };
 
-  export class SaveAlbumsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveAlbumsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveAlbumsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1153,11 +1732,13 @@ export namespace Library {
     ids: string;
   };
 
-  export class SaveAudiobooksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveAudiobooksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveAudiobooksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1170,11 +1751,13 @@ export namespace Library {
     body?: SaveEpisodesRequest;
   };
 
-  export class SaveEpisodesUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveEpisodesUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveEpisodesUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1187,11 +1770,13 @@ export namespace Library {
     body?: SaveShowsRequest;
   };
 
-  export class SaveShowsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveShowsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveShowsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1204,11 +1789,13 @@ export namespace Library {
     body?: SaveTracksRequest;
   };
 
-  export class SaveTracksUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveTracksUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveTracksUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -1222,11 +1809,13 @@ export namespace Library {
     body?: UnfollowArtistsOrUsersRequest;
   };
 
-  export class UnfollowArtistsUsersError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class UnfollowArtistsUsersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<UnfollowArtistsUsersError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

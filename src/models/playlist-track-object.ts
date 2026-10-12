@@ -4,9 +4,19 @@ import { playlistUserObjectSchema, type PlaylistUserObject } from "./playlist-us
 import { track11Schema, type Track11 } from "./unions/track11.js";
 
 export type PlaylistTrackObject = {
+  /**
+   * The date and time the track or episode was added. _**Note**: some very old playlists may return
+   * `null` in this field._
+   */
   addedAt?: Date;
   addedBy?: PlaylistUserObject;
+  /**
+   * Whether this track or episode is a [local
+   * file](https://developer.spotify.com/documentation/web-api/concepts/playlists/#local-files) or
+   * not.
+   */
   isLocal?: boolean;
+  /** Information about the track or episode. */
   track?: Track11;
 };
 

@@ -4,7 +4,7 @@
 
 Accessor: `client.categoriesApi` · Source: `src/resources/categories-api.ts` · 3 operations · Request and error types: namespace `CategoriesApi`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getACategoriesPlaylists
 
@@ -13,7 +13,7 @@ Accessor: `client.categoriesApi` · Source: `src/resources/categories-api.ts` ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingFeaturedPlaylistObject`
-- **Error**: `CategoriesApi.GetACategoriesPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `CategoriesApi.GetACategoriesPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CategoriesApi.GetACategoriesPlaylistsRequest` (3):
@@ -38,7 +38,7 @@ Accessor: `client.categoriesApi` · Source: `src/resources/categories-api.ts` ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CategoryObject`
-- **Error**: `CategoriesApi.GetACategoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `CategoriesApi.GetACategoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CategoriesApi.GetACategoryRequest` (2):
@@ -62,7 +62,7 @@ Accessor: `client.categoriesApi` · Source: `src/resources/categories-api.ts` ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagedCategories`
-- **Error**: `CategoriesApi.GetCategoriesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `CategoriesApi.GetCategoriesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CategoriesApi.GetCategoriesRequest` (3):

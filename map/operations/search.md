@@ -4,7 +4,7 @@
 
 Accessor: `client.search` · Source: `src/resources/search.ts` · 1 operation · Request and error types: namespace `Search`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### search
 
@@ -13,7 +13,7 @@ Accessor: `client.search` · Source: `src/resources/search.ts` · 1 operation ·
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `SearchItems`
-- **Error**: `Search.SearchError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Search.SearchError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Search.SearchRequest` (6):

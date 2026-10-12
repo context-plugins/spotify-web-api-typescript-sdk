@@ -7,10 +7,22 @@ import { type4Schema, type Type4 } from "./type4.js";
 export type PlaylistOwnerObject = {
   externalUrls?: ExternalUrlObject;
   followers?: FollowersObject;
+  /** A link to the Web API endpoint for this user. */
   href?: string;
+  /**
+   * The [Spotify user
+   * ID](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids) for this
+   * user.
+   */
   id?: string;
   type?: Type4;
+  /**
+   * The [Spotify
+   * URI](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids) for this
+   * user.
+   */
   uri?: string;
+  /** The name displayed on the user's profile. `null` if not available. */
   displayName?: string | null;
 };
 

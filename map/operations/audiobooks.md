@@ -4,7 +4,7 @@
 
 Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 operations · Request and error types: namespace `Audiobooks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### checkUsersSavedAudiobooks
 
@@ -13,7 +13,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Audiobooks.CheckUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.CheckUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.CheckUsersSavedAudiobooksRequest` (1):
@@ -35,7 +35,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AudiobookObject`
-- **Error**: `Audiobooks.GetAnAudiobookError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.GetAnAudiobookError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"badRequest1"` [400] `BadRequest1` · `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"notFound1"` [404] `NotFound1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.GetAnAudiobookRequest` (2):
@@ -61,7 +61,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedChapterObject`
-- **Error**: `Audiobooks.GetAudiobookChaptersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.GetAudiobookChaptersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.GetAudiobookChaptersRequest` (4):
@@ -87,7 +87,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyAudiobooks`
-- **Error**: `Audiobooks.GetMultipleAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.GetMultipleAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.GetMultipleAudiobooksRequest` (2):
@@ -111,7 +111,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedAudiobookObject`
-- **Error**: `Audiobooks.GetUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.GetUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.GetUsersSavedAudiobooksRequest` (2):
@@ -134,8 +134,9 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Wire**: `DELETE /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Audiobooks.RemoveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.RemoveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.RemoveAudiobooksUserRequest` (1):
@@ -156,8 +157,9 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 - **Wire**: `PUT /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Audiobooks.SaveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Audiobooks.SaveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Audiobooks.SaveAudiobooksUserRequest` (1):

@@ -4,16 +4,17 @@
 
 Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations · Request and error types: namespace `Tracks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### addTracksToPlaylist
 
 - **Signature**: `addTracksToPlaylist(request: Tracks.AddTracksToPlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Tracks.AddTracksToPlaylistError>`
 - **Wire**: `POST /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Tracks.AddTracksToPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.AddTracksToPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.AddTracksToPlaylistRequest` (4):
@@ -40,7 +41,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Tracks.CheckUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.CheckUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.CheckUsersSavedTracksRequest` (1):
@@ -62,7 +63,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedTrackObject`
-- **Error**: `Tracks.GetAnAlbumsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetAnAlbumsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetAnAlbumsTracksRequest` (4):
@@ -88,7 +89,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyTracks`
-- **Error**: `Tracks.GetAnArtistsTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetAnArtistsTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetAnArtistsTopTracksRequest` (2):
@@ -112,7 +113,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AudioAnalysisObject`
-- **Error**: `Tracks.GetAudioAnalysisError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetAudioAnalysisError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetAudioAnalysisRequest` (1):
@@ -135,7 +136,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AudioFeaturesObject`
-- **Error**: `Tracks.GetAudioFeaturesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetAudioFeaturesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetAudioFeaturesRequest` (1):
@@ -158,7 +159,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistTrackObject`
-- **Error**: `Tracks.GetPlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetPlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetPlaylistsTracksRequest` (6):
@@ -186,7 +187,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `RecommendationsObject`
-- **Error**: `Tracks.GetRecommendationsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetRecommendationsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetRecommendationsRequest` (47):
@@ -255,7 +256,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyAudioFeatures`
-- **Error**: `Tracks.GetSeveralAudioFeaturesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetSeveralAudioFeaturesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetSeveralAudioFeaturesRequest` (1):
@@ -278,7 +279,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyTracks`
-- **Error**: `Tracks.GetSeveralTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetSeveralTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetSeveralTracksRequest` (2):
@@ -302,7 +303,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `TrackObject`
-- **Error**: `Tracks.GetTrackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetTrackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetTrackRequest` (2):
@@ -326,7 +327,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedTrackObject`
-- **Error**: `Tracks.GetUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetUsersSavedTracksRequest` (3):
@@ -351,7 +352,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingTrackObject`
-- **Error**: `Tracks.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.GetUsersTopTracksRequest` (3):
@@ -374,9 +375,10 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Signature**: `removeTracksPlaylist(request: Tracks.RemoveTracksPlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Tracks.RemoveTracksPlaylistError>`
 - **Wire**: `DELETE /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Tracks.RemoveTracksPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.RemoveTracksPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.RemoveTracksPlaylistRequest` (2):
@@ -399,9 +401,10 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Signature**: `removeTracksUser(request: Tracks.RemoveTracksUserRequest, options?: RequestOptions): ApiPromise<undefined, Tracks.RemoveTracksUserError>`
 - **Wire**: `DELETE /me/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Tracks.RemoveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.RemoveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.RemoveTracksUserRequest` (2):
@@ -423,9 +426,10 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Signature**: `reorderOrReplacePlaylistsTracks(request: Tracks.ReorderOrReplacePlaylistsTracksRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Tracks.ReorderOrReplacePlaylistsTracksError>`
 - **Wire**: `PUT /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Tracks.ReorderOrReplacePlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.ReorderOrReplacePlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.ReorderOrReplacePlaylistsTracksRequest` (3):
@@ -449,9 +453,10 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 - **Signature**: `saveTracksUser(request: Tracks.SaveTracksUserRequest, options?: RequestOptions): ApiPromise<undefined, Tracks.SaveTracksUserError>`
 - **Wire**: `PUT /me/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Tracks.SaveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Tracks.SaveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Tracks.SaveTracksUserRequest` (2):

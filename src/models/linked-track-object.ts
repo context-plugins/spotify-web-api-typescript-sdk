@@ -4,9 +4,20 @@ import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-
 
 export type LinkedTrackObject = {
   externalUrls?: ExternalUrlObject;
+  /** A link to the Web API endpoint providing full details of the track. */
   href?: string;
+  /**
+   * The [Spotify ID](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids)
+   * for the track.
+   */
   id?: string;
+  /** The object type: "track". */
   type?: string;
+  /**
+   * The [Spotify
+   * URI](https://developer.spotify.com/documentation/web-api/concepts/spotify-uris-ids) for the
+   * track.
+   */
   uri?: string;
 };
 

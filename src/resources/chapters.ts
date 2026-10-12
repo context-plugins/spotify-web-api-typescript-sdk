@@ -1,8 +1,8 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import { chapterObjectSchema, type ChapterObject } from "../models/chapter-object.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
@@ -26,6 +26,22 @@ export class Chapters {
     this.#auth = auth;
   }
 
+  /**
+   * get-a-chapter
+   *
+   * @remarks
+   * Get Spotify catalog information for a single audiobook chapter. Chapters are only available
+   * within the US, UK, Canada, Ireland, New Zealand and Australia markets.
+   *
+   * @returns A Chapter
+   *
+   * @throws {@link Chapters.GetAChapterError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAChapter(
     request: Chapters.GetAChapterRequest,
     options?: RequestOptions,
@@ -33,10 +49,11 @@ export class Chapters {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/chapters/{id}"),
+        urlTemplate: this.#servers.default("/chapters/{id}"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [{ name: "market", value: request.market, schema: s.optional(s.string()) }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -47,6 +64,22 @@ export class Chapters {
     );
   }
 
+  /**
+   * get-audiobook-chapters
+   *
+   * @remarks
+   * Get Spotify catalog information about an audiobook's chapters. Audiobooks are only available
+   * within the US, UK, Canada, Ireland, New Zealand and Australia markets.
+   *
+   * @returns Pages of chapters
+   *
+   * @throws {@link Chapters.GetAudiobookChaptersError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAudiobookChapters(
     request: Chapters.GetAudiobookChaptersRequest,
     options?: RequestOptions,
@@ -54,14 +87,15 @@ export class Chapters {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/audiobooks/{id}/chapters"),
+        urlTemplate: this.#servers.default("/audiobooks/{id}/chapters"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -72,6 +106,23 @@ export class Chapters {
     );
   }
 
+  /**
+   * get-several-chapters
+   *
+   * @remarks
+   * Get Spotify catalog information for several audiobook chapters identified by their Spotify IDs.
+   * Chapters are only available within the US, UK, Canada, Ireland, New Zealand and Australia
+   * markets.
+   *
+   * @returns A set of chapters
+   *
+   * @throws {@link Chapters.GetSeveralChaptersError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getSeveralChapters(
     request: Chapters.GetSeveralChaptersRequest,
     options?: RequestOptions,
@@ -79,12 +130,14 @@ export class Chapters {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/chapters"),
+        urlTemplate: this.#servers.default("/chapters"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -102,11 +155,13 @@ export namespace Chapters {
     market?: string;
   };
 
-  export class GetAChapterError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAChapterError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAChapterError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -117,15 +172,19 @@ export namespace Chapters {
   export type GetAudiobookChaptersRequest = {
     id: string;
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAudiobookChaptersError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAudiobookChaptersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAudiobookChaptersError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -138,11 +197,13 @@ export namespace Chapters {
     market?: string;
   };
 
-  export class GetSeveralChaptersError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetSeveralChaptersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetSeveralChaptersError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

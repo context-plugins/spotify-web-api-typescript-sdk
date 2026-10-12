@@ -4,7 +4,9 @@ import { currentlyPlayingSchema, type CurrentlyPlaying } from "./unions/currentl
 import { queueSchema, type Queue } from "./unions/queue.js";
 
 export type QueueObject = {
+  /** The currently playing track or episode. Can be `null`. */
   currentlyPlaying?: CurrentlyPlaying;
+  /** The tracks or episodes in the queue. Can be empty. */
   queue?: Queue[];
 };
 

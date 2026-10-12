@@ -4,7 +4,7 @@
 
 Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations · Request and error types: namespace `Users`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### checkCurrentUserFollows
 
@@ -13,7 +13,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Users.CheckCurrentUserFollowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.CheckCurrentUserFollowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.CheckCurrentUserFollowsRequest` (2):
@@ -37,7 +37,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Users.CheckIfUserFollowsPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.CheckIfUserFollowsPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.CheckIfUserFollowsPlaylistRequest` (2):
@@ -58,9 +58,10 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Signature**: `followArtistsUsers(request: Users.FollowArtistsUsersRequest, options?: RequestOptions): ApiPromise<undefined, Users.FollowArtistsUsersError>`
 - **Wire**: `PUT /me/following`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Users.FollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.FollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.FollowArtistsUsersRequest` (3):
@@ -84,9 +85,10 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Signature**: `followPlaylist(request: Users.FollowPlaylistRequest, options?: RequestOptions): ApiPromise<undefined, Users.FollowPlaylistError>`
 - **Wire**: `PUT /playlists/{playlist_id}/followers`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Users.FollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.FollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.FollowPlaylistRequest` (2):
@@ -110,7 +112,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PrivateUserObject`
-- **Error**: `Users.GetCurrentUsersProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetCurrentUsersProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
@@ -127,7 +129,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CursorPagedArtists`
-- **Error**: `Users.GetFollowedError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetFollowedError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.GetFollowedRequest` (3):
@@ -153,7 +155,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistObject`
-- **Error**: `Users.GetListUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetListUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.GetListUsersPlaylistsRequest` (3):
@@ -178,7 +180,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PublicUserObject`
-- **Error**: `Users.GetUsersProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetUsersProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.GetUsersProfileRequest` (1):
@@ -201,7 +203,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingArtistObject`
-- **Error**: `Users.GetUsersTopArtistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetUsersTopArtistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.GetUsersTopArtistsRequest` (3):
@@ -226,7 +228,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingTrackObject`
-- **Error**: `Users.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.GetUsersTopTracksRequest` (3):
@@ -249,9 +251,10 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Signature**: `unfollowArtistsUsers(request: Users.UnfollowArtistsUsersRequest, options?: RequestOptions): ApiPromise<undefined, Users.UnfollowArtistsUsersError>`
 - **Wire**: `DELETE /me/following`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Users.UnfollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.UnfollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.UnfollowArtistsUsersRequest` (3):
@@ -276,8 +279,9 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 - **Wire**: `DELETE /playlists/{playlist_id}/followers`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Users.UnfollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Users.UnfollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Users.UnfollowPlaylistRequest` (1):

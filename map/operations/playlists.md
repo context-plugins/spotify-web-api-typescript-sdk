@@ -4,16 +4,17 @@
 
 Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 operations · Request and error types: namespace `Playlists`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### addTracksToPlaylist
 
 - **Signature**: `addTracksToPlaylist(request: Playlists.AddTracksToPlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Playlists.AddTracksToPlaylistError>`
 - **Wire**: `POST /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Playlists.AddTracksToPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.AddTracksToPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.AddTracksToPlaylistRequest` (4):
@@ -38,9 +39,10 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Signature**: `changePlaylistDetails(request: Playlists.ChangePlaylistDetailsRequest, options?: RequestOptions): ApiPromise<undefined, Playlists.ChangePlaylistDetailsError>`
 - **Wire**: `PUT /playlists/{playlist_id}`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Playlists.ChangePlaylistDetailsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.ChangePlaylistDetailsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.ChangePlaylistDetailsRequest` (2):
@@ -64,7 +66,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Playlists.CheckIfUserFollowsPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.CheckIfUserFollowsPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.CheckIfUserFollowsPlaylistRequest` (2):
@@ -85,9 +87,10 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Signature**: `createPlaylist(request: Playlists.CreatePlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistObject, Playlists.CreatePlaylistError>`
 - **Wire**: `POST /users/{user_id}/playlists`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistObject`
-- **Error**: `Playlists.CreatePlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.CreatePlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.CreatePlaylistRequest` (2):
@@ -110,9 +113,10 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Signature**: `followPlaylist(request: Playlists.FollowPlaylistRequest, options?: RequestOptions): ApiPromise<undefined, Playlists.FollowPlaylistError>`
 - **Wire**: `PUT /playlists/{playlist_id}/followers`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Playlists.FollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.FollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.FollowPlaylistRequest` (2):
@@ -136,7 +140,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingFeaturedPlaylistObject`
-- **Error**: `Playlists.GetACategoriesPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetACategoriesPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetACategoriesPlaylistsRequest` (3):
@@ -161,7 +165,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistObject`
-- **Error**: `Playlists.GetAListOfCurrentUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetAListOfCurrentUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetAListOfCurrentUsersPlaylistsRequest` (2):
@@ -185,7 +189,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingFeaturedPlaylistObject`
-- **Error**: `Playlists.GetFeaturedPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetFeaturedPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetFeaturedPlaylistsRequest` (3):
@@ -210,7 +214,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistObject`
-- **Error**: `Playlists.GetListUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetListUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetListUsersPlaylistsRequest` (3):
@@ -235,7 +239,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PlaylistObject`
-- **Error**: `Playlists.GetPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetPlaylistRequest` (4):
@@ -261,7 +265,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ImageObject[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Playlists.GetPlaylistCoverError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetPlaylistCoverError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetPlaylistCoverRequest` (1):
@@ -284,7 +288,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistTrackObject`
-- **Error**: `Playlists.GetPlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.GetPlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.GetPlaylistsTracksRequest` (6):
@@ -310,9 +314,10 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Signature**: `removeTracksPlaylist(request: Playlists.RemoveTracksPlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Playlists.RemoveTracksPlaylistError>`
 - **Wire**: `DELETE /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Playlists.RemoveTracksPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.RemoveTracksPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.RemoveTracksPlaylistRequest` (2):
@@ -335,9 +340,10 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Signature**: `reorderOrReplacePlaylistsTracks(request: Playlists.ReorderOrReplacePlaylistsTracksRequest, options?: RequestOptions): ApiPromise<PlaylistSnapshotId, Playlists.ReorderOrReplacePlaylistsTracksError>`
 - **Wire**: `PUT /playlists/{playlist_id}/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistSnapshotId`
-- **Error**: `Playlists.ReorderOrReplacePlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.ReorderOrReplacePlaylistsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.ReorderOrReplacePlaylistsTracksRequest` (3):
@@ -362,8 +368,9 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Wire**: `DELETE /playlists/{playlist_id}/followers`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Playlists.UnfollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.UnfollowPlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.UnfollowPlaylistRequest` (1):
@@ -384,8 +391,9 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 - **Wire**: `PUT /playlists/{playlist_id}/images`
 - **Auth**: `oauth20`
 - **Request body**: `application/json` — the `body` field, a bare top-level JSON map with no fixed keys
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Playlists.UploadCustomPlaylistCoverError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Playlists.UploadCustomPlaylistCoverError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Playlists.UploadCustomPlaylistCoverRequest` (2):

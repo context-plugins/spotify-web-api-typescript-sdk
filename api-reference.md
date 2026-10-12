@@ -23,19 +23,39 @@ Check if one or more albums is already saved in the current Spotify user's 'Your
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.checkUsersSavedAlbums({ ids });
+  const response = await client.albums.checkUsersSavedAlbums({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Albums.CheckUsersSavedAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.CheckUsersSavedAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.checkUsersSavedAlbums({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -59,9 +79,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.albums.checkUsersSavedAlbums(request)`
 
-**OnError**: <code>[Albums.CheckUsersSavedAlbumsError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Albums.CheckUsersSavedAlbumsError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.checkUsersSavedAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Albums.CheckUsersSavedAlbumsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -88,19 +116,35 @@ Get Spotify catalog information for a single album.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getAnAlbum({ id });
+  const response = await client.albums.getAnAlbum({ id: "4aawyAB9vmqN3uQ7FjRGTy", market: "ES" });
   // TODO: Handle 'response' of type AlbumObject
 } catch (err) {
-  if (err instanceof Albums.GetAnAlbumError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetAnAlbumError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getAnAlbum({ id: "4aawyAB9vmqN3uQ7FjRGTy", market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AlbumObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -125,9 +169,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AlbumObject](src/models/album-object.ts)</code>
+**Direct**: `await client.albums.getAnAlbum(request)`
 
-**OnError**: <code>[Albums.GetAnAlbumError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[AlbumObject](src/models/album-object.ts)</code>
+- **OnError**: throws <code>[Albums.GetAnAlbumError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getAnAlbum(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AlbumObject, Albums.GetAnAlbumError&gt;</code>, with `result.value` of type <code>[AlbumObject](src/models/album-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -155,19 +207,45 @@ Optional parameters can be used to limit the number of tracks returned.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getAnAlbumsTracks({ id });
+  const response = await client.albums.getAnAlbumsTracks({
+    id: "4aawyAB9vmqN3uQ7FjRGTy",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedTrackObject
 } catch (err) {
-  if (err instanceof Albums.GetAnAlbumsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetAnAlbumsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getAnAlbumsTracks({
+  id: "4aawyAB9vmqN3uQ7FjRGTy",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -183,8 +261,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -194,9 +272,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+**Direct**: `await client.albums.getAnAlbumsTracks(request)`
 
-**OnError**: <code>[Albums.GetAnAlbumsTracksError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+- **OnError**: throws <code>[Albums.GetAnAlbumsTracksError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getAnAlbumsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedTrackObject, Albums.GetAnAlbumsTracksError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -223,19 +309,47 @@ Get Spotify catalog information about an artist's albums.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getAnArtistsAlbums({ id });
+  const response = await client.albums.getAnArtistsAlbums({
+    id: "0TnOYISbd1XYRBk9myaseg",
+    includeGroups: "single,appears_on",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingArtistDiscographyAlbumObject
 } catch (err) {
-  if (err instanceof Albums.GetAnArtistsAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetAnArtistsAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getAnArtistsAlbums({
+  id: "0TnOYISbd1XYRBk9myaseg",
+  includeGroups: "single,appears_on",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingArtistDiscographyAlbumObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -252,8 +366,8 @@ try {
 | <code>id</code> | <code>string</code> | - |
 | <code>includeGroups?</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -263,9 +377,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+**Direct**: `await client.albums.getAnArtistsAlbums(request)`
 
-**OnError**: <code>[Albums.GetAnArtistsAlbumsError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+- **OnError**: throws <code>[Albums.GetAnArtistsAlbumsError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getAnArtistsAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingArtistDiscographyAlbumObject, Albums.GetAnArtistsAlbumsError&gt;</code>, with `result.value` of type <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -292,19 +414,41 @@ Get Spotify catalog information for multiple albums identified by their Spotify 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getMultipleAlbums({ ids });
+  const response = await client.albums.getMultipleAlbums({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManyAlbums
 } catch (err) {
-  if (err instanceof Albums.GetMultipleAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetMultipleAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getMultipleAlbums({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyAlbums
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -329,9 +473,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyAlbums](src/models/many-albums.ts)</code>
+**Direct**: `await client.albums.getMultipleAlbums(request)`
 
-**OnError**: <code>[Albums.GetMultipleAlbumsError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[ManyAlbums](src/models/many-albums.ts)</code>
+- **OnError**: throws <code>[Albums.GetMultipleAlbumsError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getMultipleAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyAlbums, Albums.GetMultipleAlbumsError&gt;</code>, with `result.value` of type <code>[ManyAlbums](src/models/many-albums.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -358,19 +510,35 @@ Get a list of new album releases featured in Spotify (shown, for example, on a S
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getNewReleases();
+  const response = await client.albums.getNewReleases({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagedAlbums
 } catch (err) {
-  if (err instanceof Albums.GetNewReleasesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetNewReleasesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getNewReleases({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagedAlbums
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -384,8 +552,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -395,9 +563,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagedAlbums](src/models/paged-albums.ts)</code>
+**Direct**: `await client.albums.getNewReleases(request)`
 
-**OnError**: <code>[Albums.GetNewReleasesError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[PagedAlbums](src/models/paged-albums.ts)</code>
+- **OnError**: throws <code>[Albums.GetNewReleasesError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getNewReleases(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagedAlbums, Albums.GetNewReleasesError&gt;</code>, with `result.value` of type <code>[PagedAlbums](src/models/paged-albums.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -424,19 +600,35 @@ Get a list of the albums saved in the current Spotify user's 'Your Music' librar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.albums.getUsersSavedAlbums();
+  const response = await client.albums.getUsersSavedAlbums({ limit: 10, offset: 5, market: "ES" });
   // TODO: Handle 'response' of type PagingSavedAlbumObject
 } catch (err) {
-  if (err instanceof Albums.GetUsersSavedAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.GetUsersSavedAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.getUsersSavedAlbums({ limit: 10, offset: 5, market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedAlbumObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -450,8 +642,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 | <code>market?</code> | <code>string</code> | - |
 
 </dd>
@@ -462,9 +654,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+**Direct**: `await client.albums.getUsersSavedAlbums(request)`
 
-**OnError**: <code>[Albums.GetUsersSavedAlbumsError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+- **OnError**: throws <code>[Albums.GetUsersSavedAlbumsError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.getUsersSavedAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedAlbumObject, Albums.GetUsersSavedAlbumsError&gt;</code>, with `result.value` of type <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -491,18 +691,38 @@ Remove one or more albums from the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.albums.removeAlbumsUser({ ids });
+  await client.albums.removeAlbumsUser({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
 } catch (err) {
-  if (err instanceof Albums.RemoveAlbumsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.RemoveAlbumsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.removeAlbumsUser({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -527,9 +747,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.albums.removeAlbumsUser(request)`
 
-**OnError**: <code>[Albums.RemoveAlbumsUserError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Albums.RemoveAlbumsUserError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.removeAlbumsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Albums.RemoveAlbumsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -556,18 +784,38 @@ Save one or more albums to the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.albums.saveAlbumsUser({ ids });
+  await client.albums.saveAlbumsUser({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
 } catch (err) {
-  if (err instanceof Albums.SaveAlbumsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Albums.SaveAlbumsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.albums.saveAlbumsUser({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -592,9 +840,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.albums.saveAlbumsUser(request)`
 
-**OnError**: <code>[Albums.SaveAlbumsUserError](src/resources/albums.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Albums.SaveAlbumsUserError](src/resources/albums.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.albums.saveAlbumsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Albums.SaveAlbumsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -625,19 +881,43 @@ Add one or more items to a user's playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.addTracksToPlaylist({ playlistId });
+  const response = await client.tracks.addTracksToPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    position: 0,
+    uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+  });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Tracks.AddTracksToPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.AddTracksToPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.addTracksToPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  position: 0,
+  uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -664,9 +944,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.tracks.addTracksToPlaylist(request)`
 
-**OnError**: <code>[Tracks.AddTracksToPlaylistError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Tracks.AddTracksToPlaylistError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.addTracksToPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Tracks.AddTracksToPlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -693,19 +981,39 @@ Check if one or more tracks is already saved in the current Spotify user's 'Your
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.checkUsersSavedTracks({ ids });
+  const response = await client.tracks.checkUsersSavedTracks({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Tracks.CheckUsersSavedTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.CheckUsersSavedTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.checkUsersSavedTracks({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -729,9 +1037,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.tracks.checkUsersSavedTracks(request)`
 
-**OnError**: <code>[Tracks.CheckUsersSavedTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Tracks.CheckUsersSavedTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.checkUsersSavedTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Tracks.CheckUsersSavedTracksError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -759,19 +1075,45 @@ Optional parameters can be used to limit the number of tracks returned.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getAnAlbumsTracks({ id });
+  const response = await client.tracks.getAnAlbumsTracks({
+    id: "4aawyAB9vmqN3uQ7FjRGTy",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedTrackObject
 } catch (err) {
-  if (err instanceof Tracks.GetAnAlbumsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetAnAlbumsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getAnAlbumsTracks({
+  id: "4aawyAB9vmqN3uQ7FjRGTy",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -787,8 +1129,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -798,9 +1140,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+**Direct**: `await client.tracks.getAnAlbumsTracks(request)`
 
-**OnError**: <code>[Tracks.GetAnAlbumsTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetAnAlbumsTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getAnAlbumsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedTrackObject, Tracks.GetAnAlbumsTracksError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedTrackObject](src/models/paging-simplified-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -827,19 +1177,38 @@ Get Spotify catalog information about an artist's top tracks by country.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getAnArtistsTopTracks({ id });
+  const response = await client.tracks.getAnArtistsTopTracks({ id: "0TnOYISbd1XYRBk9myaseg", market: "ES" });
   // TODO: Handle 'response' of type ManyTracks
 } catch (err) {
-  if (err instanceof Tracks.GetAnArtistsTopTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetAnArtistsTopTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getAnArtistsTopTracks({
+  id: "0TnOYISbd1XYRBk9myaseg",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyTracks
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -864,9 +1233,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+**Direct**: `await client.tracks.getAnArtistsTopTracks(request)`
 
-**OnError**: <code>[Tracks.GetAnArtistsTopTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: throws <code>[Tracks.GetAnArtistsTopTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getAnArtistsTopTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyTracks, Tracks.GetAnArtistsTopTracksError&gt;</code>, with `result.value` of type <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -893,19 +1270,35 @@ Get a low-level audio analysis for a track in the Spotify catalog. The audio ana
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getAudioAnalysis({ id });
+  const response = await client.tracks.getAudioAnalysis({ id: "11dFghVXANMlKmJXsNCbNl" });
   // TODO: Handle 'response' of type AudioAnalysisObject
 } catch (err) {
-  if (err instanceof Tracks.GetAudioAnalysisError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetAudioAnalysisError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getAudioAnalysis({ id: "11dFghVXANMlKmJXsNCbNl" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AudioAnalysisObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -929,9 +1322,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AudioAnalysisObject](src/models/audio-analysis-object.ts)</code>
+**Direct**: `await client.tracks.getAudioAnalysis(request)`
 
-**OnError**: <code>[Tracks.GetAudioAnalysisError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[AudioAnalysisObject](src/models/audio-analysis-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetAudioAnalysisError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getAudioAnalysis(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AudioAnalysisObject, Tracks.GetAudioAnalysisError&gt;</code>, with `result.value` of type <code>[AudioAnalysisObject](src/models/audio-analysis-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -959,19 +1360,35 @@ Spotify ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getAudioFeatures({ id });
+  const response = await client.tracks.getAudioFeatures({ id: "11dFghVXANMlKmJXsNCbNl" });
   // TODO: Handle 'response' of type AudioFeaturesObject
 } catch (err) {
-  if (err instanceof Tracks.GetAudioFeaturesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetAudioFeaturesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getAudioFeatures({ id: "11dFghVXANMlKmJXsNCbNl" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AudioFeaturesObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -995,9 +1412,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AudioFeaturesObject](src/models/audio-features-object.ts)</code>
+**Direct**: `await client.tracks.getAudioFeatures(request)`
 
-**OnError**: <code>[Tracks.GetAudioFeaturesError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[AudioFeaturesObject](src/models/audio-features-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetAudioFeaturesError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getAudioFeatures(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AudioFeaturesObject, Tracks.GetAudioFeaturesError&gt;</code>, with `result.value` of type <code>[AudioFeaturesObject](src/models/audio-features-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1024,19 +1449,47 @@ Get full details of the items of a playlist owned by a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getPlaylistsTracks({ playlistId });
+  const response = await client.tracks.getPlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingPlaylistTrackObject
 } catch (err) {
-  if (err instanceof Tracks.GetPlaylistsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetPlaylistsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getPlaylistsTracks({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  market: "ES",
+  fields: "items(added_by.id,track(name,href,album(name,href)))",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1053,8 +1506,8 @@ try {
 | <code>playlistId</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
 | <code>fields?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 | <code>additionalTypes?</code> | <code>string</code> | - |
 
 </dd>
@@ -1065,9 +1518,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+**Direct**: `await client.tracks.getPlaylistsTracks(request)`
 
-**OnError**: <code>[Tracks.GetPlaylistsTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetPlaylistsTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getPlaylistsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistTrackObject, Tracks.GetPlaylistsTracksError&gt;</code>, with `result.value` of type <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1096,19 +1557,47 @@ For artists and tracks that are very new or obscure there might not be enough da
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getRecommendations();
+  const response = await client.tracks.getRecommendations({
+    limit: 10,
+    market: "ES",
+    seedArtists: "4NHQUGzhtTLFvgF5SZesLK",
+    seedGenres: "classical,country",
+    seedTracks: "0c6xIDDpzE81m2q797ordA",
+  });
   // TODO: Handle 'response' of type RecommendationsObject
 } catch (err) {
-  if (err instanceof Tracks.GetRecommendationsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetRecommendationsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getRecommendations({
+  limit: 10,
+  market: "ES",
+  seedArtists: "4NHQUGzhtTLFvgF5SZesLK",
+  seedGenres: "classical,country",
+  seedTracks: "0c6xIDDpzE81m2q797ordA",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RecommendationsObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1122,7 +1611,7 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
 | <code>market?</code> | <code>string</code> | - |
 | <code>seedArtists?</code> | <code>string</code> | - |
 | <code>seedGenres?</code> | <code>string</code> | - |
@@ -1178,9 +1667,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RecommendationsObject](src/models/recommendations-object.ts)</code>
+**Direct**: `await client.tracks.getRecommendations(request)`
 
-**OnError**: <code>[Tracks.GetRecommendationsError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[RecommendationsObject](src/models/recommendations-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetRecommendationsError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getRecommendations(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RecommendationsObject, Tracks.GetRecommendationsError&gt;</code>, with `result.value` of type <code>[RecommendationsObject](src/models/recommendations-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1207,19 +1704,39 @@ Get audio features for multiple tracks based on their Spotify IDs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getSeveralAudioFeatures({ ids });
+  const response = await client.tracks.getSeveralAudioFeatures({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
   // TODO: Handle 'response' of type ManyAudioFeatures
 } catch (err) {
-  if (err instanceof Tracks.GetSeveralAudioFeaturesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetSeveralAudioFeaturesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getSeveralAudioFeatures({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyAudioFeatures
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1243,9 +1760,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyAudioFeatures](src/models/many-audio-features.ts)</code>
+**Direct**: `await client.tracks.getSeveralAudioFeatures(request)`
 
-**OnError**: <code>[Tracks.GetSeveralAudioFeaturesError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[ManyAudioFeatures](src/models/many-audio-features.ts)</code>
+- **OnError**: throws <code>[Tracks.GetSeveralAudioFeaturesError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getSeveralAudioFeatures(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyAudioFeatures, Tracks.GetSeveralAudioFeaturesError&gt;</code>, with `result.value` of type <code>[ManyAudioFeatures](src/models/many-audio-features.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1272,19 +1797,41 @@ Get Spotify catalog information for multiple tracks based on their Spotify IDs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getSeveralTracks({ ids });
+  const response = await client.tracks.getSeveralTracks({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManyTracks
 } catch (err) {
-  if (err instanceof Tracks.GetSeveralTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetSeveralTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getSeveralTracks({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyTracks
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1309,9 +1856,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+**Direct**: `await client.tracks.getSeveralTracks(request)`
 
-**OnError**: <code>[Tracks.GetSeveralTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: throws <code>[Tracks.GetSeveralTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getSeveralTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyTracks, Tracks.GetSeveralTracksError&gt;</code>, with `result.value` of type <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1339,19 +1894,35 @@ unique Spotify ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getTrack({ id });
+  const response = await client.tracks.getTrack({ id: "11dFghVXANMlKmJXsNCbNl", market: "ES" });
   // TODO: Handle 'response' of type TrackObject
 } catch (err) {
-  if (err instanceof Tracks.GetTrackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetTrackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getTrack({ id: "11dFghVXANMlKmJXsNCbNl", market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1376,9 +1947,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TrackObject](src/models/track-object.ts)</code>
+**Direct**: `await client.tracks.getTrack(request)`
 
-**OnError**: <code>[Tracks.GetTrackError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[TrackObject](src/models/track-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetTrackError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getTrack(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TrackObject, Tracks.GetTrackError&gt;</code>, with `result.value` of type <code>[TrackObject](src/models/track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1405,19 +1984,35 @@ Get a list of the songs saved in the current Spotify user's 'Your Music' library
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getUsersSavedTracks();
+  const response = await client.tracks.getUsersSavedTracks({ market: "ES", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedTrackObject
 } catch (err) {
-  if (err instanceof Tracks.GetUsersSavedTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetUsersSavedTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getUsersSavedTracks({ market: "ES", limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1432,8 +2027,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -1443,9 +2038,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+**Direct**: `await client.tracks.getUsersSavedTracks(request)`
 
-**OnError**: <code>[Tracks.GetUsersSavedTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetUsersSavedTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getUsersSavedTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedTrackObject, Tracks.GetUsersSavedTracksError&gt;</code>, with `result.value` of type <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1472,19 +2075,39 @@ Get the current user's top tracks based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.getUsersTopTracks();
+  const response = await client.tracks.getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingTrackObject
 } catch (err) {
-  if (err instanceof Tracks.GetUsersTopTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.GetUsersTopTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.getUsersTopTracks({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1498,9 +2121,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -1510,9 +2133,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+**Direct**: `await client.tracks.getUsersTopTracks(request)`
 
-**OnError**: <code>[Tracks.GetUsersTopTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: throws <code>[Tracks.GetUsersTopTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.getUsersTopTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingTrackObject, Tracks.GetUsersTopTracksError&gt;</code>, with `result.value` of type <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1539,19 +2170,37 @@ Remove one or more items from a user's playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.removeTracksPlaylist({ playlistId });
+  const response = await client.tracks.removeTracksPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Tracks.RemoveTracksPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.RemoveTracksPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.removeTracksPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1576,9 +2225,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.tracks.removeTracksPlaylist(request)`
 
-**OnError**: <code>[Tracks.RemoveTracksPlaylistError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Tracks.RemoveTracksPlaylistError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.removeTracksPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Tracks.RemoveTracksPlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1605,18 +2262,38 @@ Remove one or more tracks from the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.tracks.removeTracksUser({ ids });
+  await client.tracks.removeTracksUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Tracks.RemoveTracksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.RemoveTracksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.removeTracksUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1641,9 +2318,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.tracks.removeTracksUser(request)`
 
-**OnError**: <code>[Tracks.RemoveTracksUserError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Tracks.RemoveTracksUserError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.removeTracksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Tracks.RemoveTracksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1676,19 +2361,39 @@ These operations can't be applied together in a single request.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.tracks.reorderOrReplacePlaylistsTracks({ playlistId });
+  const response = await client.tracks.reorderOrReplacePlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Tracks.ReorderOrReplacePlaylistsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.ReorderOrReplacePlaylistsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.reorderOrReplacePlaylistsTracks({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1714,9 +2419,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.tracks.reorderOrReplacePlaylistsTracks(request)`
 
-**OnError**: <code>[Tracks.ReorderOrReplacePlaylistsTracksError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Tracks.ReorderOrReplacePlaylistsTracksError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.reorderOrReplacePlaylistsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Tracks.ReorderOrReplacePlaylistsTracksError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1743,18 +2456,38 @@ Save one or more tracks to the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.tracks.saveTracksUser({ ids });
+  await client.tracks.saveTracksUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Tracks.SaveTracksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Tracks.SaveTracksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.tracks.saveTracksUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1779,9 +2512,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.tracks.saveTracksUser(request)`
 
-**OnError**: <code>[Tracks.SaveTracksUserError](src/resources/tracks.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Tracks.SaveTracksUserError](src/resources/tracks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.tracks.saveTracksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Tracks.SaveTracksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1813,18 +2554,36 @@ course, own the playlist.)
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.changePlaylistDetails({ playlistId });
+  await client.library.changePlaylistDetails({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Library.ChangePlaylistDetailsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.ChangePlaylistDetailsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.changePlaylistDetails({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1849,9 +2608,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.changePlaylistDetails(request)`
 
-**OnError**: <code>[Library.ChangePlaylistDetailsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.ChangePlaylistDetailsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.changePlaylistDetails(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.ChangePlaylistDetailsError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1878,19 +2645,41 @@ Check to see if the current user is following one or more artists or other Spoti
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkCurrentUserFollows({ type, ids });
+  const response = await client.library.checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckCurrentUserFollowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckCurrentUserFollowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkCurrentUserFollows({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1915,9 +2704,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkCurrentUserFollows(request)`
 
-**OnError**: <code>[Library.CheckCurrentUserFollowsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckCurrentUserFollowsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkCurrentUserFollows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckCurrentUserFollowsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1944,19 +2741,39 @@ Check if one or more albums is already saved in the current Spotify user's 'Your
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkUsersSavedAlbums({ ids });
+  const response = await client.library.checkUsersSavedAlbums({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckUsersSavedAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckUsersSavedAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkUsersSavedAlbums({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1980,9 +2797,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkUsersSavedAlbums(request)`
 
-**OnError**: <code>[Library.CheckUsersSavedAlbumsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckUsersSavedAlbumsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkUsersSavedAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckUsersSavedAlbumsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2009,19 +2834,39 @@ Check if one or more audiobooks are already saved in the current Spotify user's 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkUsersSavedAudiobooks({ ids });
+  const response = await client.library.checkUsersSavedAudiobooks({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckUsersSavedAudiobooksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckUsersSavedAudiobooksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkUsersSavedAudiobooks({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2045,9 +2890,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkUsersSavedAudiobooks(request)`
 
-**OnError**: <code>[Library.CheckUsersSavedAudiobooksError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckUsersSavedAudiobooksError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkUsersSavedAudiobooks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckUsersSavedAudiobooksError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2075,19 +2928,39 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkUsersSavedEpisodes({ ids });
+  const response = await client.library.checkUsersSavedEpisodes({
+    ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckUsersSavedEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckUsersSavedEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkUsersSavedEpisodes({
+  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2111,9 +2984,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkUsersSavedEpisodes(request)`
 
-**OnError**: <code>[Library.CheckUsersSavedEpisodesError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckUsersSavedEpisodesError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkUsersSavedEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckUsersSavedEpisodesError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2140,19 +3021,39 @@ Check if one or more shows is already saved in the current Spotify user's librar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkUsersSavedShows({ ids });
+  const response = await client.library.checkUsersSavedShows({
+    ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckUsersSavedShowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckUsersSavedShowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkUsersSavedShows({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2176,9 +3077,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkUsersSavedShows(request)`
 
-**OnError**: <code>[Library.CheckUsersSavedShowsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckUsersSavedShowsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkUsersSavedShows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckUsersSavedShowsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2205,19 +3114,39 @@ Check if one or more tracks is already saved in the current Spotify user's 'Your
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.checkUsersSavedTracks({ ids });
+  const response = await client.library.checkUsersSavedTracks({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Library.CheckUsersSavedTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CheckUsersSavedTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.checkUsersSavedTracks({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2241,9 +3170,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.library.checkUsersSavedTracks(request)`
 
-**OnError**: <code>[Library.CheckUsersSavedTracksError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Library.CheckUsersSavedTracksError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.checkUsersSavedTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Library.CheckUsersSavedTracksError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2272,19 +3209,35 @@ Each user is generally limited to a maximum of 11000 playlists.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.createPlaylist({ userId });
+  const response = await client.library.createPlaylist({ userId: "smedjan" });
   // TODO: Handle 'response' of type PlaylistObject
 } catch (err) {
-  if (err instanceof Library.CreatePlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.CreatePlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.createPlaylist({ userId: "smedjan" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2309,9 +3262,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+**Direct**: `await client.library.createPlaylist(request)`
 
-**OnError**: <code>[Library.CreatePlaylistError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: throws <code>[Library.CreatePlaylistError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.createPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistObject, Library.CreatePlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2338,18 +3299,40 @@ Add the current user as a follower of one or more artists or other Spotify users
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.followArtistsUsers({ type, ids });
+  await client.library.followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Library.FollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.FollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.followArtistsUsers({
+  type: ItemType2.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2375,9 +3358,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.followArtistsUsers(request)`
 
-**OnError**: <code>[Library.FollowArtistsUsersError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.FollowArtistsUsersError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.followArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.FollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2405,19 +3396,35 @@ user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getAListOfCurrentUsersPlaylists();
+  const response = await client.library.getAListOfCurrentUsersPlaylists({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingPlaylistObject
 } catch (err) {
-  if (err instanceof Library.GetAListOfCurrentUsersPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetAListOfCurrentUsersPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getAListOfCurrentUsersPlaylists({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2431,8 +3438,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2442,9 +3449,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+**Direct**: `await client.library.getAListOfCurrentUsersPlaylists(request)`
 
-**OnError**: <code>[Library.GetAListOfCurrentUsersPlaylistsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: throws <code>[Library.GetAListOfCurrentUsersPlaylistsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getAListOfCurrentUsersPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistObject, Library.GetAListOfCurrentUsersPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2471,19 +3486,43 @@ Get the current user's followed artists.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getFollowed({ type });
+  const response = await client.library.getFollowed({
+    type: ItemType1.Artist,
+    after: "0I2XqVXqHScXjHhk6AYYRe",
+    limit: 10,
+  });
   // TODO: Handle 'response' of type CursorPagedArtists
 } catch (err) {
-  if (err instanceof Library.GetFollowedError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetFollowedError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getFollowed({
+  type: ItemType1.Artist,
+  after: "0I2XqVXqHScXjHhk6AYYRe",
+  limit: 10,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CursorPagedArtists
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2499,7 +3538,7 @@ try {
 | --- | --- | --- |
 | <code>type</code> | <code>[ItemType1](src/models/item-type1.ts)</code> | - |
 | <code>after?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
 
 </dd>
 </dl>
@@ -2509,9 +3548,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+**Direct**: `await client.library.getFollowed(request)`
 
-**OnError**: <code>[Library.GetFollowedError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: throws <code>[Library.GetFollowedError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getFollowed(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CursorPagedArtists, Library.GetFollowedError&gt;</code>, with `result.value` of type <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2538,19 +3585,35 @@ Get a list of the albums saved in the current Spotify user's 'Your Music' librar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersSavedAlbums();
+  const response = await client.library.getUsersSavedAlbums({ limit: 10, offset: 5, market: "ES" });
   // TODO: Handle 'response' of type PagingSavedAlbumObject
 } catch (err) {
-  if (err instanceof Library.GetUsersSavedAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersSavedAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersSavedAlbums({ limit: 10, offset: 5, market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedAlbumObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2564,8 +3627,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 | <code>market?</code> | <code>string</code> | - |
 
 </dd>
@@ -2576,9 +3639,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+**Direct**: `await client.library.getUsersSavedAlbums(request)`
 
-**OnError**: <code>[Library.GetUsersSavedAlbumsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersSavedAlbumsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersSavedAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedAlbumObject, Library.GetUsersSavedAlbumsError&gt;</code>, with `result.value` of type <code>[PagingSavedAlbumObject](src/models/paging-saved-album-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2605,19 +3676,35 @@ Get a list of the audiobooks saved in the current Spotify user's 'Your Music' li
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersSavedAudiobooks();
+  const response = await client.library.getUsersSavedAudiobooks({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedAudiobookObject
 } catch (err) {
-  if (err instanceof Library.GetUsersSavedAudiobooksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersSavedAudiobooksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersSavedAudiobooks({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedAudiobookObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2631,8 +3718,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2642,9 +3729,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+**Direct**: `await client.library.getUsersSavedAudiobooks(request)`
 
-**OnError**: <code>[Library.GetUsersSavedAudiobooksError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersSavedAudiobooksError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersSavedAudiobooks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedAudiobookObject, Library.GetUsersSavedAudiobooksError&gt;</code>, with `result.value` of type <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2672,19 +3767,39 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersSavedEpisodes();
+  const response = await client.library.getUsersSavedEpisodes({ market: "ES", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedEpisodeObject
 } catch (err) {
-  if (err instanceof Library.GetUsersSavedEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersSavedEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersSavedEpisodes({
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedEpisodeObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2699,8 +3814,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2710,9 +3825,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+**Direct**: `await client.library.getUsersSavedEpisodes(request)`
 
-**OnError**: <code>[Library.GetUsersSavedEpisodesError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersSavedEpisodesError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersSavedEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedEpisodeObject, Library.GetUsersSavedEpisodesError&gt;</code>, with `result.value` of type <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2739,19 +3862,35 @@ Get a list of shows saved in the current Spotify user's library. Optional parame
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersSavedShows();
+  const response = await client.library.getUsersSavedShows({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedShowObject
 } catch (err) {
-  if (err instanceof Library.GetUsersSavedShowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersSavedShowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersSavedShows({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedShowObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2765,8 +3904,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2776,9 +3915,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+**Direct**: `await client.library.getUsersSavedShows(request)`
 
-**OnError**: <code>[Library.GetUsersSavedShowsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersSavedShowsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersSavedShows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedShowObject, Library.GetUsersSavedShowsError&gt;</code>, with `result.value` of type <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2805,19 +3952,35 @@ Get a list of the songs saved in the current Spotify user's 'Your Music' library
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersSavedTracks();
+  const response = await client.library.getUsersSavedTracks({ market: "ES", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedTrackObject
 } catch (err) {
-  if (err instanceof Library.GetUsersSavedTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersSavedTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersSavedTracks({ market: "ES", limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2832,8 +3995,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2843,9 +4006,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+**Direct**: `await client.library.getUsersSavedTracks(request)`
 
-**OnError**: <code>[Library.GetUsersSavedTracksError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersSavedTracksError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersSavedTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedTrackObject, Library.GetUsersSavedTracksError&gt;</code>, with `result.value` of type <code>[PagingSavedTrackObject](src/models/paging-saved-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2872,19 +4043,43 @@ Get the current user's top artists based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersTopArtists();
+  const response = await client.library.getUsersTopArtists({
+    timeRange: "medium_term",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingArtistObject
 } catch (err) {
-  if (err instanceof Library.GetUsersTopArtistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersTopArtistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersTopArtists({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingArtistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2898,9 +4093,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2910,9 +4105,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+**Direct**: `await client.library.getUsersTopArtists(request)`
 
-**OnError**: <code>[Library.GetUsersTopArtistsError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersTopArtistsError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersTopArtists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingArtistObject, Library.GetUsersTopArtistsError&gt;</code>, with `result.value` of type <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2939,19 +4142,39 @@ Get the current user's top tracks based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.library.getUsersTopTracks();
+  const response = await client.library.getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingTrackObject
 } catch (err) {
-  if (err instanceof Library.GetUsersTopTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.GetUsersTopTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.getUsersTopTracks({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2965,9 +4188,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -2977,9 +4200,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+**Direct**: `await client.library.getUsersTopTracks(request)`
 
-**OnError**: <code>[Library.GetUsersTopTracksError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: throws <code>[Library.GetUsersTopTracksError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.getUsersTopTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingTrackObject, Library.GetUsersTopTracksError&gt;</code>, with `result.value` of type <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3006,18 +4237,38 @@ Remove one or more albums from the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.removeAlbumsUser({ ids });
+  await client.library.removeAlbumsUser({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
 } catch (err) {
-  if (err instanceof Library.RemoveAlbumsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.RemoveAlbumsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.removeAlbumsUser({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3042,9 +4293,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.removeAlbumsUser(request)`
 
-**OnError**: <code>[Library.RemoveAlbumsUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.RemoveAlbumsUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.removeAlbumsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.RemoveAlbumsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3071,18 +4330,38 @@ Remove one or more audiobooks from the Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.removeAudiobooksUser({ ids });
+  await client.library.removeAudiobooksUser({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
 } catch (err) {
-  if (err instanceof Library.RemoveAudiobooksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.RemoveAudiobooksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.removeAudiobooksUser({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3106,9 +4385,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.removeAudiobooksUser(request)`
 
-**OnError**: <code>[Library.RemoveAudiobooksUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.RemoveAudiobooksUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.removeAudiobooksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.RemoveAudiobooksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3136,18 +4423,38 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.removeEpisodesUser({ ids });
+  await client.library.removeEpisodesUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Library.RemoveEpisodesUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.RemoveEpisodesUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.removeEpisodesUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3172,9 +4479,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.removeEpisodesUser(request)`
 
-**OnError**: <code>[Library.RemoveEpisodesUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.RemoveEpisodesUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.removeEpisodesUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.RemoveEpisodesUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3201,18 +4516,40 @@ Delete one or more shows from current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.removeShowsUser({ ids });
+  await client.library.removeShowsUser({
+    ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+    market: "ES",
+  });
 } catch (err) {
-  if (err instanceof Library.RemoveShowsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.RemoveShowsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.removeShowsUser({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3238,9 +4575,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.removeShowsUser(request)`
 
-**OnError**: <code>[Library.RemoveShowsUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.RemoveShowsUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.removeShowsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.RemoveShowsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3267,18 +4612,38 @@ Remove one or more tracks from the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.removeTracksUser({ ids });
+  await client.library.removeTracksUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Library.RemoveTracksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.RemoveTracksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.removeTracksUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3303,9 +4668,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.removeTracksUser(request)`
 
-**OnError**: <code>[Library.RemoveTracksUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.RemoveTracksUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.removeTracksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.RemoveTracksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3332,18 +4705,38 @@ Save one or more albums to the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.saveAlbumsUser({ ids });
+  await client.library.saveAlbumsUser({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+  });
 } catch (err) {
-  if (err instanceof Library.SaveAlbumsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.SaveAlbumsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.saveAlbumsUser({
+  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3368,9 +4761,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.saveAlbumsUser(request)`
 
-**OnError**: <code>[Library.SaveAlbumsUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.SaveAlbumsUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.saveAlbumsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.SaveAlbumsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3397,18 +4798,38 @@ Save one or more audiobooks to the current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.saveAudiobooksUser({ ids });
+  await client.library.saveAudiobooksUser({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
 } catch (err) {
-  if (err instanceof Library.SaveAudiobooksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.SaveAudiobooksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.saveAudiobooksUser({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3432,9 +4853,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.saveAudiobooksUser(request)`
 
-**OnError**: <code>[Library.SaveAudiobooksUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.SaveAudiobooksUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.saveAudiobooksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.SaveAudiobooksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3462,18 +4891,36 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.saveEpisodesUser({ ids });
+  await client.library.saveEpisodesUser({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" });
 } catch (err) {
-  if (err instanceof Library.SaveEpisodesUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.SaveEpisodesUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.saveEpisodesUser({
+  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3498,9 +4945,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.saveEpisodesUser(request)`
 
-**OnError**: <code>[Library.SaveEpisodesUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.SaveEpisodesUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.saveEpisodesUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.SaveEpisodesUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3527,18 +4982,36 @@ Save one or more shows to current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.saveShowsUser({ ids });
+  await client.library.saveShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" });
 } catch (err) {
-  if (err instanceof Library.SaveShowsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.SaveShowsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.saveShowsUser({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3563,9 +5036,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.saveShowsUser(request)`
 
-**OnError**: <code>[Library.SaveShowsUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.SaveShowsUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.saveShowsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.SaveShowsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3592,18 +5073,38 @@ Save one or more tracks to the current user's 'Your Music' library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.saveTracksUser({ ids });
+  await client.library.saveTracksUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Library.SaveTracksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.SaveTracksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.saveTracksUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3628,9 +5129,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.saveTracksUser(request)`
 
-**OnError**: <code>[Library.SaveTracksUserError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.SaveTracksUserError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.saveTracksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.SaveTracksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3657,18 +5166,40 @@ Remove the current user as a follower of one or more artists or other Spotify us
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.library.unfollowArtistsUsers({ type, ids });
+  await client.library.unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Library.UnfollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Library.UnfollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.library.unfollowArtistsUsers({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3694,9 +5225,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.library.unfollowArtistsUsers(request)`
 
-**OnError**: <code>[Library.UnfollowArtistsUsersError](src/resources/library.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Library.UnfollowArtistsUsersError](src/resources/library.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.library.unfollowArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Library.UnfollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3727,19 +5266,41 @@ Check to see if the current user is following one or more artists or other Spoti
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.checkCurrentUserFollows({ type, ids });
+  const response = await client.artists.checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Artists.CheckCurrentUserFollowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.CheckCurrentUserFollowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.checkCurrentUserFollows({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3764,9 +5325,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.artists.checkCurrentUserFollows(request)`
 
-**OnError**: <code>[Artists.CheckCurrentUserFollowsError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Artists.CheckCurrentUserFollowsError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.checkCurrentUserFollows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Artists.CheckCurrentUserFollowsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3793,18 +5362,40 @@ Add the current user as a follower of one or more artists or other Spotify users
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.artists.followArtistsUsers({ type, ids });
+  await client.artists.followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Artists.FollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.FollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.followArtistsUsers({
+  type: ItemType2.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3830,9 +5421,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.artists.followArtistsUsers(request)`
 
-**OnError**: <code>[Artists.FollowArtistsUsersError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Artists.FollowArtistsUsersError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.followArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Artists.FollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3859,19 +5458,35 @@ Get Spotify catalog information for a single artist identified by their unique S
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getAnArtist({ id });
+  const response = await client.artists.getAnArtist({ id: "0TnOYISbd1XYRBk9myaseg" });
   // TODO: Handle 'response' of type ArtistObject
 } catch (err) {
-  if (err instanceof Artists.GetAnArtistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetAnArtistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getAnArtist({ id: "0TnOYISbd1XYRBk9myaseg" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ArtistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3895,9 +5510,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ArtistObject](src/models/artist-object.ts)</code>
+**Direct**: `await client.artists.getAnArtist(request)`
 
-**OnError**: <code>[Artists.GetAnArtistError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[ArtistObject](src/models/artist-object.ts)</code>
+- **OnError**: throws <code>[Artists.GetAnArtistError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getAnArtist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ArtistObject, Artists.GetAnArtistError&gt;</code>, with `result.value` of type <code>[ArtistObject](src/models/artist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3924,19 +5547,47 @@ Get Spotify catalog information about an artist's albums.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getAnArtistsAlbums({ id });
+  const response = await client.artists.getAnArtistsAlbums({
+    id: "0TnOYISbd1XYRBk9myaseg",
+    includeGroups: "single,appears_on",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingArtistDiscographyAlbumObject
 } catch (err) {
-  if (err instanceof Artists.GetAnArtistsAlbumsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetAnArtistsAlbumsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getAnArtistsAlbums({
+  id: "0TnOYISbd1XYRBk9myaseg",
+  includeGroups: "single,appears_on",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingArtistDiscographyAlbumObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3953,8 +5604,8 @@ try {
 | <code>id</code> | <code>string</code> | - |
 | <code>includeGroups?</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -3964,9 +5615,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+**Direct**: `await client.artists.getAnArtistsAlbums(request)`
 
-**OnError**: <code>[Artists.GetAnArtistsAlbumsError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+- **OnError**: throws <code>[Artists.GetAnArtistsAlbumsError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getAnArtistsAlbums(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingArtistDiscographyAlbumObject, Artists.GetAnArtistsAlbumsError&gt;</code>, with `result.value` of type <code>[PagingArtistDiscographyAlbumObject](src/models/paging-artist-discography-album-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3993,19 +5652,37 @@ Get Spotify catalog information about artists similar to a given artist. Similar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getAnArtistsRelatedArtists({ id });
+  const response = await client.artists.getAnArtistsRelatedArtists({ id: "0TnOYISbd1XYRBk9myaseg" });
   // TODO: Handle 'response' of type ManyArtists
 } catch (err) {
-  if (err instanceof Artists.GetAnArtistsRelatedArtistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetAnArtistsRelatedArtistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getAnArtistsRelatedArtists({
+  id: "0TnOYISbd1XYRBk9myaseg",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyArtists
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4029,9 +5706,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyArtists](src/models/many-artists.ts)</code>
+**Direct**: `await client.artists.getAnArtistsRelatedArtists(request)`
 
-**OnError**: <code>[Artists.GetAnArtistsRelatedArtistsError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[ManyArtists](src/models/many-artists.ts)</code>
+- **OnError**: throws <code>[Artists.GetAnArtistsRelatedArtistsError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getAnArtistsRelatedArtists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyArtists, Artists.GetAnArtistsRelatedArtistsError&gt;</code>, with `result.value` of type <code>[ManyArtists](src/models/many-artists.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4058,19 +5743,38 @@ Get Spotify catalog information about an artist's top tracks by country.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getAnArtistsTopTracks({ id });
+  const response = await client.artists.getAnArtistsTopTracks({ id: "0TnOYISbd1XYRBk9myaseg", market: "ES" });
   // TODO: Handle 'response' of type ManyTracks
 } catch (err) {
-  if (err instanceof Artists.GetAnArtistsTopTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetAnArtistsTopTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getAnArtistsTopTracks({
+  id: "0TnOYISbd1XYRBk9myaseg",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyTracks
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4095,9 +5799,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+**Direct**: `await client.artists.getAnArtistsTopTracks(request)`
 
-**OnError**: <code>[Artists.GetAnArtistsTopTracksError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: throws <code>[Artists.GetAnArtistsTopTracksError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getAnArtistsTopTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyTracks, Artists.GetAnArtistsTopTracksError&gt;</code>, with `result.value` of type <code>[ManyTracks](src/models/many-tracks.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4124,19 +5836,43 @@ Get the current user's followed artists.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getFollowed({ type });
+  const response = await client.artists.getFollowed({
+    type: ItemType1.Artist,
+    after: "0I2XqVXqHScXjHhk6AYYRe",
+    limit: 10,
+  });
   // TODO: Handle 'response' of type CursorPagedArtists
 } catch (err) {
-  if (err instanceof Artists.GetFollowedError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetFollowedError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getFollowed({
+  type: ItemType1.Artist,
+  after: "0I2XqVXqHScXjHhk6AYYRe",
+  limit: 10,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CursorPagedArtists
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4152,7 +5888,7 @@ try {
 | --- | --- | --- |
 | <code>type</code> | <code>[ItemType1](src/models/item-type1.ts)</code> | - |
 | <code>after?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
 
 </dd>
 </dl>
@@ -4162,9 +5898,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+**Direct**: `await client.artists.getFollowed(request)`
 
-**OnError**: <code>[Artists.GetFollowedError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: throws <code>[Artists.GetFollowedError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getFollowed(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CursorPagedArtists, Artists.GetFollowedError&gt;</code>, with `result.value` of type <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4191,19 +5935,39 @@ Get Spotify catalog information for several artists based on their Spotify IDs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getMultipleArtists({ ids });
+  const response = await client.artists.getMultipleArtists({
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
   // TODO: Handle 'response' of type ManyArtists
 } catch (err) {
-  if (err instanceof Artists.GetMultipleArtistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetMultipleArtistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getMultipleArtists({
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyArtists
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4227,9 +5991,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyArtists](src/models/many-artists.ts)</code>
+**Direct**: `await client.artists.getMultipleArtists(request)`
 
-**OnError**: <code>[Artists.GetMultipleArtistsError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[ManyArtists](src/models/many-artists.ts)</code>
+- **OnError**: throws <code>[Artists.GetMultipleArtistsError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getMultipleArtists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyArtists, Artists.GetMultipleArtistsError&gt;</code>, with `result.value` of type <code>[ManyArtists](src/models/many-artists.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4256,19 +6028,43 @@ Get the current user's top artists based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.artists.getUsersTopArtists();
+  const response = await client.artists.getUsersTopArtists({
+    timeRange: "medium_term",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingArtistObject
 } catch (err) {
-  if (err instanceof Artists.GetUsersTopArtistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.GetUsersTopArtistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.getUsersTopArtists({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingArtistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4282,9 +6078,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -4294,9 +6090,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+**Direct**: `await client.artists.getUsersTopArtists(request)`
 
-**OnError**: <code>[Artists.GetUsersTopArtistsError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: throws <code>[Artists.GetUsersTopArtistsError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.getUsersTopArtists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingArtistObject, Artists.GetUsersTopArtistsError&gt;</code>, with `result.value` of type <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4323,18 +6127,40 @@ Remove the current user as a follower of one or more artists or other Spotify us
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.artists.unfollowArtistsUsers({ type, ids });
+  await client.artists.unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Artists.UnfollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Artists.UnfollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.artists.unfollowArtistsUsers({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4360,9 +6186,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.artists.unfollowArtistsUsers(request)`
 
-**OnError**: <code>[Artists.UnfollowArtistsUsersError](src/resources/artists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Artists.UnfollowArtistsUsersError](src/resources/artists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.artists.unfollowArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Artists.UnfollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4393,19 +6227,39 @@ Check if one or more audiobooks are already saved in the current Spotify user's 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.audiobooks.checkUsersSavedAudiobooks({ ids });
+  const response = await client.audiobooks.checkUsersSavedAudiobooks({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Audiobooks.CheckUsersSavedAudiobooksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.CheckUsersSavedAudiobooksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.checkUsersSavedAudiobooks({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4429,9 +6283,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.audiobooks.checkUsersSavedAudiobooks(request)`
 
-**OnError**: <code>[Audiobooks.CheckUsersSavedAudiobooksError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Audiobooks.CheckUsersSavedAudiobooksError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.checkUsersSavedAudiobooks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Audiobooks.CheckUsersSavedAudiobooksError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4458,19 +6320,38 @@ Get Spotify catalog information for a single audiobook. Audiobooks are only avai
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.audiobooks.getAnAudiobook({ id });
+  const response = await client.audiobooks.getAnAudiobook({ id: "7iHfbu1YPACw6oZPAFJtqe", market: "ES" });
   // TODO: Handle 'response' of type AudiobookObject
 } catch (err) {
-  if (err instanceof Audiobooks.GetAnAudiobookError && err.payload.kind === "badRequest1") {
-    // TODO: Handle 'err.payload.body' of type BadRequest1
-  }
+  // TODO: Handle 'err' of type Audiobooks.GetAnAudiobookError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.getAnAudiobook({
+  id: "7iHfbu1YPACw6oZPAFJtqe",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AudiobookObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4495,9 +6376,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AudiobookObject](src/models/audiobook-object.ts)</code>
+**Direct**: `await client.audiobooks.getAnAudiobook(request)`
 
-**OnError**: <code>[Audiobooks.GetAnAudiobookError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>[AudiobookObject](src/models/audiobook-object.ts)</code>
+- **OnError**: throws <code>[Audiobooks.GetAnAudiobookError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.getAnAudiobook(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AudiobookObject, Audiobooks.GetAnAudiobookError&gt;</code>, with `result.value` of type <code>[AudiobookObject](src/models/audiobook-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4524,19 +6413,45 @@ Get Spotify catalog information about an audiobook's chapters. Audiobooks are on
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.audiobooks.getAudiobookChapters({ id });
+  const response = await client.audiobooks.getAudiobookChapters({
+    id: "7iHfbu1YPACw6oZPAFJtqe",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedChapterObject
 } catch (err) {
-  if (err instanceof Audiobooks.GetAudiobookChaptersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.GetAudiobookChaptersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.getAudiobookChapters({
+  id: "7iHfbu1YPACw6oZPAFJtqe",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedChapterObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4552,8 +6467,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -4563,9 +6478,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+**Direct**: `await client.audiobooks.getAudiobookChapters(request)`
 
-**OnError**: <code>[Audiobooks.GetAudiobookChaptersError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+- **OnError**: throws <code>[Audiobooks.GetAudiobookChaptersError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.getAudiobookChapters(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedChapterObject, Audiobooks.GetAudiobookChaptersError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4592,19 +6515,41 @@ Get Spotify catalog information for several audiobooks identified by their Spoti
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.audiobooks.getMultipleAudiobooks({ ids });
+  const response = await client.audiobooks.getMultipleAudiobooks({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManyAudiobooks
 } catch (err) {
-  if (err instanceof Audiobooks.GetMultipleAudiobooksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.GetMultipleAudiobooksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.getMultipleAudiobooks({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyAudiobooks
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4629,9 +6574,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyAudiobooks](src/models/many-audiobooks.ts)</code>
+**Direct**: `await client.audiobooks.getMultipleAudiobooks(request)`
 
-**OnError**: <code>[Audiobooks.GetMultipleAudiobooksError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>[ManyAudiobooks](src/models/many-audiobooks.ts)</code>
+- **OnError**: throws <code>[Audiobooks.GetMultipleAudiobooksError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.getMultipleAudiobooks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyAudiobooks, Audiobooks.GetMultipleAudiobooksError&gt;</code>, with `result.value` of type <code>[ManyAudiobooks](src/models/many-audiobooks.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4658,19 +6611,35 @@ Get a list of the audiobooks saved in the current Spotify user's 'Your Music' li
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.audiobooks.getUsersSavedAudiobooks();
+  const response = await client.audiobooks.getUsersSavedAudiobooks({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedAudiobookObject
 } catch (err) {
-  if (err instanceof Audiobooks.GetUsersSavedAudiobooksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.GetUsersSavedAudiobooksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.getUsersSavedAudiobooks({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedAudiobookObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4684,8 +6653,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -4695,9 +6664,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+**Direct**: `await client.audiobooks.getUsersSavedAudiobooks(request)`
 
-**OnError**: <code>[Audiobooks.GetUsersSavedAudiobooksError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+- **OnError**: throws <code>[Audiobooks.GetUsersSavedAudiobooksError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.getUsersSavedAudiobooks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedAudiobookObject, Audiobooks.GetUsersSavedAudiobooksError&gt;</code>, with `result.value` of type <code>[PagingSavedAudiobookObject](src/models/paging-saved-audiobook-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4724,18 +6701,38 @@ Remove one or more audiobooks from the Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.audiobooks.removeAudiobooksUser({ ids });
+  await client.audiobooks.removeAudiobooksUser({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
 } catch (err) {
-  if (err instanceof Audiobooks.RemoveAudiobooksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.RemoveAudiobooksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.removeAudiobooksUser({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4759,9 +6756,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.audiobooks.removeAudiobooksUser(request)`
 
-**OnError**: <code>[Audiobooks.RemoveAudiobooksUserError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Audiobooks.RemoveAudiobooksUserError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.removeAudiobooksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Audiobooks.RemoveAudiobooksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4788,18 +6793,38 @@ Save one or more audiobooks to the current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.audiobooks.saveAudiobooksUser({ ids });
+  await client.audiobooks.saveAudiobooksUser({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+  });
 } catch (err) {
-  if (err instanceof Audiobooks.SaveAudiobooksUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Audiobooks.SaveAudiobooksUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.audiobooks.saveAudiobooksUser({
+  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4823,9 +6848,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.audiobooks.saveAudiobooksUser(request)`
 
-**OnError**: <code>[Audiobooks.SaveAudiobooksUserError](src/resources/audiobooks.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Audiobooks.SaveAudiobooksUserError](src/resources/audiobooks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.audiobooks.saveAudiobooksUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Audiobooks.SaveAudiobooksUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4856,19 +6889,38 @@ Get Spotify catalog information for a single audiobook chapter. Chapters are onl
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.chapters.getAChapter({ id });
+  const response = await client.chapters.getAChapter({ id: "0D5wENdkdwbqlrHoaJ9g29", market: "ES" });
   // TODO: Handle 'response' of type ChapterObject
 } catch (err) {
-  if (err instanceof Chapters.GetAChapterError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Chapters.GetAChapterError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.chapters.getAChapter({
+  id: "0D5wENdkdwbqlrHoaJ9g29",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChapterObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4893,9 +6945,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChapterObject](src/models/chapter-object.ts)</code>
+**Direct**: `await client.chapters.getAChapter(request)`
 
-**OnError**: <code>[Chapters.GetAChapterError](src/resources/chapters.ts)</code>
+- **OnSuccess**: <code>[ChapterObject](src/models/chapter-object.ts)</code>
+- **OnError**: throws <code>[Chapters.GetAChapterError](src/resources/chapters.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.chapters.getAChapter(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChapterObject, Chapters.GetAChapterError&gt;</code>, with `result.value` of type <code>[ChapterObject](src/models/chapter-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4922,19 +6982,45 @@ Get Spotify catalog information about an audiobook's chapters. Audiobooks are on
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.chapters.getAudiobookChapters({ id });
+  const response = await client.chapters.getAudiobookChapters({
+    id: "7iHfbu1YPACw6oZPAFJtqe",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedChapterObject
 } catch (err) {
-  if (err instanceof Chapters.GetAudiobookChaptersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Chapters.GetAudiobookChaptersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.chapters.getAudiobookChapters({
+  id: "7iHfbu1YPACw6oZPAFJtqe",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedChapterObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4950,8 +7036,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -4961,9 +7047,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+**Direct**: `await client.chapters.getAudiobookChapters(request)`
 
-**OnError**: <code>[Chapters.GetAudiobookChaptersError](src/resources/chapters.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+- **OnError**: throws <code>[Chapters.GetAudiobookChaptersError](src/resources/chapters.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.chapters.getAudiobookChapters(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedChapterObject, Chapters.GetAudiobookChaptersError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedChapterObject](src/models/paging-simplified-chapter-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4990,19 +7084,41 @@ Get Spotify catalog information for several audiobook chapters identified by the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.chapters.getSeveralChapters({ ids });
+  const response = await client.chapters.getSeveralChapters({
+    ids: "0IsXVP0JmcB2adSE338GkK,3ZXb8FKZGU0EHALYX6uCzU,0D5wENdkdwbqlrHoaJ9g29",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManyChapters
 } catch (err) {
-  if (err instanceof Chapters.GetSeveralChaptersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Chapters.GetSeveralChaptersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.chapters.getSeveralChapters({
+  ids: "0IsXVP0JmcB2adSE338GkK,3ZXb8FKZGU0EHALYX6uCzU,0D5wENdkdwbqlrHoaJ9g29",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyChapters
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5027,9 +7143,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyChapters](src/models/many-chapters.ts)</code>
+**Direct**: `await client.chapters.getSeveralChapters(request)`
 
-**OnError**: <code>[Chapters.GetSeveralChaptersError](src/resources/chapters.ts)</code>
+- **OnSuccess**: <code>[ManyChapters](src/models/many-chapters.ts)</code>
+- **OnError**: throws <code>[Chapters.GetSeveralChaptersError](src/resources/chapters.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.chapters.getSeveralChapters(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyChapters, Chapters.GetSeveralChaptersError&gt;</code>, with `result.value` of type <code>[ManyChapters](src/models/many-chapters.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5060,19 +7184,43 @@ Get a list of Spotify playlists tagged with a particular category.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.categoriesApi.getACategoriesPlaylists({ categoryId });
+  const response = await client.categoriesApi.getACategoriesPlaylists({
+    categoryId: "dinner",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingFeaturedPlaylistObject
 } catch (err) {
-  if (err instanceof CategoriesApi.GetACategoriesPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type CategoriesApi.GetACategoriesPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.categoriesApi.getACategoriesPlaylists({
+  categoryId: "dinner",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5087,8 +7235,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>categoryId</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -5098,9 +7246,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+**Direct**: `await client.categoriesApi.getACategoriesPlaylists(request)`
 
-**OnError**: <code>[CategoriesApi.GetACategoriesPlaylistsError](src/resources/categories-api.ts)</code>
+- **OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: throws <code>[CategoriesApi.GetACategoriesPlaylistsError](src/resources/categories-api.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.categoriesApi.getACategoriesPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingFeaturedPlaylistObject, CategoriesApi.GetACategoriesPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5127,19 +7283,38 @@ Get a single category used to tag items in Spotify (on, for example, the Spotify
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.categoriesApi.getACategory({ categoryId });
+  const response = await client.categoriesApi.getACategory({ categoryId: "dinner", locale: "sv_SE" });
   // TODO: Handle 'response' of type CategoryObject
 } catch (err) {
-  if (err instanceof CategoriesApi.GetACategoryError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type CategoriesApi.GetACategoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.categoriesApi.getACategory({
+  categoryId: "dinner",
+  locale: "sv_SE",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CategoryObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5164,9 +7339,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CategoryObject](src/models/category-object.ts)</code>
+**Direct**: `await client.categoriesApi.getACategory(request)`
 
-**OnError**: <code>[CategoriesApi.GetACategoryError](src/resources/categories-api.ts)</code>
+- **OnSuccess**: <code>[CategoryObject](src/models/category-object.ts)</code>
+- **OnError**: throws <code>[CategoriesApi.GetACategoryError](src/resources/categories-api.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.categoriesApi.getACategory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CategoryObject, CategoriesApi.GetACategoryError&gt;</code>, with `result.value` of type <code>[CategoryObject](src/models/category-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5193,19 +7376,39 @@ Get a list of categories used to tag items in Spotify (on, for example, the Spot
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.categoriesApi.getCategories();
+  const response = await client.categoriesApi.getCategories({ locale: "sv_SE", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagedCategories
 } catch (err) {
-  if (err instanceof CategoriesApi.GetCategoriesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type CategoriesApi.GetCategoriesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.categoriesApi.getCategories({
+  locale: "sv_SE",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagedCategories
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5220,8 +7423,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>locale?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -5231,9 +7434,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagedCategories](src/models/paged-categories.ts)</code>
+**Direct**: `await client.categoriesApi.getCategories(request)`
 
-**OnError**: <code>[CategoriesApi.GetCategoriesError](src/resources/categories-api.ts)</code>
+- **OnSuccess**: <code>[PagedCategories](src/models/paged-categories.ts)</code>
+- **OnError**: throws <code>[CategoriesApi.GetCategoriesError](src/resources/categories-api.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.categoriesApi.getCategories(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagedCategories, CategoriesApi.GetCategoriesError&gt;</code>, with `result.value` of type <code>[PagedCategories](src/models/paged-categories.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5265,19 +7476,39 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.episodes.checkUsersSavedEpisodes({ ids });
+  const response = await client.episodes.checkUsersSavedEpisodes({
+    ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Episodes.CheckUsersSavedEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.CheckUsersSavedEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.checkUsersSavedEpisodes({
+  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5301,9 +7532,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.episodes.checkUsersSavedEpisodes(request)`
 
-**OnError**: <code>[Episodes.CheckUsersSavedEpisodesError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Episodes.CheckUsersSavedEpisodesError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.checkUsersSavedEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Episodes.CheckUsersSavedEpisodesError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5330,19 +7569,45 @@ Get Spotify catalog information about an show’s episodes. Optional parameters 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.episodes.getAShowsEpisodes({ id });
+  const response = await client.episodes.getAShowsEpisodes({
+    id: "38bS44xjbVVZ3No3ByF1dJ",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedEpisodeObject
 } catch (err) {
-  if (err instanceof Episodes.GetAShowsEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.GetAShowsEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.getAShowsEpisodes({
+  id: "38bS44xjbVVZ3No3ByF1dJ",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedEpisodeObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5358,8 +7623,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -5369,9 +7634,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+**Direct**: `await client.episodes.getAShowsEpisodes(request)`
 
-**OnError**: <code>[Episodes.GetAShowsEpisodesError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+- **OnError**: throws <code>[Episodes.GetAShowsEpisodesError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.getAShowsEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedEpisodeObject, Episodes.GetAShowsEpisodesError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5399,19 +7672,38 @@ unique Spotify ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.episodes.getAnEpisode({ id });
+  const response = await client.episodes.getAnEpisode({ id: "512ojhOuo1ktJprKbVcKyQ", market: "ES" });
   // TODO: Handle 'response' of type EpisodeObject
 } catch (err) {
-  if (err instanceof Episodes.GetAnEpisodeError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.GetAnEpisodeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.getAnEpisode({
+  id: "512ojhOuo1ktJprKbVcKyQ",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type EpisodeObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5436,9 +7728,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[EpisodeObject](src/models/episode-object.ts)</code>
+**Direct**: `await client.episodes.getAnEpisode(request)`
 
-**OnError**: <code>[Episodes.GetAnEpisodeError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>[EpisodeObject](src/models/episode-object.ts)</code>
+- **OnError**: throws <code>[Episodes.GetAnEpisodeError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.getAnEpisode(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;EpisodeObject, Episodes.GetAnEpisodeError&gt;</code>, with `result.value` of type <code>[EpisodeObject](src/models/episode-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5465,19 +7765,41 @@ Get Spotify catalog information for several episodes based on their Spotify IDs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.episodes.getMultipleEpisodes({ ids });
+  const response = await client.episodes.getMultipleEpisodes({
+    ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManyEpisodes
 } catch (err) {
-  if (err instanceof Episodes.GetMultipleEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.GetMultipleEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.getMultipleEpisodes({
+  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyEpisodes
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5502,9 +7824,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyEpisodes](src/models/many-episodes.ts)</code>
+**Direct**: `await client.episodes.getMultipleEpisodes(request)`
 
-**OnError**: <code>[Episodes.GetMultipleEpisodesError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>[ManyEpisodes](src/models/many-episodes.ts)</code>
+- **OnError**: throws <code>[Episodes.GetMultipleEpisodesError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.getMultipleEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyEpisodes, Episodes.GetMultipleEpisodesError&gt;</code>, with `result.value` of type <code>[ManyEpisodes](src/models/many-episodes.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5532,19 +7862,39 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.episodes.getUsersSavedEpisodes();
+  const response = await client.episodes.getUsersSavedEpisodes({ market: "ES", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedEpisodeObject
 } catch (err) {
-  if (err instanceof Episodes.GetUsersSavedEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.GetUsersSavedEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.getUsersSavedEpisodes({
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedEpisodeObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5559,8 +7909,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -5570,9 +7920,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+**Direct**: `await client.episodes.getUsersSavedEpisodes(request)`
 
-**OnError**: <code>[Episodes.GetUsersSavedEpisodesError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+- **OnError**: throws <code>[Episodes.GetUsersSavedEpisodesError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.getUsersSavedEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError&gt;</code>, with `result.value` of type <code>[PagingSavedEpisodeObject](src/models/paging-saved-episode-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5600,18 +7958,38 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.episodes.removeEpisodesUser({ ids });
+  await client.episodes.removeEpisodesUser({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+  });
 } catch (err) {
-  if (err instanceof Episodes.RemoveEpisodesUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.RemoveEpisodesUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.removeEpisodesUser({
+  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5636,9 +8014,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.episodes.removeEpisodesUser(request)`
 
-**OnError**: <code>[Episodes.RemoveEpisodesUserError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Episodes.RemoveEpisodesUserError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.removeEpisodesUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Episodes.RemoveEpisodesUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5666,18 +8052,36 @@ This API endpoint is in __beta__ and could change without warning. Please share 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.episodes.saveEpisodesUser({ ids });
+  await client.episodes.saveEpisodesUser({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" });
 } catch (err) {
-  if (err instanceof Episodes.SaveEpisodesUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Episodes.SaveEpisodesUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.episodes.saveEpisodesUser({
+  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5702,9 +8106,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.episodes.saveEpisodesUser(request)`
 
-**OnError**: <code>[Episodes.SaveEpisodesUserError](src/resources/episodes.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Episodes.SaveEpisodesUserError](src/resources/episodes.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.episodes.saveEpisodesUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Episodes.SaveEpisodesUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5735,7 +8147,7 @@ Retrieve a list of available genres seed parameter values for [recommendations](
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5745,9 +8157,25 @@ try {
   const response = await client.genres.getRecommendationGenres();
   // TODO: Handle 'response' of type ManyGenres
 } catch (err) {
-  if (err instanceof Genres.GetRecommendationGenresError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Genres.GetRecommendationGenresError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.genres.getRecommendationGenres().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyGenres
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5759,9 +8187,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyGenres](src/models/many-genres.ts)</code>
+**Direct**: `await client.genres.getRecommendationGenres()`
 
-**OnError**: <code>[Genres.GetRecommendationGenresError](src/resources/genres.ts)</code>
+- **OnSuccess**: <code>[ManyGenres](src/models/many-genres.ts)</code>
+- **OnError**: throws <code>[Genres.GetRecommendationGenresError](src/resources/genres.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.genres.getRecommendationGenres().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyGenres, Genres.GetRecommendationGenresError&gt;</code>, with `result.value` of type <code>[ManyGenres](src/models/many-genres.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5792,7 +8228,7 @@ Get the list of markets where Spotify is available.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5802,9 +8238,25 @@ try {
   const response = await client.marketsApi.getAvailableMarkets();
   // TODO: Handle 'response' of type Markets
 } catch (err) {
-  if (err instanceof MarketsApi.GetAvailableMarketsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type MarketsApi.GetAvailableMarketsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.marketsApi.getAvailableMarkets().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Markets
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5816,9 +8268,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Markets](src/models/markets.ts)</code>
+**Direct**: `await client.marketsApi.getAvailableMarkets()`
 
-**OnError**: <code>[MarketsApi.GetAvailableMarketsError](src/resources/markets-api.ts)</code>
+- **OnSuccess**: <code>[Markets](src/models/markets.ts)</code>
+- **OnError**: throws <code>[MarketsApi.GetAvailableMarketsError](src/resources/markets-api.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.marketsApi.getAvailableMarkets().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Markets, MarketsApi.GetAvailableMarketsError&gt;</code>, with `result.value` of type <code>[Markets](src/models/markets.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5849,18 +8309,40 @@ Add an item to the end of the user's current playback queue. This API only works
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.addToQueue({ uri });
+  await client.player.addToQueue({
+    uri: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (err instanceof Player.AddToQueueError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.AddToQueueError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.addToQueue({
+  uri: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5885,9 +8367,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.addToQueue(request)`
 
-**OnError**: <code>[Player.AddToQueueError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.AddToQueueError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.addToQueue(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.AddToQueueError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5914,7 +8404,7 @@ Get information about a user’s available Spotify Connect devices. Some device 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5924,9 +8414,25 @@ try {
   const response = await client.player.getAUsersAvailableDevices();
   // TODO: Handle 'response' of type ManyDevices
 } catch (err) {
-  if (err instanceof Player.GetAUsersAvailableDevicesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.GetAUsersAvailableDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.getAUsersAvailableDevices().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManyDevices
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5938,9 +8444,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManyDevices](src/models/many-devices.ts)</code>
+**Direct**: `await client.player.getAUsersAvailableDevices()`
 
-**OnError**: <code>[Player.GetAUsersAvailableDevicesError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>[ManyDevices](src/models/many-devices.ts)</code>
+- **OnError**: throws <code>[Player.GetAUsersAvailableDevicesError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.getAUsersAvailableDevices().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManyDevices, Player.GetAUsersAvailableDevicesError&gt;</code>, with `result.value` of type <code>[ManyDevices](src/models/many-devices.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5967,22 +8481,35 @@ Get information about the user’s current playback state, including track or ep
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.player.getInformationAboutTheUsersCurrentPlayback();
+  const response = await client.player.getInformationAboutTheUsersCurrentPlayback({ market: "ES" });
   // TODO: Handle 'response' of type CurrentlyPlayingContextObject
 } catch (err) {
-  if (
-    err instanceof Player.GetInformationAboutTheUsersCurrentPlaybackError &&
-      err.payload.kind === "unauthorized1"
-  ) {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.GetInformationAboutTheUsersCurrentPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.getInformationAboutTheUsersCurrentPlayback({ market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CurrentlyPlayingContextObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6007,9 +8534,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CurrentlyPlayingContextObject](src/models/currently-playing-context-object.ts)</code>
+**Direct**: `await client.player.getInformationAboutTheUsersCurrentPlayback(request)`
 
-**OnError**: <code>[Player.GetInformationAboutTheUsersCurrentPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>[CurrentlyPlayingContextObject](src/models/currently-playing-context-object.ts)</code>
+- **OnError**: throws <code>[Player.GetInformationAboutTheUsersCurrentPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.getInformationAboutTheUsersCurrentPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError&gt;</code>, with `result.value` of type <code>[CurrentlyPlayingContextObject](src/models/currently-playing-context-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6036,7 +8571,7 @@ Get the list of objects that make up the user's queue.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -6046,9 +8581,25 @@ try {
   const response = await client.player.getQueue();
   // TODO: Handle 'response' of type QueueObject
 } catch (err) {
-  if (err instanceof Player.GetQueueError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.GetQueueError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.getQueue().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type QueueObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6060,9 +8611,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[QueueObject](src/models/queue-object.ts)</code>
+**Direct**: `await client.player.getQueue()`
 
-**OnError**: <code>[Player.GetQueueError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>[QueueObject](src/models/queue-object.ts)</code>
+- **OnError**: throws <code>[Player.GetQueueError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.getQueue().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;QueueObject, Player.GetQueueError&gt;</code>, with `result.value` of type <code>[QueueObject](src/models/queue-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6090,19 +8649,35 @@ _**Note**: Currently doesn't support podcast episodes._
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.player.getRecentlyPlayed();
+  const response = await client.player.getRecentlyPlayed({ limit: 10, after: 1484811043508 });
   // TODO: Handle 'response' of type CursorPagingPlayHistoryObject
 } catch (err) {
-  if (err instanceof Player.GetRecentlyPlayedError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.GetRecentlyPlayedError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.getRecentlyPlayed({ limit: 10, after: 1484811043508 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CursorPagingPlayHistoryObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6116,7 +8691,7 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
 | <code>after?</code> | <code>number</code> | - |
 | <code>before?</code> | <code>number</code> | - |
 
@@ -6128,9 +8703,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CursorPagingPlayHistoryObject](src/models/cursor-paging-play-history-object.ts)</code>
+**Direct**: `await client.player.getRecentlyPlayed(request)`
 
-**OnError**: <code>[Player.GetRecentlyPlayedError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>[CursorPagingPlayHistoryObject](src/models/cursor-paging-play-history-object.ts)</code>
+- **OnError**: throws <code>[Player.GetRecentlyPlayedError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.getRecentlyPlayed(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError&gt;</code>, with `result.value` of type <code>[CursorPagingPlayHistoryObject](src/models/cursor-paging-play-history-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6157,19 +8740,35 @@ Get the object currently being played on the user's Spotify account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.player.getTheUsersCurrentlyPlayingTrack();
+  const response = await client.player.getTheUsersCurrentlyPlayingTrack({ market: "ES" });
   // TODO: Handle 'response' of type CurrentlyPlayingObject
 } catch (err) {
-  if (err instanceof Player.GetTheUsersCurrentlyPlayingTrackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.GetTheUsersCurrentlyPlayingTrackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.getTheUsersCurrentlyPlayingTrack({ market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CurrentlyPlayingObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6194,9 +8793,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CurrentlyPlayingObject](src/models/currently-playing-object.ts)</code>
+**Direct**: `await client.player.getTheUsersCurrentlyPlayingTrack(request)`
 
-**OnError**: <code>[Player.GetTheUsersCurrentlyPlayingTrackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>[CurrentlyPlayingObject](src/models/currently-playing-object.ts)</code>
+- **OnError**: throws <code>[Player.GetTheUsersCurrentlyPlayingTrackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.getTheUsersCurrentlyPlayingTrack(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError&gt;</code>, with `result.value` of type <code>[CurrentlyPlayingObject](src/models/currently-playing-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6223,18 +8830,36 @@ Pause playback on the user's account. This API only works for users who have Spo
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.pauseAUsersPlayback();
+  await client.player.pauseAUsersPlayback({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" });
 } catch (err) {
-  if (err instanceof Player.PauseAUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.PauseAUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.pauseAUsersPlayback({
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6258,9 +8883,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.pauseAUsersPlayback(request)`
 
-**OnError**: <code>[Player.PauseAUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.PauseAUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.pauseAUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.PauseAUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6287,20 +8920,40 @@ Seeks to the given position in the user’s currently playing track. This API on
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.seekToPositionInCurrentlyPlayingTrack({ positionMs });
+  await client.player.seekToPositionInCurrentlyPlayingTrack({
+    positionMs: 25000,
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (
-    err instanceof Player.SeekToPositionInCurrentlyPlayingTrackError && err.payload.kind === "unauthorized1"
-  ) {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.SeekToPositionInCurrentlyPlayingTrackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.seekToPositionInCurrentlyPlayingTrack({
+  positionMs: 25000,
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6325,9 +8978,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.seekToPositionInCurrentlyPlayingTrack(request)`
 
-**OnError**: <code>[Player.SeekToPositionInCurrentlyPlayingTrackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.SeekToPositionInCurrentlyPlayingTrackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.seekToPositionInCurrentlyPlayingTrack(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.SeekToPositionInCurrentlyPlayingTrackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6354,18 +9015,40 @@ Set the repeat mode for the user's playback. This API only works for users who h
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.setRepeatModeOnUsersPlayback({ state });
+  await client.player.setRepeatModeOnUsersPlayback({
+    state: "context",
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (err instanceof Player.SetRepeatModeOnUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.SetRepeatModeOnUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.setRepeatModeOnUsersPlayback({
+  state: "context",
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6390,9 +9073,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.setRepeatModeOnUsersPlayback(request)`
 
-**OnError**: <code>[Player.SetRepeatModeOnUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.SetRepeatModeOnUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.setRepeatModeOnUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.SetRepeatModeOnUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6419,18 +9110,40 @@ Set the volume for the user’s current playback device. This API only works for
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.setVolumeForUsersPlayback({ volumePercent });
+  await client.player.setVolumeForUsersPlayback({
+    volumePercent: 50,
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (err instanceof Player.SetVolumeForUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.SetVolumeForUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.setVolumeForUsersPlayback({
+  volumePercent: 50,
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6455,9 +9168,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.setVolumeForUsersPlayback(request)`
 
-**OnError**: <code>[Player.SetVolumeForUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.SetVolumeForUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.setVolumeForUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.SetVolumeForUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6484,18 +9205,36 @@ Skips to next track in the user’s queue. This API only works for users who hav
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.skipUsersPlaybackToNextTrack();
+  await client.player.skipUsersPlaybackToNextTrack({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" });
 } catch (err) {
-  if (err instanceof Player.SkipUsersPlaybackToNextTrackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.SkipUsersPlaybackToNextTrackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.skipUsersPlaybackToNextTrack({
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6519,9 +9258,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.skipUsersPlaybackToNextTrack(request)`
 
-**OnError**: <code>[Player.SkipUsersPlaybackToNextTrackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.SkipUsersPlaybackToNextTrackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.skipUsersPlaybackToNextTrack(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.SkipUsersPlaybackToNextTrackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6548,18 +9295,38 @@ Skips to previous track in the user’s queue. This API only works for users who
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.skipUsersPlaybackToPreviousTrack();
+  await client.player.skipUsersPlaybackToPreviousTrack({
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (err instanceof Player.SkipUsersPlaybackToPreviousTrackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.SkipUsersPlaybackToPreviousTrackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.skipUsersPlaybackToPreviousTrack({
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6583,9 +9350,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.skipUsersPlaybackToPreviousTrack(request)`
 
-**OnError**: <code>[Player.SkipUsersPlaybackToPreviousTrackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.SkipUsersPlaybackToPreviousTrackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.skipUsersPlaybackToPreviousTrack(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.SkipUsersPlaybackToPreviousTrackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6612,18 +9387,36 @@ Start a new context or resume current playback on the user's active device. This
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.startAUsersPlayback();
+  await client.player.startAUsersPlayback({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" });
 } catch (err) {
-  if (err instanceof Player.StartAUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.StartAUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.startAUsersPlayback({
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6648,9 +9441,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.startAUsersPlayback(request)`
 
-**OnError**: <code>[Player.StartAUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.StartAUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.startAUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.StartAUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6677,18 +9478,40 @@ Toggle shuffle on or off for user’s playback. This API only works for users wh
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.player.toggleShuffleForUsersPlayback({ state });
+  await client.player.toggleShuffleForUsersPlayback({
+    state: true,
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  });
 } catch (err) {
-  if (err instanceof Player.ToggleShuffleForUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.ToggleShuffleForUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.toggleShuffleForUsersPlayback({
+  state: true,
+  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6713,9 +9536,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.toggleShuffleForUsersPlayback(request)`
 
-**OnError**: <code>[Player.ToggleShuffleForUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.ToggleShuffleForUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.toggleShuffleForUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.ToggleShuffleForUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6742,7 +9573,7 @@ Transfer playback to a new device and optionally begin playback. This API only w
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -6751,9 +9582,25 @@ Transfer playback to a new device and optionally begin playback. This API only w
 try {
   await client.player.transferAUsersPlayback();
 } catch (err) {
-  if (err instanceof Player.TransferAUsersPlaybackError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Player.TransferAUsersPlaybackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.player.transferAUsersPlayback().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6777,9 +9624,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.player.transferAUsersPlayback(request)`
 
-**OnError**: <code>[Player.TransferAUsersPlaybackError](src/resources/player.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Player.TransferAUsersPlaybackError](src/resources/player.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.player.transferAUsersPlayback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Player.TransferAUsersPlaybackError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6810,19 +9665,43 @@ Add one or more items to a user's playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.addTracksToPlaylist({ playlistId });
+  const response = await client.playlists.addTracksToPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    position: 0,
+    uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+  });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Playlists.AddTracksToPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.AddTracksToPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.addTracksToPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  position: 0,
+  uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6849,9 +9728,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.playlists.addTracksToPlaylist(request)`
 
-**OnError**: <code>[Playlists.AddTracksToPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Playlists.AddTracksToPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.addTracksToPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Playlists.AddTracksToPlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6879,18 +9766,36 @@ course, own the playlist.)
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.playlists.changePlaylistDetails({ playlistId });
+  await client.playlists.changePlaylistDetails({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Playlists.ChangePlaylistDetailsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.ChangePlaylistDetailsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.changePlaylistDetails({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6915,9 +9820,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.playlists.changePlaylistDetails(request)`
 
-**OnError**: <code>[Playlists.ChangePlaylistDetailsError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Playlists.ChangePlaylistDetailsError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.changePlaylistDetails(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Playlists.ChangePlaylistDetailsError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6944,19 +9857,41 @@ Check to see if one or more Spotify users are following a specified playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.checkIfUserFollowsPlaylist({ playlistId, ids });
+  const response = await client.playlists.checkIfUserFollowsPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    ids: "jmperezperez,thelinmichael,wizzler",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Playlists.CheckIfUserFollowsPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.CheckIfUserFollowsPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.checkIfUserFollowsPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  ids: "jmperezperez,thelinmichael,wizzler",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6981,9 +9916,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.playlists.checkIfUserFollowsPlaylist(request)`
 
-**OnError**: <code>[Playlists.CheckIfUserFollowsPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Playlists.CheckIfUserFollowsPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.checkIfUserFollowsPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Playlists.CheckIfUserFollowsPlaylistError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7012,19 +9955,35 @@ Each user is generally limited to a maximum of 11000 playlists.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.createPlaylist({ userId });
+  const response = await client.playlists.createPlaylist({ userId: "smedjan" });
   // TODO: Handle 'response' of type PlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.CreatePlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.CreatePlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.createPlaylist({ userId: "smedjan" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7049,9 +10008,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+**Direct**: `await client.playlists.createPlaylist(request)`
 
-**OnError**: <code>[Playlists.CreatePlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.CreatePlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.createPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistObject, Playlists.CreatePlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7078,18 +10045,34 @@ Add the current user as a follower of a playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.playlists.followPlaylist({ playlistId });
+  await client.playlists.followPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Playlists.FollowPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.FollowPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.followPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7114,9 +10097,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.playlists.followPlaylist(request)`
 
-**OnError**: <code>[Playlists.FollowPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Playlists.FollowPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.followPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Playlists.FollowPlaylistError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7143,19 +10134,43 @@ Get a list of Spotify playlists tagged with a particular category.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getACategoriesPlaylists({ categoryId });
+  const response = await client.playlists.getACategoriesPlaylists({
+    categoryId: "dinner",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingFeaturedPlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.GetACategoriesPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetACategoriesPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getACategoriesPlaylists({
+  categoryId: "dinner",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7170,8 +10185,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>categoryId</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -7181,9 +10196,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+**Direct**: `await client.playlists.getACategoriesPlaylists(request)`
 
-**OnError**: <code>[Playlists.GetACategoriesPlaylistsError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetACategoriesPlaylistsError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getACategoriesPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingFeaturedPlaylistObject, Playlists.GetACategoriesPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7211,19 +10234,35 @@ user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getAListOfCurrentUsersPlaylists();
+  const response = await client.playlists.getAListOfCurrentUsersPlaylists({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingPlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.GetAListOfCurrentUsersPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetAListOfCurrentUsersPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getAListOfCurrentUsersPlaylists({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7237,8 +10276,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -7248,9 +10287,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+**Direct**: `await client.playlists.getAListOfCurrentUsersPlaylists(request)`
 
-**OnError**: <code>[Playlists.GetAListOfCurrentUsersPlaylistsError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetAListOfCurrentUsersPlaylistsError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getAListOfCurrentUsersPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistObject, Playlists.GetAListOfCurrentUsersPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7277,19 +10324,39 @@ Get a list of Spotify featured playlists (shown, for example, on a Spotify playe
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getFeaturedPlaylists();
+  const response = await client.playlists.getFeaturedPlaylists({ locale: "sv_SE", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingFeaturedPlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.GetFeaturedPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetFeaturedPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getFeaturedPlaylists({
+  locale: "sv_SE",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7304,8 +10371,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>locale?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -7315,9 +10382,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+**Direct**: `await client.playlists.getFeaturedPlaylists(request)`
 
-**OnError**: <code>[Playlists.GetFeaturedPlaylistsError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetFeaturedPlaylistsError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getFeaturedPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingFeaturedPlaylistObject, Playlists.GetFeaturedPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingFeaturedPlaylistObject](src/models/paging-featured-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7344,19 +10419,39 @@ Get a list of the playlists owned or followed by a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getListUsersPlaylists({ userId });
+  const response = await client.playlists.getListUsersPlaylists({ userId: "smedjan", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingPlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.GetListUsersPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetListUsersPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getListUsersPlaylists({
+  userId: "smedjan",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7371,8 +10466,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>userId</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -7382,9 +10477,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+**Direct**: `await client.playlists.getListUsersPlaylists(request)`
 
-**OnError**: <code>[Playlists.GetListUsersPlaylistsError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetListUsersPlaylistsError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getListUsersPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistObject, Playlists.GetListUsersPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7411,19 +10514,43 @@ Get a playlist owned by a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getPlaylist({ playlistId });
+  const response = await client.playlists.getPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+  });
   // TODO: Handle 'response' of type PlaylistObject
 } catch (err) {
-  if (err instanceof Playlists.GetPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  market: "ES",
+  fields: "items(added_by.id,track(name,href,album(name,href)))",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7450,9 +10577,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+**Direct**: `await client.playlists.getPlaylist(request)`
 
-**OnError**: <code>[Playlists.GetPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistObject, Playlists.GetPlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistObject](src/models/playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7479,19 +10614,37 @@ Get the current image associated with a specific playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getPlaylistCover({ playlistId });
+  const response = await client.playlists.getPlaylistCover({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
   // TODO: Handle 'response' of type ImageObject[]
 } catch (err) {
-  if (err instanceof Playlists.GetPlaylistCoverError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetPlaylistCoverError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getPlaylistCover({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ImageObject[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7515,9 +10668,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ImageObject](src/models/image-object.ts)[]</code>
+**Direct**: `await client.playlists.getPlaylistCover(request)`
 
-**OnError**: <code>[Playlists.GetPlaylistCoverError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[ImageObject](src/models/image-object.ts)[]</code>
+- **OnError**: throws <code>[Playlists.GetPlaylistCoverError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getPlaylistCover(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ImageObject[], Playlists.GetPlaylistCoverError&gt;</code>, with `result.value` of type <code>[ImageObject](src/models/image-object.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7544,19 +10705,47 @@ Get full details of the items of a playlist owned by a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.getPlaylistsTracks({ playlistId });
+  const response = await client.playlists.getPlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingPlaylistTrackObject
 } catch (err) {
-  if (err instanceof Playlists.GetPlaylistsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.GetPlaylistsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.getPlaylistsTracks({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  market: "ES",
+  fields: "items(added_by.id,track(name,href,album(name,href)))",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7573,8 +10762,8 @@ try {
 | <code>playlistId</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
 | <code>fields?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 | <code>additionalTypes?</code> | <code>string</code> | - |
 
 </dd>
@@ -7585,9 +10774,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+**Direct**: `await client.playlists.getPlaylistsTracks(request)`
 
-**OnError**: <code>[Playlists.GetPlaylistsTracksError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+- **OnError**: throws <code>[Playlists.GetPlaylistsTracksError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.getPlaylistsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistTrackObject, Playlists.GetPlaylistsTracksError&gt;</code>, with `result.value` of type <code>[PagingPlaylistTrackObject](src/models/paging-playlist-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7614,19 +10811,37 @@ Remove one or more items from a user's playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.removeTracksPlaylist({ playlistId });
+  const response = await client.playlists.removeTracksPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Playlists.RemoveTracksPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.RemoveTracksPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.removeTracksPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7651,9 +10866,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.playlists.removeTracksPlaylist(request)`
 
-**OnError**: <code>[Playlists.RemoveTracksPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Playlists.RemoveTracksPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.removeTracksPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Playlists.RemoveTracksPlaylistError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7686,19 +10909,39 @@ These operations can't be applied together in a single request.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.playlists.reorderOrReplacePlaylistsTracks({ playlistId });
+  const response = await client.playlists.reorderOrReplacePlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  });
   // TODO: Handle 'response' of type PlaylistSnapshotId
 } catch (err) {
-  if (err instanceof Playlists.ReorderOrReplacePlaylistsTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.ReorderOrReplacePlaylistsTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.reorderOrReplacePlaylistsTracks({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PlaylistSnapshotId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7724,9 +10967,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+**Direct**: `await client.playlists.reorderOrReplacePlaylistsTracks(request)`
 
-**OnError**: <code>[Playlists.ReorderOrReplacePlaylistsTracksError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: throws <code>[Playlists.ReorderOrReplacePlaylistsTracksError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.reorderOrReplacePlaylistsTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PlaylistSnapshotId, Playlists.ReorderOrReplacePlaylistsTracksError&gt;</code>, with `result.value` of type <code>[PlaylistSnapshotId](src/models/playlist-snapshot-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7753,18 +11004,36 @@ Remove the current user as a follower of a playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.playlists.unfollowPlaylist({ playlistId });
+  await client.playlists.unfollowPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Playlists.UnfollowPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.UnfollowPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.unfollowPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7788,9 +11057,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.playlists.unfollowPlaylist(request)`
 
-**OnError**: <code>[Playlists.UnfollowPlaylistError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Playlists.UnfollowPlaylistError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.unfollowPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Playlists.UnfollowPlaylistError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7817,18 +11094,37 @@ Replace the image used to represent a specific playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.playlists.uploadCustomPlaylistCover({ playlistId, body });
+  await client.playlists.uploadCustomPlaylistCover({ playlistId: "3cEYpjA9oz9GiPac4AsH4n", body: {} });
 } catch (err) {
-  if (err instanceof Playlists.UploadCustomPlaylistCoverError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Playlists.UploadCustomPlaylistCoverError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.playlists.uploadCustomPlaylistCover({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  body: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7853,9 +11149,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.playlists.uploadCustomPlaylistCover(request)`
 
-**OnError**: <code>[Playlists.UploadCustomPlaylistCoverError](src/resources/playlists.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Playlists.UploadCustomPlaylistCoverError](src/resources/playlists.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.playlists.uploadCustomPlaylistCover(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Playlists.UploadCustomPlaylistCoverError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7886,19 +11190,41 @@ Check to see if the current user is following one or more artists or other Spoti
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.checkCurrentUserFollows({ type, ids });
+  const response = await client.users.checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Users.CheckCurrentUserFollowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.CheckCurrentUserFollowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.checkCurrentUserFollows({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7923,9 +11249,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.users.checkCurrentUserFollows(request)`
 
-**OnError**: <code>[Users.CheckCurrentUserFollowsError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Users.CheckCurrentUserFollowsError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.checkCurrentUserFollows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Users.CheckCurrentUserFollowsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7952,19 +11286,41 @@ Check to see if one or more Spotify users are following a specified playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.checkIfUserFollowsPlaylist({ playlistId, ids });
+  const response = await client.users.checkIfUserFollowsPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    ids: "jmperezperez,thelinmichael,wizzler",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Users.CheckIfUserFollowsPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.CheckIfUserFollowsPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.checkIfUserFollowsPlaylist({
+  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+  ids: "jmperezperez,thelinmichael,wizzler",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7989,9 +11345,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.users.checkIfUserFollowsPlaylist(request)`
 
-**OnError**: <code>[Users.CheckIfUserFollowsPlaylistError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Users.CheckIfUserFollowsPlaylistError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.checkIfUserFollowsPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Users.CheckIfUserFollowsPlaylistError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8018,18 +11382,40 @@ Add the current user as a follower of one or more artists or other Spotify users
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.users.followArtistsUsers({ type, ids });
+  await client.users.followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Users.FollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.FollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.followArtistsUsers({
+  type: ItemType2.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8055,9 +11441,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.users.followArtistsUsers(request)`
 
-**OnError**: <code>[Users.FollowArtistsUsersError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Users.FollowArtistsUsersError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.followArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Users.FollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8084,18 +11478,34 @@ Add the current user as a follower of a playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.users.followPlaylist({ playlistId });
+  await client.users.followPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Users.FollowPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.FollowPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.followPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8120,9 +11530,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.users.followPlaylist(request)`
 
-**OnError**: <code>[Users.FollowPlaylistError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Users.FollowPlaylistError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.followPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Users.FollowPlaylistError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8150,7 +11568,7 @@ current user's username).
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -8160,9 +11578,25 @@ try {
   const response = await client.users.getCurrentUsersProfile();
   // TODO: Handle 'response' of type PrivateUserObject
 } catch (err) {
-  if (err instanceof Users.GetCurrentUsersProfileError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetCurrentUsersProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getCurrentUsersProfile().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PrivateUserObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8174,9 +11608,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PrivateUserObject](src/models/private-user-object.ts)</code>
+**Direct**: `await client.users.getCurrentUsersProfile()`
 
-**OnError**: <code>[Users.GetCurrentUsersProfileError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[PrivateUserObject](src/models/private-user-object.ts)</code>
+- **OnError**: throws <code>[Users.GetCurrentUsersProfileError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getCurrentUsersProfile().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PrivateUserObject, Users.GetCurrentUsersProfileError&gt;</code>, with `result.value` of type <code>[PrivateUserObject](src/models/private-user-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8203,19 +11645,43 @@ Get the current user's followed artists.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.getFollowed({ type });
+  const response = await client.users.getFollowed({
+    type: ItemType1.Artist,
+    after: "0I2XqVXqHScXjHhk6AYYRe",
+    limit: 10,
+  });
   // TODO: Handle 'response' of type CursorPagedArtists
 } catch (err) {
-  if (err instanceof Users.GetFollowedError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetFollowedError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getFollowed({
+  type: ItemType1.Artist,
+  after: "0I2XqVXqHScXjHhk6AYYRe",
+  limit: 10,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CursorPagedArtists
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8231,7 +11697,7 @@ try {
 | --- | --- | --- |
 | <code>type</code> | <code>[ItemType1](src/models/item-type1.ts)</code> | - |
 | <code>after?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
 
 </dd>
 </dl>
@@ -8241,9 +11707,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+**Direct**: `await client.users.getFollowed(request)`
 
-**OnError**: <code>[Users.GetFollowedError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: throws <code>[Users.GetFollowedError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getFollowed(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CursorPagedArtists, Users.GetFollowedError&gt;</code>, with `result.value` of type <code>[CursorPagedArtists](src/models/cursor-paged-artists.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8270,19 +11744,39 @@ Get a list of the playlists owned or followed by a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.getListUsersPlaylists({ userId });
+  const response = await client.users.getListUsersPlaylists({ userId: "smedjan", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingPlaylistObject
 } catch (err) {
-  if (err instanceof Users.GetListUsersPlaylistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetListUsersPlaylistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getListUsersPlaylists({
+  userId: "smedjan",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingPlaylistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8297,8 +11791,8 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>userId</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -8308,9 +11802,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+**Direct**: `await client.users.getListUsersPlaylists(request)`
 
-**OnError**: <code>[Users.GetListUsersPlaylistsError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: throws <code>[Users.GetListUsersPlaylistsError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getListUsersPlaylists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingPlaylistObject, Users.GetListUsersPlaylistsError&gt;</code>, with `result.value` of type <code>[PagingPlaylistObject](src/models/paging-playlist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8337,19 +11839,35 @@ Get public profile information about a Spotify user.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.getUsersProfile({ userId });
+  const response = await client.users.getUsersProfile({ userId: "smedjan" });
   // TODO: Handle 'response' of type PublicUserObject
 } catch (err) {
-  if (err instanceof Users.GetUsersProfileError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetUsersProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getUsersProfile({ userId: "smedjan" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PublicUserObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8373,9 +11891,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PublicUserObject](src/models/public-user-object.ts)</code>
+**Direct**: `await client.users.getUsersProfile(request)`
 
-**OnError**: <code>[Users.GetUsersProfileError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[PublicUserObject](src/models/public-user-object.ts)</code>
+- **OnError**: throws <code>[Users.GetUsersProfileError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getUsersProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PublicUserObject, Users.GetUsersProfileError&gt;</code>, with `result.value` of type <code>[PublicUserObject](src/models/public-user-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8402,19 +11928,39 @@ Get the current user's top artists based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.getUsersTopArtists();
+  const response = await client.users.getUsersTopArtists({ timeRange: "medium_term", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingArtistObject
 } catch (err) {
-  if (err instanceof Users.GetUsersTopArtistsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetUsersTopArtistsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getUsersTopArtists({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingArtistObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8428,9 +11974,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -8440,9 +11986,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+**Direct**: `await client.users.getUsersTopArtists(request)`
 
-**OnError**: <code>[Users.GetUsersTopArtistsError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: throws <code>[Users.GetUsersTopArtistsError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getUsersTopArtists(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingArtistObject, Users.GetUsersTopArtistsError&gt;</code>, with `result.value` of type <code>[PagingArtistObject](src/models/paging-artist-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8469,19 +12023,39 @@ Get the current user's top tracks based on calculated affinity.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.users.getUsersTopTracks();
+  const response = await client.users.getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingTrackObject
 } catch (err) {
-  if (err instanceof Users.GetUsersTopTracksError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.GetUsersTopTracksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.getUsersTopTracks({
+  timeRange: "medium_term",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingTrackObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8495,9 +12069,9 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>timeRange?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>timeRange?</code> | <code>string</code> | -<br>**Default**: "medium_term" |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -8507,9 +12081,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+**Direct**: `await client.users.getUsersTopTracks(request)`
 
-**OnError**: <code>[Users.GetUsersTopTracksError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: throws <code>[Users.GetUsersTopTracksError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.getUsersTopTracks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingTrackObject, Users.GetUsersTopTracksError&gt;</code>, with `result.value` of type <code>[PagingTrackObject](src/models/paging-track-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8536,18 +12118,40 @@ Remove the current user as a follower of one or more artists or other Spotify us
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.users.unfollowArtistsUsers({ type, ids });
+  await client.users.unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  });
 } catch (err) {
-  if (err instanceof Users.UnfollowArtistsUsersError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.UnfollowArtistsUsersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.unfollowArtistsUsers({
+  type: ItemType3.Artist,
+  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8573,9 +12177,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.users.unfollowArtistsUsers(request)`
 
-**OnError**: <code>[Users.UnfollowArtistsUsersError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Users.UnfollowArtistsUsersError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.unfollowArtistsUsers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Users.UnfollowArtistsUsersError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8602,18 +12214,34 @@ Remove the current user as a follower of a playlist.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.users.unfollowPlaylist({ playlistId });
+  await client.users.unfollowPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" });
 } catch (err) {
-  if (err instanceof Users.UnfollowPlaylistError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Users.UnfollowPlaylistError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.users.unfollowPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8637,9 +12265,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.users.unfollowPlaylist(request)`
 
-**OnError**: <code>[Users.UnfollowPlaylistError](src/resources/users.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Users.UnfollowPlaylistError](src/resources/users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.users.unfollowPlaylist(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Users.UnfollowPlaylistError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8671,19 +12307,47 @@ that match a keyword string. Audiobooks are only available within the US, UK, Ca
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.search.search({ q, type });
+  const response = await client.search.search({
+    q: "remaster%20track:Doxy%20artist:Miles%20Davis",
+    type: [Itemtype.Album],
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type SearchItems
 } catch (err) {
-  if (err instanceof Search.SearchError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Search.SearchError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.search.search({
+  q: "remaster%20track:Doxy%20artist:Miles%20Davis",
+  type: [Itemtype.Album],
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SearchItems
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8700,8 +12364,8 @@ try {
 | <code>q</code> | <code>string</code> | - |
 | <code>type</code> | <code>[Itemtype](src/models/itemtype.ts)[]</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 | <code>includeExternal?</code> | <code>[IncludeExternal](src/models/include-external.ts)</code> | - |
 
 </dd>
@@ -8712,9 +12376,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SearchItems](src/models/search-items.ts)</code>
+**Direct**: `await client.search.search(request)`
 
-**OnError**: <code>[Search.SearchError](src/resources/search.ts)</code>
+- **OnSuccess**: <code>[SearchItems](src/models/search-items.ts)</code>
+- **OnError**: throws <code>[Search.SearchError](src/resources/search.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.search.search(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SearchItems, Search.SearchError&gt;</code>, with `result.value` of type <code>[SearchItems](src/models/search-items.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8745,19 +12417,39 @@ Check if one or more shows is already saved in the current Spotify user's librar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.shows.checkUsersSavedShows({ ids });
+  const response = await client.shows.checkUsersSavedShows({
+    ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+  });
   // TODO: Handle 'response' of type boolean[]
 } catch (err) {
-  if (err instanceof Shows.CheckUsersSavedShowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.CheckUsersSavedShowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.checkUsersSavedShows({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type boolean[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8781,9 +12473,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>boolean[]</code>
+**Direct**: `await client.shows.checkUsersSavedShows(request)`
 
-**OnError**: <code>[Shows.CheckUsersSavedShowsError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>boolean[]</code>
+- **OnError**: throws <code>[Shows.CheckUsersSavedShowsError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.checkUsersSavedShows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;boolean[], Shows.CheckUsersSavedShowsError&gt;</code>, with `result.value` of type <code>boolean[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8811,19 +12511,35 @@ unique Spotify ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.shows.getAShow({ id });
+  const response = await client.shows.getAShow({ id: "38bS44xjbVVZ3No3ByF1dJ", market: "ES" });
   // TODO: Handle 'response' of type ShowObject
 } catch (err) {
-  if (err instanceof Shows.GetAShowError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.GetAShowError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.getAShow({ id: "38bS44xjbVVZ3No3ByF1dJ", market: "ES" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ShowObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8848,9 +12564,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ShowObject](src/models/show-object.ts)</code>
+**Direct**: `await client.shows.getAShow(request)`
 
-**OnError**: <code>[Shows.GetAShowError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>[ShowObject](src/models/show-object.ts)</code>
+- **OnError**: throws <code>[Shows.GetAShowError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.getAShow(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ShowObject, Shows.GetAShowError&gt;</code>, with `result.value` of type <code>[ShowObject](src/models/show-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8877,19 +12601,45 @@ Get Spotify catalog information about an show’s episodes. Optional parameters 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.shows.getAShowsEpisodes({ id });
+  const response = await client.shows.getAShowsEpisodes({
+    id: "38bS44xjbVVZ3No3ByF1dJ",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  });
   // TODO: Handle 'response' of type PagingSimplifiedEpisodeObject
 } catch (err) {
-  if (err instanceof Shows.GetAShowsEpisodesError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.GetAShowsEpisodesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.getAShowsEpisodes({
+  id: "38bS44xjbVVZ3No3ByF1dJ",
+  market: "ES",
+  limit: 10,
+  offset: 5,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSimplifiedEpisodeObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8905,8 +12655,8 @@ try {
 | --- | --- | --- |
 | <code>id</code> | <code>string</code> | - |
 | <code>market?</code> | <code>string</code> | - |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -8916,9 +12666,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+**Direct**: `await client.shows.getAShowsEpisodes(request)`
 
-**OnError**: <code>[Shows.GetAShowsEpisodesError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+- **OnError**: throws <code>[Shows.GetAShowsEpisodesError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.getAShowsEpisodes(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSimplifiedEpisodeObject, Shows.GetAShowsEpisodesError&gt;</code>, with `result.value` of type <code>[PagingSimplifiedEpisodeObject](src/models/paging-simplified-episode-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8945,19 +12703,41 @@ Get Spotify catalog information for several shows based on their Spotify IDs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.shows.getMultipleShows({ ids });
+  const response = await client.shows.getMultipleShows({
+    ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+    market: "ES",
+  });
   // TODO: Handle 'response' of type ManySimplifiedShows
 } catch (err) {
-  if (err instanceof Shows.GetMultipleShowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.GetMultipleShowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.getMultipleShows({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManySimplifiedShows
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8982,9 +12762,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManySimplifiedShows](src/models/many-simplified-shows.ts)</code>
+**Direct**: `await client.shows.getMultipleShows(request)`
 
-**OnError**: <code>[Shows.GetMultipleShowsError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>[ManySimplifiedShows](src/models/many-simplified-shows.ts)</code>
+- **OnError**: throws <code>[Shows.GetMultipleShowsError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.getMultipleShows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManySimplifiedShows, Shows.GetMultipleShowsError&gt;</code>, with `result.value` of type <code>[ManySimplifiedShows](src/models/many-simplified-shows.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9011,19 +12799,35 @@ Get a list of shows saved in the current Spotify user's library. Optional parame
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.shows.getUsersSavedShows();
+  const response = await client.shows.getUsersSavedShows({ limit: 10, offset: 5 });
   // TODO: Handle 'response' of type PagingSavedShowObject
 } catch (err) {
-  if (err instanceof Shows.GetUsersSavedShowsError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.GetUsersSavedShowsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.getUsersSavedShows({ limit: 10, offset: 5 }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PagingSavedShowObject
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9037,8 +12841,8 @@ try {
 
 | Name | Type | Description |
 | --- | --- | --- |
-| <code>limit?</code> | <code>number</code> | - |
-| <code>offset?</code> | <code>number</code> | - |
+| <code>limit?</code> | <code>number</code> | -<br>**Default**: 20 |
+| <code>offset?</code> | <code>number</code> | -<br>**Default**: 0 |
 
 </dd>
 </dl>
@@ -9048,9 +12852,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+**Direct**: `await client.shows.getUsersSavedShows(request)`
 
-**OnError**: <code>[Shows.GetUsersSavedShowsError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+- **OnError**: throws <code>[Shows.GetUsersSavedShowsError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.getUsersSavedShows(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PagingSavedShowObject, Shows.GetUsersSavedShowsError&gt;</code>, with `result.value` of type <code>[PagingSavedShowObject](src/models/paging-saved-show-object.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9077,18 +12889,37 @@ Delete one or more shows from current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.shows.removeShowsUser({ ids });
+  await client.shows.removeShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ", market: "ES" });
 } catch (err) {
-  if (err instanceof Shows.RemoveShowsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.RemoveShowsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.removeShowsUser({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+  market: "ES",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9114,9 +12945,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.shows.removeShowsUser(request)`
 
-**OnError**: <code>[Shows.RemoveShowsUserError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Shows.RemoveShowsUserError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.removeShowsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Shows.RemoveShowsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9143,18 +12982,36 @@ Save one or more shows to current Spotify user's library.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.shows.saveShowsUser({ ids });
+  await client.shows.saveShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" });
 } catch (err) {
-  if (err instanceof Shows.SaveShowsUserError && err.payload.kind === "unauthorized1") {
-    // TODO: Handle 'err.payload.body' of type Unauthorized1
-  }
+  // TODO: Handle 'err' of type Shows.SaveShowsUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.shows.saveShowsUser({
+  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9179,9 +13036,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.shows.saveShowsUser(request)`
 
-**OnError**: <code>[Shows.SaveShowsUserError](src/resources/shows.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[Shows.SaveShowsUserError](src/resources/shows.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.shows.saveShowsUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, Shows.SaveShowsUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[SpotifyWebApiError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>

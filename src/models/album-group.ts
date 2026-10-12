@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** This field describes the relationship between the artist and the album. */
 export const AlbumGroup = {
   Album: "album",
   Single: "single",

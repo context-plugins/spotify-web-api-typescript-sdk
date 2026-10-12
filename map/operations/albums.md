@@ -4,7 +4,7 @@
 
 Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations · Request and error types: namespace `Albums`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### checkUsersSavedAlbums
 
@@ -13,7 +13,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Albums.CheckUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.CheckUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.CheckUsersSavedAlbumsRequest` (1):
@@ -35,7 +35,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AlbumObject`
-- **Error**: `Albums.GetAnAlbumError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetAnAlbumError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetAnAlbumRequest` (2):
@@ -59,7 +59,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedTrackObject`
-- **Error**: `Albums.GetAnAlbumsTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetAnAlbumsTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetAnAlbumsTracksRequest` (4):
@@ -85,7 +85,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: any of `oauth20`, `oauth20ClientCredentials` — the first one configured is sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingArtistDiscographyAlbumObject`
-- **Error**: `Albums.GetAnArtistsAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetAnArtistsAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetAnArtistsAlbumsRequest` (5):
@@ -112,7 +112,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyAlbums`
-- **Error**: `Albums.GetMultipleAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetMultipleAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetMultipleAlbumsRequest` (2):
@@ -136,7 +136,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagedAlbums`
-- **Error**: `Albums.GetNewReleasesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetNewReleasesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetNewReleasesRequest` (2):
@@ -160,7 +160,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedAlbumObject`
-- **Error**: `Albums.GetUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.GetUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.GetUsersSavedAlbumsRequest` (3):
@@ -183,9 +183,10 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Signature**: `removeAlbumsUser(request: Albums.RemoveAlbumsUserRequest, options?: RequestOptions): ApiPromise<undefined, Albums.RemoveAlbumsUserError>`
 - **Wire**: `DELETE /me/albums`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Albums.RemoveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.RemoveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.RemoveAlbumsUserRequest` (2):
@@ -207,9 +208,10 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 - **Signature**: `saveAlbumsUser(request: Albums.SaveAlbumsUserRequest, options?: RequestOptions): ApiPromise<undefined, Albums.SaveAlbumsUserError>`
 - **Wire**: `PUT /me/albums`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Albums.SaveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Albums.SaveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Albums.SaveAlbumsUserRequest` (2):

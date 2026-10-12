@@ -4,7 +4,7 @@
 
 Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations · Request and error types: namespace `Player`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### addToQueue
 
@@ -12,8 +12,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `POST /me/player/queue`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.AddToQueueError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.AddToQueueError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.AddToQueueRequest` (2):
@@ -36,7 +37,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyDevices`
-- **Error**: `Player.GetAUsersAvailableDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.GetAUsersAvailableDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
@@ -53,7 +54,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CurrentlyPlayingContextObject`
-- **Error**: `Player.GetInformationAboutTheUsersCurrentPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.GetInformationAboutTheUsersCurrentPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.GetInformationAboutTheUsersCurrentPlaybackRequest` (2):
@@ -77,7 +78,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `QueueObject`
-- **Error**: `Player.GetQueueError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.GetQueueError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
@@ -94,7 +95,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CursorPagingPlayHistoryObject`
-- **Error**: `Player.GetRecentlyPlayedError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.GetRecentlyPlayedError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.GetRecentlyPlayedRequest` (3):
@@ -119,7 +120,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CurrentlyPlayingObject`
-- **Error**: `Player.GetTheUsersCurrentlyPlayingTrackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.GetTheUsersCurrentlyPlayingTrackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.GetTheUsersCurrentlyPlayingTrackRequest` (2):
@@ -142,8 +143,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `PUT /me/player/pause`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.PauseAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.PauseAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.PauseAUsersPlaybackRequest` (1):
@@ -164,8 +166,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `PUT /me/player/seek`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.SeekToPositionInCurrentlyPlayingTrackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.SeekToPositionInCurrentlyPlayingTrackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.SeekToPositionInCurrentlyPlayingTrackRequest` (2):
@@ -187,8 +190,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `PUT /me/player/repeat`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.SetRepeatModeOnUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.SetRepeatModeOnUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.SetRepeatModeOnUsersPlaybackRequest` (2):
@@ -210,8 +214,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `PUT /me/player/volume`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.SetVolumeForUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.SetVolumeForUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.SetVolumeForUsersPlaybackRequest` (2):
@@ -233,8 +238,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `POST /me/player/next`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.SkipUsersPlaybackToNextTrackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.SkipUsersPlaybackToNextTrackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.SkipUsersPlaybackToNextTrackRequest` (1):
@@ -255,8 +261,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `POST /me/player/previous`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.SkipUsersPlaybackToPreviousTrackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.SkipUsersPlaybackToPreviousTrackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.SkipUsersPlaybackToPreviousTrackRequest` (1):
@@ -276,9 +283,10 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Signature**: `startAUsersPlayback(request: Player.StartAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.StartAUsersPlaybackError>`
 - **Wire**: `PUT /me/player/play`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.StartAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.StartAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.StartAUsersPlaybackRequest` (2):
@@ -301,8 +309,9 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Wire**: `PUT /me/player/shuffle`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.ToggleShuffleForUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.ToggleShuffleForUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.ToggleShuffleForUsersPlaybackRequest` (2):
@@ -323,9 +332,10 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 - **Signature**: `transferAUsersPlayback(request: Player.TransferAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.TransferAUsersPlaybackError>`
 - **Wire**: `PUT /me/player`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Player.TransferAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Player.TransferAUsersPlaybackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Player.TransferAUsersPlaybackRequest` (1):

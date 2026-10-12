@@ -7,7 +7,9 @@ import {
 import { trackObjectSchema, type TrackObject } from "./track-object.js";
 
 export type RecommendationsObject = {
+  /** An array of recommendation seed objects. */
   seeds: RecommendationSeedObject[];
+  /** An array of track objects ordered according to the parameters supplied. */
   tracks: TrackObject[];
 };
 

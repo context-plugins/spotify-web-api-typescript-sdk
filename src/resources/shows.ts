@@ -1,8 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
 import { manySimplifiedShowsSchema, type ManySimplifiedShows } from "../models/many-simplified-shows.js";
@@ -32,6 +33,21 @@ export class Shows {
     this.#auth = auth;
   }
 
+  /**
+   * check-users-saved-shows
+   *
+   * @remarks
+   * Check if one or more shows is already saved in the current Spotify user's library.
+   *
+   * @returns Array of booleans
+   *
+   * @throws {@link Shows.CheckUsersSavedShowsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   checkUsersSavedShows(
     request: Shows.CheckUsersSavedShowsRequest,
     options?: RequestOptions,
@@ -39,9 +55,11 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/shows/contains"),
+        urlTemplate: this.#servers.default("/me/shows/contains"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -52,6 +70,21 @@ export class Shows {
     );
   }
 
+  /**
+   * get-a-show
+   *
+   * @remarks
+   * Get Spotify catalog information for a single show identified by its unique Spotify ID.
+   *
+   * @returns A show
+   *
+   * @throws {@link Shows.GetAShowError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAShow(
     request: Shows.GetAShowRequest,
     options?: RequestOptions,
@@ -59,10 +92,11 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/shows/{id}"),
+        urlTemplate: this.#servers.default("/shows/{id}"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [{ name: "market", value: request.market, schema: s.optional(s.string()) }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -73,6 +107,22 @@ export class Shows {
     );
   }
 
+  /**
+   * get-a-shows-episodes
+   *
+   * @remarks
+   * Get Spotify catalog information about an show’s episodes. Optional parameters can be used to
+   * limit the number of episodes returned.
+   *
+   * @returns Pages of episodes
+   *
+   * @throws {@link Shows.GetAShowsEpisodesError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAShowsEpisodes(
     request: Shows.GetAShowsEpisodesRequest,
     options?: RequestOptions,
@@ -80,14 +130,15 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/shows/{id}/episodes"),
+        urlTemplate: this.#servers.default("/shows/{id}/episodes"),
         auth: this.#auth.oauth20,
         pathParams: [{ name: "id", value: request.id, schema: s.string() }],
         query: [
           { name: "market", value: request.market, schema: s.optional(s.string()) },
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -98,6 +149,21 @@ export class Shows {
     );
   }
 
+  /**
+   * get-multiple-shows
+   *
+   * @remarks
+   * Get Spotify catalog information for several shows based on their Spotify IDs.
+   *
+   * @returns A set of shows
+   *
+   * @throws {@link Shows.GetMultipleShowsError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getMultipleShows(
     request: Shows.GetMultipleShowsRequest,
     options?: RequestOptions,
@@ -105,12 +171,14 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/shows"),
+        urlTemplate: this.#servers.default("/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -121,6 +189,22 @@ export class Shows {
     );
   }
 
+  /**
+   * get-users-saved-shows
+   *
+   * @remarks
+   * Get a list of shows saved in the current Spotify user's library. Optional parameters can be
+   * used to limit the number of shows returned.
+   *
+   * @returns Pages of shows
+   *
+   * @throws {@link Shows.GetUsersSavedShowsError} when the API answers with an error status —
+   * narrow on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getUsersSavedShows(
     request: Shows.GetUsersSavedShowsRequest,
     options?: RequestOptions,
@@ -128,12 +212,14 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
-          { name: "limit", value: request.limit, schema: s.defaulted(s.number(), 20) },
-          { name: "offset", value: request.offset, schema: s.defaulted(s.number(), 0) },
+          { name: "limit", value: request.limit, schema: s.defaulted(s.int(), 20) },
+          { name: "offset", value: request.offset, schema: s.defaulted(s.int(), 0) },
         ],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -144,6 +230,21 @@ export class Shows {
     );
   }
 
+  /**
+   * remove-shows-user
+   *
+   * @remarks
+   * Delete one or more shows from current Spotify user's library.
+   *
+   * @returns Show removed
+   *
+   * @throws {@link Shows.RemoveShowsUserError} when the API answers with an error status — narrow
+   * on `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   removeShowsUser(
     request: Shows.RemoveShowsUserRequest,
     options?: RequestOptions,
@@ -151,12 +252,14 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [
           { name: "ids", value: request.ids, schema: s.string() },
           { name: "market", value: request.market, schema: s.optional(s.string()) },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -171,6 +274,21 @@ export class Shows {
     );
   }
 
+  /**
+   * save-shows-user
+   *
+   * @remarks
+   * Save one or more shows to current Spotify user's library.
+   *
+   * @returns Show saved
+   *
+   * @throws {@link Shows.SaveShowsUserError} when the API answers with an error status — narrow on
+   * `err.payload.kind`
+   *
+   * @throws {@link SpotifyWebApiError} when no usable response was produced: a connection failure,
+   * a timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   saveShowsUser(
     request: Shows.SaveShowsUserRequest,
     options?: RequestOptions,
@@ -178,9 +296,11 @@ export class Shows {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.default("/me/shows"),
+        urlTemplate: this.#servers.default("/me/shows"),
         auth: this.#auth.oauth20,
+        pathParams: [],
         query: [{ name: "ids", value: request.ids, schema: s.string() }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: s.optional(s.lazy(() => saveShowsRequestSchema)) },
       },
       {
@@ -197,11 +317,13 @@ export namespace Shows {
     ids: string;
   };
 
-  export class CheckUsersSavedShowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class CheckUsersSavedShowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<CheckUsersSavedShowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -214,11 +336,13 @@ export namespace Shows {
     market?: string;
   };
 
-  export class GetAShowError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAShowError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAShowError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -229,15 +353,19 @@ export namespace Shows {
   export type GetAShowsEpisodesRequest = {
     id: string;
     market?: string;
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetAShowsEpisodesError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetAShowsEpisodesError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetAShowsEpisodesError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -250,11 +378,13 @@ export namespace Shows {
     market?: string;
   };
 
-  export class GetMultipleShowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetMultipleShowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetMultipleShowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -263,15 +393,19 @@ export namespace Shows {
   }
 
   export type GetUsersSavedShowsRequest = {
+    /** @default 20 */
     limit?: number;
+    /** @default 0 */
     offset?: number;
   };
 
-  export class GetUsersSavedShowsError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class GetUsersSavedShowsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<GetUsersSavedShowsError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -285,11 +419,13 @@ export namespace Shows {
     body?: RemoveShowsRequest;
   };
 
-  export class RemoveShowsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class RemoveShowsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<RemoveShowsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
@@ -302,11 +438,13 @@ export namespace Shows {
     body?: SaveShowsRequest;
   };
 
-  export class SaveShowsUserError extends ResponseError<
-    | Declared<"unauthorized1", Unauthorized1>
-    | Declared<"forbidden1", Forbidden1>
-    | Declared<"tooManyRequests1", TooManyRequests1>
-  > {
+  export class SaveShowsUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"unauthorized1", Unauthorized1>
+      | Declared<"forbidden1", Forbidden1>
+      | Declared<"tooManyRequests1", TooManyRequests1>
+    >;
+
     static readonly errors: ErrorDecoders<SaveShowsUserError> = [
       { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
       { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },

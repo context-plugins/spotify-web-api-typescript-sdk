@@ -4,7 +4,7 @@
 
 Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operations · Request and error types: namespace `Episodes`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### checkUsersSavedEpisodes
 
@@ -13,7 +13,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Episodes.CheckUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.CheckUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.CheckUsersSavedEpisodesRequest` (1):
@@ -35,7 +35,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedEpisodeObject`
-- **Error**: `Episodes.GetAShowsEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.GetAShowsEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.GetAShowsEpisodesRequest` (4):
@@ -61,7 +61,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `EpisodeObject`
-- **Error**: `Episodes.GetAnEpisodeError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.GetAnEpisodeError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.GetAnEpisodeRequest` (2):
@@ -85,7 +85,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManyEpisodes`
-- **Error**: `Episodes.GetMultipleEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.GetMultipleEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.GetMultipleEpisodesRequest` (2):
@@ -109,7 +109,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedEpisodeObject`
-- **Error**: `Episodes.GetUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.GetUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.GetUsersSavedEpisodesRequest` (3):
@@ -132,9 +132,10 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Signature**: `removeEpisodesUser(request: Episodes.RemoveEpisodesUserRequest, options?: RequestOptions): ApiPromise<undefined, Episodes.RemoveEpisodesUserError>`
 - **Wire**: `DELETE /me/episodes`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Episodes.RemoveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.RemoveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.RemoveEpisodesUserRequest` (2):
@@ -156,9 +157,10 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 - **Signature**: `saveEpisodesUser(request: Episodes.SaveEpisodesUserRequest, options?: RequestOptions): ApiPromise<undefined, Episodes.SaveEpisodesUserError>`
 - **Wire**: `PUT /me/episodes`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Episodes.SaveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Episodes.SaveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Episodes.SaveEpisodesUserRequest` (2):

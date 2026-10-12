@@ -4,16 +4,17 @@
 
 Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operations · Request and error types: namespace `Library`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### changePlaylistDetails
 
 - **Signature**: `changePlaylistDetails(request: Library.ChangePlaylistDetailsRequest, options?: RequestOptions): ApiPromise<undefined, Library.ChangePlaylistDetailsError>`
 - **Wire**: `PUT /playlists/{playlist_id}`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.ChangePlaylistDetailsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.ChangePlaylistDetailsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.ChangePlaylistDetailsRequest` (2):
@@ -37,7 +38,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckCurrentUserFollowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckCurrentUserFollowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckCurrentUserFollowsRequest` (2):
@@ -61,7 +62,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckUsersSavedAlbumsRequest` (1):
@@ -83,7 +84,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckUsersSavedAudiobooksRequest` (1):
@@ -105,7 +106,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckUsersSavedEpisodesRequest` (1):
@@ -127,7 +128,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckUsersSavedShowsRequest` (1):
@@ -149,7 +150,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Library.CheckUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CheckUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CheckUsersSavedTracksRequest` (1):
@@ -169,9 +170,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `createPlaylist(request: Library.CreatePlaylistRequest, options?: RequestOptions): ApiPromise<PlaylistObject, Library.CreatePlaylistError>`
 - **Wire**: `POST /users/{user_id}/playlists`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `PlaylistObject`
-- **Error**: `Library.CreatePlaylistError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.CreatePlaylistError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.CreatePlaylistRequest` (2):
@@ -194,9 +196,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `followArtistsUsers(request: Library.FollowArtistsUsersRequest, options?: RequestOptions): ApiPromise<undefined, Library.FollowArtistsUsersError>`
 - **Wire**: `PUT /me/following`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.FollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.FollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.FollowArtistsUsersRequest` (3):
@@ -222,7 +225,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingPlaylistObject`
-- **Error**: `Library.GetAListOfCurrentUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetAListOfCurrentUsersPlaylistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetAListOfCurrentUsersPlaylistsRequest` (2):
@@ -246,7 +249,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CursorPagedArtists`
-- **Error**: `Library.GetFollowedError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetFollowedError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetFollowedRequest` (3):
@@ -272,7 +275,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedAlbumObject`
-- **Error**: `Library.GetUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersSavedAlbumsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersSavedAlbumsRequest` (3):
@@ -297,7 +300,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedAudiobookObject`
-- **Error**: `Library.GetUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersSavedAudiobooksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersSavedAudiobooksRequest` (2):
@@ -321,7 +324,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedEpisodeObject`
-- **Error**: `Library.GetUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersSavedEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersSavedEpisodesRequest` (3):
@@ -346,7 +349,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedShowObject`
-- **Error**: `Library.GetUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersSavedShowsRequest` (2):
@@ -370,7 +373,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedTrackObject`
-- **Error**: `Library.GetUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersSavedTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersSavedTracksRequest` (3):
@@ -395,7 +398,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingArtistObject`
-- **Error**: `Library.GetUsersTopArtistsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersTopArtistsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersTopArtistsRequest` (3):
@@ -420,7 +423,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingTrackObject`
-- **Error**: `Library.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.GetUsersTopTracksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.GetUsersTopTracksRequest` (3):
@@ -443,9 +446,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `removeAlbumsUser(request: Library.RemoveAlbumsUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.RemoveAlbumsUserError>`
 - **Wire**: `DELETE /me/albums`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.RemoveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.RemoveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.RemoveAlbumsUserRequest` (2):
@@ -468,8 +472,9 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Wire**: `DELETE /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.RemoveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.RemoveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.RemoveAudiobooksUserRequest` (1):
@@ -489,9 +494,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `removeEpisodesUser(request: Library.RemoveEpisodesUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.RemoveEpisodesUserError>`
 - **Wire**: `DELETE /me/episodes`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.RemoveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.RemoveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.RemoveEpisodesUserRequest` (2):
@@ -513,9 +519,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `removeShowsUser(request: Library.RemoveShowsUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.RemoveShowsUserError>`
 - **Wire**: `DELETE /me/shows`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.RemoveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.RemoveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.RemoveShowsUserRequest` (3):
@@ -538,9 +545,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `removeTracksUser(request: Library.RemoveTracksUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.RemoveTracksUserError>`
 - **Wire**: `DELETE /me/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.RemoveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.RemoveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.RemoveTracksUserRequest` (2):
@@ -562,9 +570,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `saveAlbumsUser(request: Library.SaveAlbumsUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.SaveAlbumsUserError>`
 - **Wire**: `PUT /me/albums`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.SaveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.SaveAlbumsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.SaveAlbumsUserRequest` (2):
@@ -587,8 +596,9 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Wire**: `PUT /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.SaveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.SaveAudiobooksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.SaveAudiobooksUserRequest` (1):
@@ -608,9 +618,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `saveEpisodesUser(request: Library.SaveEpisodesUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.SaveEpisodesUserError>`
 - **Wire**: `PUT /me/episodes`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.SaveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.SaveEpisodesUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.SaveEpisodesUserRequest` (2):
@@ -632,9 +643,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `saveShowsUser(request: Library.SaveShowsUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.SaveShowsUserError>`
 - **Wire**: `PUT /me/shows`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.SaveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.SaveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.SaveShowsUserRequest` (2):
@@ -656,9 +668,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `saveTracksUser(request: Library.SaveTracksUserRequest, options?: RequestOptions): ApiPromise<undefined, Library.SaveTracksUserError>`
 - **Wire**: `PUT /me/tracks`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.SaveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.SaveTracksUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.SaveTracksUserRequest` (2):
@@ -680,9 +693,10 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 - **Signature**: `unfollowArtistsUsers(request: Library.UnfollowArtistsUsersRequest, options?: RequestOptions): ApiPromise<undefined, Library.UnfollowArtistsUsersError>`
 - **Wire**: `DELETE /me/following`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Library.UnfollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Library.UnfollowArtistsUsersError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Library.UnfollowArtistsUsersRequest` (3):

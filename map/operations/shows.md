@@ -4,7 +4,7 @@
 
 Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · Request and error types: namespace `Shows`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `spotify-web-api`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### checkUsersSavedShows
 
@@ -13,7 +13,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `boolean[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `Shows.CheckUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.CheckUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.CheckUsersSavedShowsRequest` (1):
@@ -35,7 +35,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ShowObject`
-- **Error**: `Shows.GetAShowError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.GetAShowError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.GetAShowRequest` (2):
@@ -59,7 +59,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSimplifiedEpisodeObject`
-- **Error**: `Shows.GetAShowsEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.GetAShowsEpisodesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.GetAShowsEpisodesRequest` (4):
@@ -85,7 +85,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManySimplifiedShows`
-- **Error**: `Shows.GetMultipleShowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.GetMultipleShowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.GetMultipleShowsRequest` (2):
@@ -109,7 +109,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `PagingSavedShowObject`
-- **Error**: `Shows.GetUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.GetUsersSavedShowsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.GetUsersSavedShowsRequest` (2):
@@ -131,9 +131,10 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Signature**: `removeShowsUser(request: Shows.RemoveShowsUserRequest, options?: RequestOptions): ApiPromise<undefined, Shows.RemoveShowsUserError>`
 - **Wire**: `DELETE /me/shows`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Shows.RemoveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.RemoveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.RemoveShowsUserRequest` (3):
@@ -156,9 +157,10 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 - **Signature**: `saveShowsUser(request: Shows.SaveShowsUserRequest, options?: RequestOptions): ApiPromise<undefined, Shows.SaveShowsUserError>`
 - **Wire**: `PUT /me/shows`
 - **Auth**: `oauth20`
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `Shows.SaveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `SpotifyWebApiError` with `kind: "api"`, an instance of `Shows.SaveShowsUserError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"unauthorized1"` [401] `Unauthorized1` · `"forbidden1"` [403] `Forbidden1` · `"tooManyRequests1"` [429] `TooManyRequests1` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Shows.SaveShowsUserRequest` (2):
