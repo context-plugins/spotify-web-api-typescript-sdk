@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type DisallowsObject = {
   /** Interrupting playback. Optional field. */
@@ -22,26 +22,31 @@ export type DisallowsObject = {
   togglingRepeatTrack?: boolean;
   /** Transfering playback between devices. Optional field. */
   transferringPlayback?: boolean;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const disallowsObjectSchema: Schema<DisallowsObject> = s.object<DisallowsObject>({
-  interruptingPlayback: s.optional(s.boolean()),
-  pausing: s.optional(s.boolean()),
-  resuming: s.optional(s.boolean()),
-  seeking: s.optional(s.boolean()),
-  skippingNext: s.optional(s.boolean()),
-  skippingPrev: s.optional(s.boolean()),
-  togglingRepeatContext: s.optional(s.boolean()),
-  togglingShuffle: s.optional(s.boolean()),
-  togglingRepeatTrack: s.optional(s.boolean()),
-  transferringPlayback: s.optional(s.boolean()),
-  _keysMap: {
-    interruptingPlayback: "interrupting_playback",
-    skippingNext: "skipping_next",
-    skippingPrev: "skipping_prev",
-    togglingRepeatContext: "toggling_repeat_context",
-    togglingShuffle: "toggling_shuffle",
-    togglingRepeatTrack: "toggling_repeat_track",
-    transferringPlayback: "transferring_playback",
+export const disallowsObjectSchema: Schema<DisallowsObject> = s.object<DisallowsObject>(
+  {
+    interruptingPlayback: s.optional(s.boolean()),
+    pausing: s.optional(s.boolean()),
+    resuming: s.optional(s.boolean()),
+    seeking: s.optional(s.boolean()),
+    skippingNext: s.optional(s.boolean()),
+    skippingPrev: s.optional(s.boolean()),
+    togglingRepeatContext: s.optional(s.boolean()),
+    togglingShuffle: s.optional(s.boolean()),
+    togglingRepeatTrack: s.optional(s.boolean()),
+    transferringPlayback: s.optional(s.boolean()),
+    _keysMap: {
+      interruptingPlayback: "interrupting_playback",
+      skippingNext: "skipping_next",
+      skippingPrev: "skipping_prev",
+      togglingRepeatContext: "toggling_repeat_context",
+      togglingShuffle: "toggling_shuffle",
+      togglingRepeatTrack: "toggling_repeat_track",
+      transferringPlayback: "transferring_playback",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

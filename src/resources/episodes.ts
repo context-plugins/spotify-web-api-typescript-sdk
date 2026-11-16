@@ -1,12 +1,14 @@
 import type { AuthSchemes } from "../auth-schemes.js";
-import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
+import { ApiError, type Declared, type Undeclared } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
+import type { ErrorDecoders } from "../core/response-decoder.js";
 import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
 import { episodeObjectSchema, type EpisodeObject } from "../models/episode-object.js";
-import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
+import { forbidden1InternalSchema, type Forbidden1 } from "../models/forbidden1.js";
 import { manyEpisodesSchema, type ManyEpisodes } from "../models/many-episodes.js";
 import {
   pagingSavedEpisodeObjectSchema,
@@ -21,8 +23,8 @@ import {
   type RemoveEpisodesRequest,
 } from "../models/remove-episodes-request.js";
 import { saveEpisodesRequestSchema, type SaveEpisodesRequest } from "../models/save-episodes-request.js";
-import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
-import { unauthorized1Schema, type Unauthorized1 } from "../models/unauthorized1.js";
+import { tooManyRequests1InternalSchema, type TooManyRequests1 } from "../models/too-many-requests1.js";
+import { unauthorized1InternalSchema, type Unauthorized1 } from "../models/unauthorized1.js";
 import type { Servers } from "../servers.js";
 
 export class Episodes {
@@ -214,7 +216,7 @@ export class Episodes {
    * could not be obtained
    */
   getUsersSavedEpisodes(
-    request: Episodes.GetUsersSavedEpisodesRequest,
+    request: Episodes.GetUsersSavedEpisodesRequest = {},
     options?: RequestOptions,
   ): ApiPromise<PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError> {
     return this.#rawClient.execute(
@@ -334,16 +336,16 @@ export namespace Episodes {
   };
 
   export class CheckUsersSavedEpisodesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<CheckUsersSavedEpisodesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -356,17 +358,26 @@ export namespace Episodes {
     offset?: number;
   };
 
+  export const getAShowsEpisodesRequestSchema: Schema<GetAShowsEpisodesRequest> = s.lazySchema(() =>
+    s.object<GetAShowsEpisodesRequest>({
+      id: s.string(),
+      market: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetAShowsEpisodesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAShowsEpisodesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -376,16 +387,16 @@ export namespace Episodes {
   };
 
   export class GetAnEpisodeError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAnEpisodeError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -395,16 +406,16 @@ export namespace Episodes {
   };
 
   export class GetMultipleEpisodesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetMultipleEpisodesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -416,17 +427,25 @@ export namespace Episodes {
     offset?: number;
   };
 
+  export const getUsersSavedEpisodesRequestSchema: Schema<GetUsersSavedEpisodesRequest> = s.lazySchema(() =>
+    s.object<GetUsersSavedEpisodesRequest>({
+      market: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetUsersSavedEpisodesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetUsersSavedEpisodesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -436,16 +455,16 @@ export namespace Episodes {
   };
 
   export class RemoveEpisodesUserError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<RemoveEpisodesUserError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -455,16 +474,16 @@ export namespace Episodes {
   };
 
   export class SaveEpisodesUserError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SaveEpisodesUserError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 }

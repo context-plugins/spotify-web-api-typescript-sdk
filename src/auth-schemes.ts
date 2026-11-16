@@ -23,8 +23,8 @@ export function buildAuthSchemes(
       options.oauth20,
       options.oauth20Strategy ??
         oauth2AuthorizationCodeStrategy({
-          authorizationUrl: servers.default("/authorize"),
-          tokenUrl: servers.default("/api/token"),
+          authorizationUrl: servers.authServer("/authorize"),
+          tokenUrl: servers.authServer("/api/token"),
           rawClient,
           placement: "header",
         }),
@@ -33,7 +33,7 @@ export function buildAuthSchemes(
       options.oauth20ClientCredentials,
       options.oauth20ClientCredentialsStrategy ??
         oauth2ClientCredentialsStrategy({
-          tokenUrl: servers.default("/api/token"),
+          tokenUrl: servers.authServer("/api/token"),
           rawClient,
           placement: "header",
         }),

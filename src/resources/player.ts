@@ -1,12 +1,14 @@
 import type { AuthSchemes } from "../auth-schemes.js";
-import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
+import { ApiError, type Declared, type Undeclared } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
+import type { ErrorDecoders } from "../core/response-decoder.js";
 import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
 import {
-  currentlyPlayingContextObjectSchema,
+  currentlyPlayingContextObjectInternalSchema,
   type CurrentlyPlayingContextObject,
 } from "../models/currently-playing-context-object.js";
 import {
@@ -17,16 +19,16 @@ import {
   cursorPagingPlayHistoryObjectSchema,
   type CursorPagingPlayHistoryObject,
 } from "../models/cursor-paging-play-history-object.js";
-import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
-import { manyDevicesSchema, type ManyDevices } from "../models/many-devices.js";
+import { forbidden1InternalSchema, type Forbidden1 } from "../models/forbidden1.js";
+import { manyDevicesInternalSchema, type ManyDevices } from "../models/many-devices.js";
 import { mePlayerRequestSchema, type MePlayerRequest } from "../models/me-player-request.js";
 import { queueObjectSchema, type QueueObject } from "../models/queue-object.js";
 import {
   startOrResumePlaybackRequestSchema,
   type StartOrResumePlaybackRequest,
 } from "../models/start-or-resume-playback-request.js";
-import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
-import { unauthorized1Schema, type Unauthorized1 } from "../models/unauthorized1.js";
+import { tooManyRequests1InternalSchema, type TooManyRequests1 } from "../models/too-many-requests1.js";
+import { unauthorized1InternalSchema, type Unauthorized1 } from "../models/unauthorized1.js";
 import type { Servers } from "../servers.js";
 
 export class Player {
@@ -112,7 +114,7 @@ export class Player {
         body: { kind: "empty" },
       },
       {
-        success: { kind: "json", schema: manyDevicesSchema },
+        success: { kind: "json", schema: manyDevicesInternalSchema },
         errorFactory: Player.GetAUsersAvailableDevicesError,
       },
       options,
@@ -136,7 +138,7 @@ export class Player {
    * could not be obtained
    */
   getInformationAboutTheUsersCurrentPlayback(
-    request: Player.GetInformationAboutTheUsersCurrentPlaybackRequest,
+    request: Player.GetInformationAboutTheUsersCurrentPlaybackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError> {
     return this.#rawClient.execute(
@@ -153,7 +155,7 @@ export class Player {
         body: { kind: "empty" },
       },
       {
-        success: { kind: "json", schema: currentlyPlayingContextObjectSchema },
+        success: { kind: "json", schema: currentlyPlayingContextObjectInternalSchema },
         errorFactory: Player.GetInformationAboutTheUsersCurrentPlaybackError,
       },
       options,
@@ -211,7 +213,7 @@ export class Player {
    * could not be obtained
    */
   getRecentlyPlayed(
-    request: Player.GetRecentlyPlayedRequest,
+    request: Player.GetRecentlyPlayedRequest = {},
     options?: RequestOptions,
   ): ApiPromise<CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError> {
     return this.#rawClient.execute(
@@ -252,7 +254,7 @@ export class Player {
    * could not be obtained
    */
   getTheUsersCurrentlyPlayingTrack(
-    request: Player.GetTheUsersCurrentlyPlayingTrackRequest,
+    request: Player.GetTheUsersCurrentlyPlayingTrackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError> {
     return this.#rawClient.execute(
@@ -293,7 +295,7 @@ export class Player {
    * could not be obtained
    */
   pauseAUsersPlayback(
-    request: Player.PauseAUsersPlaybackRequest,
+    request: Player.PauseAUsersPlaybackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<undefined, Player.PauseAUsersPlaybackError> {
     return this.#rawClient.execute(
@@ -458,7 +460,7 @@ export class Player {
    * could not be obtained
    */
   skipUsersPlaybackToNextTrack(
-    request: Player.SkipUsersPlaybackToNextTrackRequest,
+    request: Player.SkipUsersPlaybackToNextTrackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<undefined, Player.SkipUsersPlaybackToNextTrackError> {
     return this.#rawClient.execute(
@@ -497,7 +499,7 @@ export class Player {
    * could not be obtained
    */
   skipUsersPlaybackToPreviousTrack(
-    request: Player.SkipUsersPlaybackToPreviousTrackRequest,
+    request: Player.SkipUsersPlaybackToPreviousTrackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<undefined, Player.SkipUsersPlaybackToPreviousTrackError> {
     return this.#rawClient.execute(
@@ -536,7 +538,7 @@ export class Player {
    * could not be obtained
    */
   startAUsersPlayback(
-    request: Player.StartAUsersPlaybackRequest,
+    request: Player.StartAUsersPlaybackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<undefined, Player.StartAUsersPlaybackError> {
     return this.#rawClient.execute(
@@ -621,7 +623,7 @@ export class Player {
    * could not be obtained
    */
   transferAUsersPlayback(
-    request: Player.TransferAUsersPlaybackRequest,
+    request: Player.TransferAUsersPlaybackRequest = {},
     options?: RequestOptions,
   ): ApiPromise<undefined, Player.TransferAUsersPlaybackError> {
     return this.#rawClient.execute(
@@ -650,30 +652,30 @@ export namespace Player {
   };
 
   export class AddToQueueError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<AddToQueueError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
   export class GetAUsersAvailableDevicesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAUsersAvailableDevicesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -683,30 +685,30 @@ export namespace Player {
   };
 
   export class GetInformationAboutTheUsersCurrentPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetInformationAboutTheUsersCurrentPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
   export class GetQueueError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetQueueError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -717,17 +719,25 @@ export namespace Player {
     before?: number;
   };
 
+  export const getRecentlyPlayedRequestSchema: Schema<GetRecentlyPlayedRequest> = s.lazySchema(() =>
+    s.object<GetRecentlyPlayedRequest>({
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      after: s.optional(s.int()),
+      before: s.optional(s.int()),
+    }),
+  );
+
   export class GetRecentlyPlayedError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetRecentlyPlayedError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -737,16 +747,16 @@ export namespace Player {
   };
 
   export class GetTheUsersCurrentlyPlayingTrackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetTheUsersCurrentlyPlayingTrackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -755,16 +765,16 @@ export namespace Player {
   };
 
   export class PauseAUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<PauseAUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -774,16 +784,16 @@ export namespace Player {
   };
 
   export class SeekToPositionInCurrentlyPlayingTrackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SeekToPositionInCurrentlyPlayingTrackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -793,16 +803,16 @@ export namespace Player {
   };
 
   export class SetRepeatModeOnUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SetRepeatModeOnUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -812,16 +822,16 @@ export namespace Player {
   };
 
   export class SetVolumeForUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SetVolumeForUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -830,16 +840,16 @@ export namespace Player {
   };
 
   export class SkipUsersPlaybackToNextTrackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SkipUsersPlaybackToNextTrackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -848,16 +858,16 @@ export namespace Player {
   };
 
   export class SkipUsersPlaybackToPreviousTrackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SkipUsersPlaybackToPreviousTrackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -867,16 +877,16 @@ export namespace Player {
   };
 
   export class StartAUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<StartAUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -886,16 +896,16 @@ export namespace Player {
   };
 
   export class ToggleShuffleForUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<ToggleShuffleForUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -904,16 +914,16 @@ export namespace Player {
   };
 
   export class TransferAUsersPlaybackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<TransferAUsersPlaybackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 }

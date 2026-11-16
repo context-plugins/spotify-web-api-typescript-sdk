@@ -131,7 +131,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 
 ### getNewReleases
 
-- **Signature**: `getNewReleases(request: Albums.GetNewReleasesRequest, options?: RequestOptions): ApiPromise<PagedAlbums, Albums.GetNewReleasesError>`
+- **Signature**: `getNewReleases(request?: Albums.GetNewReleasesRequest, options?: RequestOptions): ApiPromise<PagedAlbums, Albums.GetNewReleasesError>`
 - **Wire**: `GET /browse/new-releases`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -155,7 +155,7 @@ Accessor: `client.albums` · Source: `src/resources/albums.ts` · 9 operations �
 
 ### getUsersSavedAlbums
 
-- **Signature**: `getUsersSavedAlbums(request: Albums.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise<PagingSavedAlbumObject, Albums.GetUsersSavedAlbumsError>`
+- **Signature**: `getUsersSavedAlbums(request?: Albums.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise<PagingSavedAlbumObject, Albums.GetUsersSavedAlbumsError>`
 - **Wire**: `GET /me/albums`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

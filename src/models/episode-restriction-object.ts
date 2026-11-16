@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type EpisodeRestrictionObject = {
   /**
@@ -13,9 +13,14 @@ export type EpisodeRestrictionObject = {
    * your application safely handles unknown values.
    */
   reason?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const episodeRestrictionObjectSchema: Schema<EpisodeRestrictionObject> =
-  s.object<EpisodeRestrictionObject>({
-    reason: s.optional(s.string()),
-  });
+  s.object<EpisodeRestrictionObject>(
+    {
+      reason: s.optional(s.string()),
+    },
+    { additionalProperties: s.json() },
+  );

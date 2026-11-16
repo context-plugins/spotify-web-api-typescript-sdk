@@ -205,7 +205,7 @@ Accessor: `client.artists` · Source: `src/resources/artists.ts` · 10 operation
 
 ### getUsersTopArtists
 
-- **Signature**: `getUsersTopArtists(request: Artists.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Artists.GetUsersTopArtistsError>`
+- **Signature**: `getUsersTopArtists(request?: Artists.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Artists.GetUsersTopArtistsError>`
 - **Wire**: `GET /me/top/artists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

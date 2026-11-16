@@ -1,18 +1,20 @@
 import type { AuthSchemes } from "../auth-schemes.js";
-import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
+import { ApiError, type Declared, type Undeclared } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
+import type { ErrorDecoders } from "../core/response-decoder.js";
 import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
 import { chapterObjectSchema, type ChapterObject } from "../models/chapter-object.js";
-import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
+import { forbidden1InternalSchema, type Forbidden1 } from "../models/forbidden1.js";
 import { manyChaptersSchema, type ManyChapters } from "../models/many-chapters.js";
 import {
   pagingSimplifiedChapterObjectSchema,
   type PagingSimplifiedChapterObject,
 } from "../models/paging-simplified-chapter-object.js";
-import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
-import { unauthorized1Schema, type Unauthorized1 } from "../models/unauthorized1.js";
+import { tooManyRequests1InternalSchema, type TooManyRequests1 } from "../models/too-many-requests1.js";
+import { unauthorized1InternalSchema, type Unauthorized1 } from "../models/unauthorized1.js";
 import type { Servers } from "../servers.js";
 
 export class Chapters {
@@ -156,16 +158,16 @@ export namespace Chapters {
   };
 
   export class GetAChapterError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAChapterError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -178,17 +180,26 @@ export namespace Chapters {
     offset?: number;
   };
 
+  export const getAudiobookChaptersRequestSchema: Schema<GetAudiobookChaptersRequest> = s.lazySchema(() =>
+    s.object<GetAudiobookChaptersRequest>({
+      id: s.string(),
+      market: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetAudiobookChaptersError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAudiobookChaptersError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -198,16 +209,16 @@ export namespace Chapters {
   };
 
   export class GetSeveralChaptersError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetSeveralChaptersError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 }

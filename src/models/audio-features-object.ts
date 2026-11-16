@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { type8Schema, type Type8 } from "./type8.js";
 
 export type AudioFeaturesObject = {
@@ -94,9 +94,11 @@ export type AudioFeaturesObject = {
    * valence sound more negative (e.g. sad, depressed, angry).
    */
   valence?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const audioFeaturesObjectSchema: Schema<AudioFeaturesObject> = s.object<AudioFeaturesObject>({
+const audioFeaturesObjectProperties: s.Shape<AudioFeaturesObject> = {
   acousticness: s.optional(s.float64()),
   analysisUrl: s.optional(s.string()),
   danceability: s.optional(s.float64()),
@@ -121,4 +123,22 @@ export const audioFeaturesObjectSchema: Schema<AudioFeaturesObject> = s.object<A
     timeSignature: "time_signature",
     trackHref: "track_href",
   },
-});
+};
+
+export const audioFeaturesObjectInternalSchema: Schema<AudioFeaturesObject> = s.object<AudioFeaturesObject>(
+  audioFeaturesObjectProperties,
+  { additionalProperties: s.json() },
+);
+
+export const audioFeaturesObjectSchema: Schema<AudioFeaturesObject> = s.lazySchema(() =>
+  s.object<AudioFeaturesObject>(
+    {
+      ...audioFeaturesObjectProperties,
+      acousticness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      key: s.optional(s.int().check(s.gte(-1), s.lte(11))),
+      timeSignature: s.optional(s.int().check(s.gte(3), s.lte(7))),
+      valence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

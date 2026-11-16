@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { modeSchema, type Mode } from "./mode.js";
 
 export type SectionObject = {
@@ -51,9 +51,11 @@ export type SectionObject = {
    * signature changes may correspond to low values in this field.
    */
   timeSignatureConfidence?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const sectionObjectSchema: Schema<SectionObject> = s.object<SectionObject>({
+const sectionObjectProperties: s.Shape<SectionObject> = {
   start: s.optional(s.float64()),
   duration: s.optional(s.float64()),
   confidence: s.optional(s.float64()),
@@ -73,4 +75,24 @@ export const sectionObjectSchema: Schema<SectionObject> = s.object<SectionObject
     timeSignature: "time_signature",
     timeSignatureConfidence: "time_signature_confidence",
   },
-});
+};
+
+export const sectionObjectInternalSchema: Schema<SectionObject> = s.object<SectionObject>(
+  sectionObjectProperties,
+  { additionalProperties: s.json() },
+);
+
+export const sectionObjectSchema: Schema<SectionObject> = s.lazySchema(() =>
+  s.object<SectionObject>(
+    {
+      ...sectionObjectProperties,
+      confidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      tempoConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      keyConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      modeConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      timeSignature: s.optional(s.int().check(s.gte(3), s.lte(7))),
+      timeSignatureConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { albumGroupSchema, type AlbumGroup } from "./album-group.js";
 import { albumRestrictionObjectSchema, type AlbumRestrictionObject } from "./album-restriction-object.js";
 import { albumTypeSchema, type AlbumType } from "./album-type.js";
@@ -48,32 +48,37 @@ export type ArtistDiscographyAlbumObject = {
    */
   artists: SimplifiedArtistObject[];
   albumGroup?: AlbumGroup;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const artistDiscographyAlbumObjectSchema: Schema<ArtistDiscographyAlbumObject> =
-  s.object<ArtistDiscographyAlbumObject>({
-    albumType: albumTypeSchema,
-    totalTracks: s.int(),
-    availableMarkets: s.optional(s.array(s.string())),
-    externalUrls: externalUrlObjectSchema,
-    href: s.string(),
-    id: s.string(),
-    images: s.array(s.lazy(() => imageObjectSchema)),
-    name: s.string(),
-    releaseDate: s.string(),
-    releaseDatePrecision: releaseDatePrecisionSchema,
-    restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
-    type: type2Schema,
-    uri: s.string(),
-    artists: s.array(s.lazy(() => simplifiedArtistObjectSchema)),
-    albumGroup: s.optional(s.lazy(() => albumGroupSchema)),
-    _keysMap: {
-      albumType: "album_type",
-      totalTracks: "total_tracks",
-      availableMarkets: "available_markets",
-      externalUrls: "external_urls",
-      releaseDate: "release_date",
-      releaseDatePrecision: "release_date_precision",
-      albumGroup: "album_group",
+  s.object<ArtistDiscographyAlbumObject>(
+    {
+      albumType: albumTypeSchema,
+      totalTracks: s.int(),
+      availableMarkets: s.optional(s.array(s.string())),
+      externalUrls: externalUrlObjectSchema,
+      href: s.string(),
+      id: s.string(),
+      images: s.array(s.lazy(() => imageObjectSchema)),
+      name: s.string(),
+      releaseDate: s.string(),
+      releaseDatePrecision: releaseDatePrecisionSchema,
+      restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
+      type: type2Schema,
+      uri: s.string(),
+      artists: s.array(s.lazy(() => simplifiedArtistObjectSchema)),
+      albumGroup: s.optional(s.lazy(() => albumGroupSchema)),
+      _keysMap: {
+        albumType: "album_type",
+        totalTracks: "total_tracks",
+        availableMarkets: "available_markets",
+        externalUrls: "external_urls",
+        releaseDate: "release_date",
+        releaseDatePrecision: "release_date_precision",
+        albumGroup: "album_group",
+      },
     },
-  });
+    { additionalProperties: s.json() },
+  );

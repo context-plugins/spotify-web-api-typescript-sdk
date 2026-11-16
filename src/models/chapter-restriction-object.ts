@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type ChapterRestrictionObject = {
   /**
@@ -14,9 +14,14 @@ export type ChapterRestrictionObject = {
    * your application safely handles unknown values.
    */
   reason?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const chapterRestrictionObjectSchema: Schema<ChapterRestrictionObject> =
-  s.object<ChapterRestrictionObject>({
-    reason: s.optional(s.string()),
-  });
+  s.object<ChapterRestrictionObject>(
+    {
+      reason: s.optional(s.string()),
+    },
+    { additionalProperties: s.json() },
+  );

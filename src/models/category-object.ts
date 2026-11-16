@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { imageObjectSchema, type ImageObject } from "./image-object.js";
 
 export type CategoryObject = {
@@ -15,11 +15,16 @@ export type CategoryObject = {
   id: string;
   /** The name of the category. */
   name: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const categoryObjectSchema: Schema<CategoryObject> = s.object<CategoryObject>({
-  href: s.string(),
-  icons: s.array(s.lazy(() => imageObjectSchema)),
-  id: s.string(),
-  name: s.string(),
-});
+export const categoryObjectSchema: Schema<CategoryObject> = s.object<CategoryObject>(
+  {
+    href: s.string(),
+    icons: s.array(s.lazy(() => imageObjectSchema)),
+    id: s.string(),
+    name: s.string(),
+  },
+  { additionalProperties: s.json() },
+);

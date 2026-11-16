@@ -1,15 +1,23 @@
 import type { AuthSchemes } from "../auth-schemes.js";
-import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
+import { ApiError, type Declared, type Undeclared } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { anyAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
+import type { ErrorDecoders } from "../core/response-decoder.js";
 import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
-import { audioAnalysisObjectSchema, type AudioAnalysisObject } from "../models/audio-analysis-object.js";
-import { audioFeaturesObjectSchema, type AudioFeaturesObject } from "../models/audio-features-object.js";
-import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
-import { manyAudioFeaturesSchema, type ManyAudioFeatures } from "../models/many-audio-features.js";
+import type { Schema } from "../core/validation/schema.js";
+import {
+  audioAnalysisObjectInternalSchema,
+  type AudioAnalysisObject,
+} from "../models/audio-analysis-object.js";
+import {
+  audioFeaturesObjectInternalSchema,
+  type AudioFeaturesObject,
+} from "../models/audio-features-object.js";
+import { forbidden1InternalSchema, type Forbidden1 } from "../models/forbidden1.js";
+import { manyAudioFeaturesInternalSchema, type ManyAudioFeatures } from "../models/many-audio-features.js";
 import { manyTracksSchema, type ManyTracks } from "../models/many-tracks.js";
 import {
   pagingPlaylistTrackObjectSchema,
@@ -40,9 +48,9 @@ import {
 import { recommendationsObjectSchema, type RecommendationsObject } from "../models/recommendations-object.js";
 import { removeTracksRequestSchema, type RemoveTracksRequest } from "../models/remove-tracks-request.js";
 import { saveTracksRequestSchema, type SaveTracksRequest } from "../models/save-tracks-request.js";
-import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
+import { tooManyRequests1InternalSchema, type TooManyRequests1 } from "../models/too-many-requests1.js";
 import { trackObjectSchema, type TrackObject } from "../models/track-object.js";
-import { unauthorized1Schema, type Unauthorized1 } from "../models/unauthorized1.js";
+import { unauthorized1InternalSchema, type Unauthorized1 } from "../models/unauthorized1.js";
 import type { Servers } from "../servers.js";
 
 export class Tracks {
@@ -248,7 +256,7 @@ export class Tracks {
         body: { kind: "empty" },
       },
       {
-        success: { kind: "json", schema: audioAnalysisObjectSchema },
+        success: { kind: "json", schema: audioAnalysisObjectInternalSchema },
         errorFactory: Tracks.GetAudioAnalysisError,
       },
       options,
@@ -285,7 +293,7 @@ export class Tracks {
         body: { kind: "empty" },
       },
       {
-        success: { kind: "json", schema: audioFeaturesObjectSchema },
+        success: { kind: "json", schema: audioFeaturesObjectInternalSchema },
         errorFactory: Tracks.GetAudioFeaturesError,
       },
       options,
@@ -356,7 +364,7 @@ export class Tracks {
    * could not be obtained
    */
   getRecommendations(
-    request: Tracks.GetRecommendationsRequest,
+    request: Tracks.GetRecommendationsRequest = {},
     options?: RequestOptions,
   ): ApiPromise<RecommendationsObject, Tracks.GetRecommendationsError> {
     return this.#rawClient.execute(
@@ -467,7 +475,7 @@ export class Tracks {
         body: { kind: "empty" },
       },
       {
-        success: { kind: "json", schema: manyAudioFeaturesSchema },
+        success: { kind: "json", schema: manyAudioFeaturesInternalSchema },
         errorFactory: Tracks.GetSeveralAudioFeaturesError,
       },
       options,
@@ -567,7 +575,7 @@ export class Tracks {
    * could not be obtained
    */
   getUsersSavedTracks(
-    request: Tracks.GetUsersSavedTracksRequest,
+    request: Tracks.GetUsersSavedTracksRequest = {},
     options?: RequestOptions,
   ): ApiPromise<PagingSavedTrackObject, Tracks.GetUsersSavedTracksError> {
     return this.#rawClient.execute(
@@ -608,7 +616,7 @@ export class Tracks {
    * could not be obtained
    */
   getUsersTopTracks(
-    request: Tracks.GetUsersTopTracksRequest,
+    request: Tracks.GetUsersTopTracksRequest = {},
     options?: RequestOptions,
   ): ApiPromise<PagingTrackObject, Tracks.GetUsersTopTracksError> {
     return this.#rawClient.execute(
@@ -813,16 +821,16 @@ export namespace Tracks {
   };
 
   export class AddTracksToPlaylistError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<AddTracksToPlaylistError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -831,16 +839,16 @@ export namespace Tracks {
   };
 
   export class CheckUsersSavedTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<CheckUsersSavedTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -853,17 +861,26 @@ export namespace Tracks {
     offset?: number;
   };
 
+  export const getAnAlbumsTracksRequestSchema: Schema<GetAnAlbumsTracksRequest> = s.lazySchema(() =>
+    s.object<GetAnAlbumsTracksRequest>({
+      id: s.string(),
+      market: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetAnAlbumsTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAnAlbumsTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -873,16 +890,16 @@ export namespace Tracks {
   };
 
   export class GetAnArtistsTopTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAnArtistsTopTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -891,16 +908,16 @@ export namespace Tracks {
   };
 
   export class GetAudioAnalysisError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAudioAnalysisError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -909,16 +926,16 @@ export namespace Tracks {
   };
 
   export class GetAudioFeaturesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetAudioFeaturesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -933,17 +950,28 @@ export namespace Tracks {
     additionalTypes?: string;
   };
 
+  export const getPlaylistsTracksRequestSchema: Schema<GetPlaylistsTracksRequest> = s.lazySchema(() =>
+    s.object<GetPlaylistsTracksRequest>({
+      playlistId: s.string(),
+      market: s.optional(s.string()),
+      fields: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(100)), 20),
+      offset: s.defaulted(s.int(), 0),
+      additionalTypes: s.optional(s.string()),
+    }),
+  );
+
   export class GetPlaylistsTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetPlaylistsTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -998,17 +1026,69 @@ export namespace Tracks {
     targetValence?: number;
   };
 
+  export const getRecommendationsRequestSchema: Schema<GetRecommendationsRequest> = s.lazySchema(() =>
+    s.object<GetRecommendationsRequest>({
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(100)), 20),
+      market: s.optional(s.string()),
+      seedArtists: s.optional(s.string()),
+      seedGenres: s.optional(s.string()),
+      seedTracks: s.optional(s.string()),
+      minAcousticness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxAcousticness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetAcousticness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minDanceability: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxDanceability: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetDanceability: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minDurationMs: s.optional(s.int()),
+      maxDurationMs: s.optional(s.int()),
+      targetDurationMs: s.optional(s.int()),
+      minEnergy: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxEnergy: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetEnergy: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minInstrumentalness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxInstrumentalness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetInstrumentalness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minKey: s.optional(s.int().check(s.gte(0), s.lte(11))),
+      maxKey: s.optional(s.int().check(s.gte(0), s.lte(11))),
+      targetKey: s.optional(s.int().check(s.gte(0), s.lte(11))),
+      minLiveness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxLiveness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetLiveness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minLoudness: s.optional(s.float64()),
+      maxLoudness: s.optional(s.float64()),
+      targetLoudness: s.optional(s.float64()),
+      minMode: s.optional(s.int().check(s.gte(0), s.lte(1))),
+      maxMode: s.optional(s.int().check(s.gte(0), s.lte(1))),
+      targetMode: s.optional(s.int().check(s.gte(0), s.lte(1))),
+      minPopularity: s.optional(s.int().check(s.gte(0), s.lte(100))),
+      maxPopularity: s.optional(s.int().check(s.gte(0), s.lte(100))),
+      targetPopularity: s.optional(s.int().check(s.gte(0), s.lte(100))),
+      minSpeechiness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxSpeechiness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetSpeechiness: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      minTempo: s.optional(s.float64()),
+      maxTempo: s.optional(s.float64()),
+      targetTempo: s.optional(s.float64()),
+      minTimeSignature: s.optional(s.int().check(s.lte(11))),
+      maxTimeSignature: s.optional(s.int()),
+      targetTimeSignature: s.optional(s.int()),
+      minValence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      maxValence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      targetValence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+    }),
+  );
+
   export class GetRecommendationsError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetRecommendationsError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1017,16 +1097,16 @@ export namespace Tracks {
   };
 
   export class GetSeveralAudioFeaturesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetSeveralAudioFeaturesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1036,16 +1116,16 @@ export namespace Tracks {
   };
 
   export class GetSeveralTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetSeveralTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1055,16 +1135,16 @@ export namespace Tracks {
   };
 
   export class GetTrackError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetTrackError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1076,17 +1156,25 @@ export namespace Tracks {
     offset?: number;
   };
 
+  export const getUsersSavedTracksRequestSchema: Schema<GetUsersSavedTracksRequest> = s.lazySchema(() =>
+    s.object<GetUsersSavedTracksRequest>({
+      market: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetUsersSavedTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetUsersSavedTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1099,17 +1187,25 @@ export namespace Tracks {
     offset?: number;
   };
 
+  export const getUsersTopTracksRequestSchema: Schema<GetUsersTopTracksRequest> = s.lazySchema(() =>
+    s.object<GetUsersTopTracksRequest>({
+      timeRange: s.defaulted(s.string(), "medium_term"),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetUsersTopTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetUsersTopTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1119,16 +1215,16 @@ export namespace Tracks {
   };
 
   export class RemoveTracksPlaylistError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<RemoveTracksPlaylistError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1138,16 +1234,16 @@ export namespace Tracks {
   };
 
   export class RemoveTracksUserError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<RemoveTracksUserError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1158,16 +1254,16 @@ export namespace Tracks {
   };
 
   export class ReorderOrReplacePlaylistsTracksError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<ReorderOrReplacePlaylistsTracksError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -1177,16 +1273,16 @@ export namespace Tracks {
   };
 
   export class SaveTracksUserError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<SaveTracksUserError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 }

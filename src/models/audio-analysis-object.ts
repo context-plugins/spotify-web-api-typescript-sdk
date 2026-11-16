@@ -1,10 +1,14 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { metaSchema, type Meta } from "./meta.js";
-import { sectionObjectSchema, type SectionObject } from "./section-object.js";
-import { segmentObjectSchema, type SegmentObject } from "./segment-object.js";
-import { timeIntervalObjectSchema, type TimeIntervalObject } from "./time-interval-object.js";
-import { trackSchema, type Track } from "./track.js";
+import { sectionObjectInternalSchema, sectionObjectSchema, type SectionObject } from "./section-object.js";
+import { segmentObjectInternalSchema, segmentObjectSchema, type SegmentObject } from "./segment-object.js";
+import {
+  timeIntervalObjectInternalSchema,
+  timeIntervalObjectSchema,
+  type TimeIntervalObject,
+} from "./time-interval-object.js";
+import { trackInternalSchema, trackSchema, type Track } from "./track.js";
 
 export type AudioAnalysisObject = {
   meta?: Meta;
@@ -32,14 +36,36 @@ export type AudioAnalysisObject = {
    * timing of perceived musical events (segments).
    */
   tatums?: TimeIntervalObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const audioAnalysisObjectSchema: Schema<AudioAnalysisObject> = s.object<AudioAnalysisObject>({
+const audioAnalysisObjectProperties: s.Shape<AudioAnalysisObject> = {
   meta: s.optional(s.lazy(() => metaSchema)),
-  track: s.optional(s.lazy(() => trackSchema)),
-  bars: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
-  beats: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
-  sections: s.optional(s.array(s.lazy(() => sectionObjectSchema))),
-  segments: s.optional(s.array(s.lazy(() => segmentObjectSchema))),
-  tatums: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
-});
+  track: s.optional(s.lazy(() => trackInternalSchema)),
+  bars: s.optional(s.array(s.lazy(() => timeIntervalObjectInternalSchema))),
+  beats: s.optional(s.array(s.lazy(() => timeIntervalObjectInternalSchema))),
+  sections: s.optional(s.array(s.lazy(() => sectionObjectInternalSchema))),
+  segments: s.optional(s.array(s.lazy(() => segmentObjectInternalSchema))),
+  tatums: s.optional(s.array(s.lazy(() => timeIntervalObjectInternalSchema))),
+};
+
+export const audioAnalysisObjectInternalSchema: Schema<AudioAnalysisObject> = s.object<AudioAnalysisObject>(
+  audioAnalysisObjectProperties,
+  { additionalProperties: s.json() },
+);
+
+export const audioAnalysisObjectSchema: Schema<AudioAnalysisObject> = s.lazySchema(() =>
+  s.object<AudioAnalysisObject>(
+    {
+      ...audioAnalysisObjectProperties,
+      track: s.optional(s.lazy(() => trackSchema)),
+      bars: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
+      beats: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
+      sections: s.optional(s.array(s.lazy(() => sectionObjectSchema))),
+      segments: s.optional(s.array(s.lazy(() => segmentObjectSchema))),
+      tatums: s.optional(s.array(s.lazy(() => timeIntervalObjectSchema))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

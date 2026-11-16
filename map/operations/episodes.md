@@ -104,7 +104,7 @@ Accessor: `client.episodes` · Source: `src/resources/episodes.ts` · 7 operatio
 
 ### getUsersSavedEpisodes
 
-- **Signature**: `getUsersSavedEpisodes(request: Episodes.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise<PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError>`
+- **Signature**: `getUsersSavedEpisodes(request?: Episodes.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise<PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError>`
 - **Wire**: `GET /me/episodes`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

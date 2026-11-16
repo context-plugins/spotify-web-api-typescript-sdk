@@ -1,18 +1,20 @@
 import type { AuthSchemes } from "../auth-schemes.js";
-import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
+import { ApiError, type Declared, type Undeclared } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import type { RawClient } from "../core/raw-client.js";
+import type { ErrorDecoders } from "../core/response-decoder.js";
 import * as s from "../core/validation/index.js";
+import type { Schema } from "../core/validation/schema.js";
 import { categoryObjectSchema, type CategoryObject } from "../models/category-object.js";
-import { forbidden1Schema, type Forbidden1 } from "../models/forbidden1.js";
+import { forbidden1InternalSchema, type Forbidden1 } from "../models/forbidden1.js";
 import { pagedCategoriesSchema, type PagedCategories } from "../models/paged-categories.js";
 import {
   pagingFeaturedPlaylistObjectSchema,
   type PagingFeaturedPlaylistObject,
 } from "../models/paging-featured-playlist-object.js";
-import { tooManyRequests1Schema, type TooManyRequests1 } from "../models/too-many-requests1.js";
-import { unauthorized1Schema, type Unauthorized1 } from "../models/unauthorized1.js";
+import { tooManyRequests1InternalSchema, type TooManyRequests1 } from "../models/too-many-requests1.js";
+import { unauthorized1InternalSchema, type Unauthorized1 } from "../models/unauthorized1.js";
 import type { Servers } from "../servers.js";
 
 export class CategoriesApi {
@@ -121,7 +123,7 @@ export class CategoriesApi {
    * could not be obtained
    */
   getCategories(
-    request: CategoriesApi.GetCategoriesRequest,
+    request: CategoriesApi.GetCategoriesRequest = {},
     options?: RequestOptions,
   ): ApiPromise<PagedCategories, CategoriesApi.GetCategoriesError> {
     return this.#rawClient.execute(
@@ -156,17 +158,26 @@ export namespace CategoriesApi {
     offset?: number;
   };
 
+  export const getACategoriesPlaylistsRequestSchema: Schema<GetACategoriesPlaylistsRequest> = s.lazySchema(
+    () =>
+      s.object<GetACategoriesPlaylistsRequest>({
+        categoryId: s.string(),
+        limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+        offset: s.defaulted(s.int(), 0),
+      }),
+  );
+
   export class GetACategoriesPlaylistsError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetACategoriesPlaylistsError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -176,16 +187,16 @@ export namespace CategoriesApi {
   };
 
   export class GetACategoryError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetACategoryError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 
@@ -197,17 +208,25 @@ export namespace CategoriesApi {
     offset?: number;
   };
 
+  export const getCategoriesRequestSchema: Schema<GetCategoriesRequest> = s.lazySchema(() =>
+    s.object<GetCategoriesRequest>({
+      locale: s.optional(s.string()),
+      limit: s.defaulted(s.int().check(s.gte(1), s.lte(50)), 20),
+      offset: s.defaulted(s.int(), 0),
+    }),
+  );
+
   export class GetCategoriesError extends ApiError {
-    declare readonly payload: ErrorPayload<
+    declare readonly payload:
       | Declared<"unauthorized1", Unauthorized1>
       | Declared<"forbidden1", Forbidden1>
       | Declared<"tooManyRequests1", TooManyRequests1>
-    >;
+      | Undeclared;
 
     static readonly errors: ErrorDecoders<GetCategoriesError> = [
-      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1Schema } },
-      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1Schema } },
-      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1Schema } },
+      { on: 401, kind: "unauthorized1", decode: { kind: "json", schema: unauthorized1InternalSchema } },
+      { on: 403, kind: "forbidden1", decode: { kind: "json", schema: forbidden1InternalSchema } },
+      { on: 429, kind: "tooManyRequests1", decode: { kind: "json", schema: tooManyRequests1InternalSchema } },
     ];
   }
 }

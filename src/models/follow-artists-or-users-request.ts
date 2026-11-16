@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type FollowArtistsOrUsersRequest = {
   /**
@@ -10,9 +10,14 @@ export type FollowArtistsOrUsersRequest = {
    * IDs listed here in the body will be ignored._
    */
   ids: string[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const followArtistsOrUsersRequestSchema: Schema<FollowArtistsOrUsersRequest> =
-  s.object<FollowArtistsOrUsersRequest>({
-    ids: s.array(s.string()),
-  });
+  s.object<FollowArtistsOrUsersRequest>(
+    {
+      ids: s.array(s.string()),
+    },
+    { additionalProperties: s.json() },
+  );

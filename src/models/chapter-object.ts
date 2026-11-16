@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { audiobookBaseSchema, type AudiobookBase } from "./audiobook-base.js";
 import {
   chapterRestrictionObjectSchema,
@@ -70,40 +70,45 @@ export type ChapterObject = {
   uri: string;
   restrictions?: ChapterRestrictionObject;
   audiobook: AudiobookBase;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const chapterObjectSchema: Schema<ChapterObject> = s.object<ChapterObject>({
-  audioPreviewUrl: s.nullable(s.string()),
-  availableMarkets: s.optional(s.array(s.string())),
-  chapterNumber: s.int(),
-  description: s.string(),
-  htmlDescription: s.string(),
-  durationMs: s.int(),
-  explicit: s.boolean(),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  isPlayable: s.boolean(),
-  languages: s.array(s.string()),
-  name: s.string(),
-  releaseDate: s.string(),
-  releaseDatePrecision: releaseDatePrecisionSchema,
-  resumePoint: s.optional(s.lazy(() => resumePointObjectSchema)),
-  type: type5Schema,
-  uri: s.string(),
-  restrictions: s.optional(s.lazy(() => chapterRestrictionObjectSchema)),
-  audiobook: audiobookBaseSchema,
-  _keysMap: {
-    audioPreviewUrl: "audio_preview_url",
-    availableMarkets: "available_markets",
-    chapterNumber: "chapter_number",
-    htmlDescription: "html_description",
-    durationMs: "duration_ms",
-    externalUrls: "external_urls",
-    isPlayable: "is_playable",
-    releaseDate: "release_date",
-    releaseDatePrecision: "release_date_precision",
-    resumePoint: "resume_point",
+export const chapterObjectSchema: Schema<ChapterObject> = s.object<ChapterObject>(
+  {
+    audioPreviewUrl: s.nullable(s.string()),
+    availableMarkets: s.optional(s.array(s.string())),
+    chapterNumber: s.int(),
+    description: s.string(),
+    htmlDescription: s.string(),
+    durationMs: s.int(),
+    explicit: s.boolean(),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    isPlayable: s.boolean(),
+    languages: s.array(s.string()),
+    name: s.string(),
+    releaseDate: s.string(),
+    releaseDatePrecision: releaseDatePrecisionSchema,
+    resumePoint: s.optional(s.lazy(() => resumePointObjectSchema)),
+    type: type5Schema,
+    uri: s.string(),
+    restrictions: s.optional(s.lazy(() => chapterRestrictionObjectSchema)),
+    audiobook: audiobookBaseSchema,
+    _keysMap: {
+      audioPreviewUrl: "audio_preview_url",
+      availableMarkets: "available_markets",
+      chapterNumber: "chapter_number",
+      htmlDescription: "html_description",
+      durationMs: "duration_ms",
+      externalUrls: "external_urls",
+      isPlayable: "is_playable",
+      releaseDate: "release_date",
+      releaseDatePrecision: "release_date_precision",
+      resumePoint: "resume_point",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

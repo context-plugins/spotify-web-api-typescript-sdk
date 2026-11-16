@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type ExternalIdObject = {
   /**
@@ -14,10 +14,15 @@ export type ExternalIdObject = {
   ean?: string;
   /** [Universal Product Code](http://en.wikipedia.org/wiki/Universal_Product_Code) */
   upc?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const externalIdObjectSchema: Schema<ExternalIdObject> = s.object<ExternalIdObject>({
-  isrc: s.optional(s.string()),
-  ean: s.optional(s.string()),
-  upc: s.optional(s.string()),
-});
+export const externalIdObjectSchema: Schema<ExternalIdObject> = s.object<ExternalIdObject>(
+  {
+    isrc: s.optional(s.string()),
+    ean: s.optional(s.string()),
+    upc: s.optional(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

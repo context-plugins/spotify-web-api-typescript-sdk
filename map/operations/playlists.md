@@ -160,7 +160,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 
 ### getAListOfCurrentUsersPlaylists
 
-- **Signature**: `getAListOfCurrentUsersPlaylists(request: Playlists.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingPlaylistObject, Playlists.GetAListOfCurrentUsersPlaylistsError>`
+- **Signature**: `getAListOfCurrentUsersPlaylists(request?: Playlists.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingPlaylistObject, Playlists.GetAListOfCurrentUsersPlaylistsError>`
 - **Wire**: `GET /me/playlists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -184,7 +184,7 @@ Accessor: `client.playlists` · Source: `src/resources/playlists.ts` · 16 opera
 
 ### getFeaturedPlaylists
 
-- **Signature**: `getFeaturedPlaylists(request: Playlists.GetFeaturedPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingFeaturedPlaylistObject, Playlists.GetFeaturedPlaylistsError>`
+- **Signature**: `getFeaturedPlaylists(request?: Playlists.GetFeaturedPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingFeaturedPlaylistObject, Playlists.GetFeaturedPlaylistsError>`
 - **Wire**: `GET /browse/featured-playlists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

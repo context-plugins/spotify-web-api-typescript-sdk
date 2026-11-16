@@ -104,7 +104,7 @@ Accessor: `client.shows` · Source: `src/resources/shows.ts` · 7 operations · 
 
 ### getUsersSavedShows
 
-- **Signature**: `getUsersSavedShows(request: Shows.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise<PagingSavedShowObject, Shows.GetUsersSavedShowsError>`
+- **Signature**: `getUsersSavedShows(request?: Shows.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise<PagingSavedShowObject, Shows.GetUsersSavedShowsError>`
 - **Wire**: `GET /me/shows`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type StartOrResumePlaybackRequest = {
   /**
@@ -25,16 +25,21 @@ export type StartOrResumePlaybackRequest = {
    * the next song.
    */
   positionMs?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const startOrResumePlaybackRequestSchema: Schema<StartOrResumePlaybackRequest> =
-  s.object<StartOrResumePlaybackRequest>({
-    contextUri: s.optional(s.string()),
-    uris: s.optional(s.array(s.string())),
-    offset: s.optional(s.record(s.string(), s.unknown())),
-    positionMs: s.optional(s.int()),
-    _keysMap: {
-      contextUri: "context_uri",
-      positionMs: "position_ms",
+  s.object<StartOrResumePlaybackRequest>(
+    {
+      contextUri: s.optional(s.string()),
+      uris: s.optional(s.array(s.string())),
+      offset: s.optional(s.record(s.string(), s.unknown())),
+      positionMs: s.optional(s.int()),
+      _keysMap: {
+        contextUri: "context_uri",
+        positionMs: "position_ms",
+      },
     },
-  });
+    { additionalProperties: s.json() },
+  );

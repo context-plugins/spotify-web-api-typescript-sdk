@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type SaveEpisodesRequest = {
   /**
@@ -9,8 +9,13 @@ export type SaveEpisodesRequest = {
    * present in the query string, any IDs listed here in the body will be ignored._
    */
   ids: string[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const saveEpisodesRequestSchema: Schema<SaveEpisodesRequest> = s.object<SaveEpisodesRequest>({
-  ids: s.array(s.string()),
-});
+export const saveEpisodesRequestSchema: Schema<SaveEpisodesRequest> = s.object<SaveEpisodesRequest>(
+  {
+    ids: s.array(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

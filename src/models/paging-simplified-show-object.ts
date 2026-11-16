@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { showBaseSchema, type ShowBase } from "./show-base.js";
 
 export type PagingSimplifiedShowObject = {
@@ -16,15 +16,20 @@ export type PagingSimplifiedShowObject = {
   /** The total number of items available to return. */
   total: number;
   items: ShowBase[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const pagingSimplifiedShowObjectSchema: Schema<PagingSimplifiedShowObject> =
-  s.object<PagingSimplifiedShowObject>({
-    href: s.string(),
-    limit: s.int(),
-    next: s.nullable(s.string()),
-    offset: s.int(),
-    previous: s.nullable(s.string()),
-    total: s.int(),
-    items: s.array(s.lazy(() => showBaseSchema)),
-  });
+  s.object<PagingSimplifiedShowObject>(
+    {
+      href: s.string(),
+      limit: s.int(),
+      next: s.nullable(s.string()),
+      offset: s.int(),
+      previous: s.nullable(s.string()),
+      total: s.int(),
+      items: s.array(s.lazy(() => showBaseSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

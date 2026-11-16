@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { authorObjectSchema, type AuthorObject } from "./author-object.js";
 import { copyrightObjectSchema, type CopyrightObject } from "./copyright-object.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
@@ -63,33 +63,38 @@ export type AudiobookBase = {
   uri: string;
   /** The number of chapters in this audiobook. */
   totalChapters: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const audiobookBaseSchema: Schema<AudiobookBase> = s.object<AudiobookBase>({
-  authors: s.array(s.lazy(() => authorObjectSchema)),
-  availableMarkets: s.array(s.string()),
-  copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
-  description: s.string(),
-  htmlDescription: s.string(),
-  edition: s.optional(s.string()),
-  explicit: s.boolean(),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  languages: s.array(s.string()),
-  mediaType: s.string(),
-  name: s.string(),
-  narrators: s.array(s.lazy(() => narratorObjectSchema)),
-  publisher: s.string(),
-  type: type9Schema,
-  uri: s.string(),
-  totalChapters: s.int(),
-  _keysMap: {
-    availableMarkets: "available_markets",
-    htmlDescription: "html_description",
-    externalUrls: "external_urls",
-    mediaType: "media_type",
-    totalChapters: "total_chapters",
+export const audiobookBaseSchema: Schema<AudiobookBase> = s.object<AudiobookBase>(
+  {
+    authors: s.array(s.lazy(() => authorObjectSchema)),
+    availableMarkets: s.array(s.string()),
+    copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
+    description: s.string(),
+    htmlDescription: s.string(),
+    edition: s.optional(s.string()),
+    explicit: s.boolean(),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    languages: s.array(s.string()),
+    mediaType: s.string(),
+    name: s.string(),
+    narrators: s.array(s.lazy(() => narratorObjectSchema)),
+    publisher: s.string(),
+    type: type9Schema,
+    uri: s.string(),
+    totalChapters: s.int(),
+    _keysMap: {
+      availableMarkets: "available_markets",
+      htmlDescription: "html_description",
+      externalUrls: "external_urls",
+      mediaType: "media_type",
+      totalChapters: "total_chapters",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

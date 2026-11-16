@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type MePlayerRequest = {
   /**
@@ -14,12 +14,17 @@ export type MePlayerRequest = {
    * current playback state.
    */
   play?: boolean;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const mePlayerRequestSchema: Schema<MePlayerRequest> = s.object<MePlayerRequest>({
-  deviceIds: s.array(s.string()),
-  play: s.optional(s.boolean()),
-  _keysMap: {
-    deviceIds: "device_ids",
+export const mePlayerRequestSchema: Schema<MePlayerRequest> = s.object<MePlayerRequest>(
+  {
+    deviceIds: s.array(s.string()),
+    play: s.optional(s.boolean()),
+    _keysMap: {
+      deviceIds: "device_ids",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

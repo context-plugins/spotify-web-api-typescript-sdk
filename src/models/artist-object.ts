@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
 import { followersObjectSchema, type FollowersObject } from "./followers-object.js";
 import { imageObjectSchema, type ImageObject } from "./image-object.js";
@@ -35,20 +35,25 @@ export type ArtistObject = {
    * artist.
    */
   uri?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const artistObjectSchema: Schema<ArtistObject> = s.object<ArtistObject>({
-  externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
-  followers: s.optional(s.lazy(() => followersObjectSchema)),
-  genres: s.optional(s.array(s.string())),
-  href: s.optional(s.string()),
-  id: s.optional(s.string()),
-  images: s.optional(s.array(s.lazy(() => imageObjectSchema))),
-  name: s.optional(s.string()),
-  popularity: s.optional(s.int()),
-  type: s.optional(s.lazy(() => typeSchema)),
-  uri: s.optional(s.string()),
-  _keysMap: {
-    externalUrls: "external_urls",
+export const artistObjectSchema: Schema<ArtistObject> = s.object<ArtistObject>(
+  {
+    externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
+    followers: s.optional(s.lazy(() => followersObjectSchema)),
+    genres: s.optional(s.array(s.string())),
+    href: s.optional(s.string()),
+    id: s.optional(s.string()),
+    images: s.optional(s.array(s.lazy(() => imageObjectSchema))),
+    name: s.optional(s.string()),
+    popularity: s.optional(s.int()),
+    type: s.optional(s.lazy(() => typeSchema)),
+    uri: s.optional(s.string()),
+    _keysMap: {
+      externalUrls: "external_urls",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

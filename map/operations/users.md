@@ -198,7 +198,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 
 ### getUsersTopArtists
 
-- **Signature**: `getUsersTopArtists(request: Users.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Users.GetUsersTopArtistsError>`
+- **Signature**: `getUsersTopArtists(request?: Users.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Users.GetUsersTopArtistsError>`
 - **Wire**: `GET /me/top/artists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -223,7 +223,7 @@ Accessor: `client.users` · Source: `src/resources/users.ts` · 12 operations ·
 
 ### getUsersTopTracks
 
-- **Signature**: `getUsersTopTracks(request: Users.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Users.GetUsersTopTracksError>`
+- **Signature**: `getUsersTopTracks(request?: Users.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Users.GetUsersTopTracksError>`
 - **Wire**: `GET /me/top/tracks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

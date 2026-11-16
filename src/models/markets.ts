@@ -1,10 +1,15 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type Markets = {
   markets?: string[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const marketsSchema: Schema<Markets> = s.object<Markets>({
-  markets: s.optional(s.array(s.string())),
-});
+export const marketsSchema: Schema<Markets> = s.object<Markets>(
+  {
+    markets: s.optional(s.array(s.string())),
+  },
+  { additionalProperties: s.json() },
+);

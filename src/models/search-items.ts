@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { pagingArtistObjectSchema, type PagingArtistObject } from "./paging-artist-object.js";
 import { pagingPlaylistObjectSchema, type PagingPlaylistObject } from "./paging-playlist-object.js";
 import {
@@ -28,14 +28,19 @@ export type SearchItems = {
   shows?: PagingSimplifiedShowObject;
   episodes?: PagingSimplifiedEpisodeObject;
   audiobooks?: PagingSimplifiedAudiobookObject;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const searchItemsSchema: Schema<SearchItems> = s.object<SearchItems>({
-  tracks: s.optional(s.lazy(() => pagingTrackObjectSchema)),
-  artists: s.optional(s.lazy(() => pagingArtistObjectSchema)),
-  albums: s.optional(s.lazy(() => pagingSimplifiedAlbumObjectSchema)),
-  playlists: s.optional(s.lazy(() => pagingPlaylistObjectSchema)),
-  shows: s.optional(s.lazy(() => pagingSimplifiedShowObjectSchema)),
-  episodes: s.optional(s.lazy(() => pagingSimplifiedEpisodeObjectSchema)),
-  audiobooks: s.optional(s.lazy(() => pagingSimplifiedAudiobookObjectSchema)),
-});
+export const searchItemsSchema: Schema<SearchItems> = s.object<SearchItems>(
+  {
+    tracks: s.optional(s.lazy(() => pagingTrackObjectSchema)),
+    artists: s.optional(s.lazy(() => pagingArtistObjectSchema)),
+    albums: s.optional(s.lazy(() => pagingSimplifiedAlbumObjectSchema)),
+    playlists: s.optional(s.lazy(() => pagingPlaylistObjectSchema)),
+    shows: s.optional(s.lazy(() => pagingSimplifiedShowObjectSchema)),
+    episodes: s.optional(s.lazy(() => pagingSimplifiedEpisodeObjectSchema)),
+    audiobooks: s.optional(s.lazy(() => pagingSimplifiedAudiobookObjectSchema)),
+  },
+  { additionalProperties: s.json() },
+);

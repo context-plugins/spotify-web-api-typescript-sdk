@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type PagingObject = {
   /** A link to the Web API endpoint returning the full result of the request */
@@ -14,13 +14,18 @@ export type PagingObject = {
   previous: string | null;
   /** The total number of items available to return. */
   total: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const pagingObjectSchema: Schema<PagingObject> = s.object<PagingObject>({
-  href: s.string(),
-  limit: s.int(),
-  next: s.nullable(s.string()),
-  offset: s.int(),
-  previous: s.nullable(s.string()),
-  total: s.int(),
-});
+export const pagingObjectSchema: Schema<PagingObject> = s.object<PagingObject>(
+  {
+    href: s.string(),
+    limit: s.int(),
+    next: s.nullable(s.string()),
+    offset: s.int(),
+    previous: s.nullable(s.string()),
+    total: s.int(),
+  },
+  { additionalProperties: s.json() },
+);

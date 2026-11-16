@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type RecommendationSeedObject = {
   /** The number of tracks available after min\_\* and max\_\* filters have been applied. */
@@ -21,14 +21,19 @@ export type RecommendationSeedObject = {
   initialPoolSize?: number;
   /** The entity type of this seed. One of `artist`, `track` or `genre`. */
   type?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const recommendationSeedObjectSchema: Schema<RecommendationSeedObject> =
-  s.object<RecommendationSeedObject>({
-    afterFilteringSize: s.optional(s.int()),
-    afterRelinkingSize: s.optional(s.int()),
-    href: s.optional(s.string()),
-    id: s.optional(s.string()),
-    initialPoolSize: s.optional(s.int()),
-    type: s.optional(s.string()),
-  });
+  s.object<RecommendationSeedObject>(
+    {
+      afterFilteringSize: s.optional(s.int()),
+      afterRelinkingSize: s.optional(s.int()),
+      href: s.optional(s.string()),
+      id: s.optional(s.string()),
+      initialPoolSize: s.optional(s.int()),
+      type: s.optional(s.string()),
+    },
+    { additionalProperties: s.json() },
+  );

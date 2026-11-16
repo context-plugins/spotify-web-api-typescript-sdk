@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { episodeObjectSchema, type EpisodeObject } from "./episode-object.js";
 
 export type SavedEpisodeObject = {
@@ -9,12 +9,17 @@ export type SavedEpisodeObject = {
    */
   addedAt?: Date;
   episode?: EpisodeObject;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const savedEpisodeObjectSchema: Schema<SavedEpisodeObject> = s.object<SavedEpisodeObject>({
-  addedAt: s.optional(s.dateTime()),
-  episode: s.optional(s.lazy(() => episodeObjectSchema)),
-  _keysMap: {
-    addedAt: "added_at",
+export const savedEpisodeObjectSchema: Schema<SavedEpisodeObject> = s.object<SavedEpisodeObject>(
+  {
+    addedAt: s.optional(s.dateTime()),
+    episode: s.optional(s.lazy(() => episodeObjectSchema)),
+    _keysMap: {
+      addedAt: "added_at",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

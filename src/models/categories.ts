@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { categoryObjectSchema, type CategoryObject } from "./category-object.js";
 
 export type Categories = {
@@ -16,14 +16,19 @@ export type Categories = {
   /** The total number of items available to return. */
   total: number;
   items: CategoryObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const categoriesSchema: Schema<Categories> = s.object<Categories>({
-  href: s.string(),
-  limit: s.int(),
-  next: s.nullable(s.string()),
-  offset: s.int(),
-  previous: s.nullable(s.string()),
-  total: s.int(),
-  items: s.array(s.lazy(() => categoryObjectSchema)),
-});
+export const categoriesSchema: Schema<Categories> = s.object<Categories>(
+  {
+    href: s.string(),
+    limit: s.int(),
+    next: s.nullable(s.string()),
+    offset: s.int(),
+    previous: s.nullable(s.string()),
+    total: s.int(),
+    items: s.array(s.lazy(() => categoryObjectSchema)),
+  },
+  { additionalProperties: s.json() },
+);

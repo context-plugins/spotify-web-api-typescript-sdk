@@ -57,7 +57,7 @@ Accessor: `client.categoriesApi` · Source: `src/resources/categories-api.ts` ·
 
 ### getCategories
 
-- **Signature**: `getCategories(request: CategoriesApi.GetCategoriesRequest, options?: RequestOptions): ApiPromise<PagedCategories, CategoriesApi.GetCategoriesError>`
+- **Signature**: `getCategories(request?: CategoriesApi.GetCategoriesRequest, options?: RequestOptions): ApiPromise<PagedCategories, CategoriesApi.GetCategoriesError>`
 - **Wire**: `GET /browse/categories`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

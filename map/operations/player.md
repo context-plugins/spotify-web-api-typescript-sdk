@@ -49,7 +49,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### getInformationAboutTheUsersCurrentPlayback
 
-- **Signature**: `getInformationAboutTheUsersCurrentPlayback(request: Player.GetInformationAboutTheUsersCurrentPlaybackRequest, options?: RequestOptions): ApiPromise<CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError>`
+- **Signature**: `getInformationAboutTheUsersCurrentPlayback(request?: Player.GetInformationAboutTheUsersCurrentPlaybackRequest, options?: RequestOptions): ApiPromise<CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError>`
 - **Wire**: `GET /me/player`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -90,7 +90,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### getRecentlyPlayed
 
-- **Signature**: `getRecentlyPlayed(request: Player.GetRecentlyPlayedRequest, options?: RequestOptions): ApiPromise<CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError>`
+- **Signature**: `getRecentlyPlayed(request?: Player.GetRecentlyPlayedRequest, options?: RequestOptions): ApiPromise<CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError>`
 - **Wire**: `GET /me/player/recently-played`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -115,7 +115,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### getTheUsersCurrentlyPlayingTrack
 
-- **Signature**: `getTheUsersCurrentlyPlayingTrack(request: Player.GetTheUsersCurrentlyPlayingTrackRequest, options?: RequestOptions): ApiPromise<CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError>`
+- **Signature**: `getTheUsersCurrentlyPlayingTrack(request?: Player.GetTheUsersCurrentlyPlayingTrackRequest, options?: RequestOptions): ApiPromise<CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError>`
 - **Wire**: `GET /me/player/currently-playing`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -139,7 +139,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### pauseAUsersPlayback
 
-- **Signature**: `pauseAUsersPlayback(request: Player.PauseAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.PauseAUsersPlaybackError>`
+- **Signature**: `pauseAUsersPlayback(request?: Player.PauseAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.PauseAUsersPlaybackError>`
 - **Wire**: `PUT /me/player/pause`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -234,7 +234,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### skipUsersPlaybackToNextTrack
 
-- **Signature**: `skipUsersPlaybackToNextTrack(request: Player.SkipUsersPlaybackToNextTrackRequest, options?: RequestOptions): ApiPromise<undefined, Player.SkipUsersPlaybackToNextTrackError>`
+- **Signature**: `skipUsersPlaybackToNextTrack(request?: Player.SkipUsersPlaybackToNextTrackRequest, options?: RequestOptions): ApiPromise<undefined, Player.SkipUsersPlaybackToNextTrackError>`
 - **Wire**: `POST /me/player/next`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -257,7 +257,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### skipUsersPlaybackToPreviousTrack
 
-- **Signature**: `skipUsersPlaybackToPreviousTrack(request: Player.SkipUsersPlaybackToPreviousTrackRequest, options?: RequestOptions): ApiPromise<undefined, Player.SkipUsersPlaybackToPreviousTrackError>`
+- **Signature**: `skipUsersPlaybackToPreviousTrack(request?: Player.SkipUsersPlaybackToPreviousTrackRequest, options?: RequestOptions): ApiPromise<undefined, Player.SkipUsersPlaybackToPreviousTrackError>`
 - **Wire**: `POST /me/player/previous`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -280,7 +280,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### startAUsersPlayback
 
-- **Signature**: `startAUsersPlayback(request: Player.StartAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.StartAUsersPlaybackError>`
+- **Signature**: `startAUsersPlayback(request?: Player.StartAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.StartAUsersPlaybackError>`
 - **Wire**: `PUT /me/player/play`
 - **Auth**: `oauth20`
 - **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
@@ -329,7 +329,7 @@ Accessor: `client.player` · Source: `src/resources/player.ts` · 15 operations 
 
 ### transferAUsersPlayback
 
-- **Signature**: `transferAUsersPlayback(request: Player.TransferAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.TransferAUsersPlaybackError>`
+- **Signature**: `transferAUsersPlayback(request?: Player.TransferAUsersPlaybackRequest, options?: RequestOptions): ApiPromise<undefined, Player.TransferAUsersPlaybackError>`
 - **Wire**: `PUT /me/player`
 - **Auth**: `oauth20`
 - **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all

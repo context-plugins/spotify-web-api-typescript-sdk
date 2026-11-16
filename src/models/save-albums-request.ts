@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type SaveAlbumsRequest = {
   /**
@@ -10,8 +10,13 @@ export type SaveAlbumsRequest = {
    * any IDs listed here in the body will be ignored._
    */
   ids?: string[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const saveAlbumsRequestSchema: Schema<SaveAlbumsRequest> = s.object<SaveAlbumsRequest>({
-  ids: s.optional(s.array(s.string())),
-});
+export const saveAlbumsRequestSchema: Schema<SaveAlbumsRequest> = s.object<SaveAlbumsRequest>(
+  {
+    ids: s.optional(s.array(s.string())),
+  },
+  { additionalProperties: s.json() },
+);

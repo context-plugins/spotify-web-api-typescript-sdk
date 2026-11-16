@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type Track = {
   /**
@@ -96,9 +96,11 @@ export type Track = {
   rhythmstring?: string;
   /** A version number for the Rhythmstring used in the rhythmstring field. */
   rhythmVersion?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const trackSchema: Schema<Track> = s.object<Track>({
+const trackProperties: s.Shape<Track> = {
   numSamples: s.optional(s.int()),
   duration: s.optional(s.float64()),
   sampleMd5: s.optional(s.string()),
@@ -144,4 +146,23 @@ export const trackSchema: Schema<Track> = s.object<Track>({
     synchVersion: "synch_version",
     rhythmVersion: "rhythm_version",
   },
+};
+
+export const trackInternalSchema: Schema<Track> = s.object<Track>(trackProperties, {
+  additionalProperties: s.json(),
 });
+
+export const trackSchema: Schema<Track> = s.lazySchema(() =>
+  s.object<Track>(
+    {
+      ...trackProperties,
+      tempoConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      timeSignature: s.optional(s.int().check(s.gte(3), s.lte(7))),
+      timeSignatureConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      key: s.optional(s.int().check(s.gte(-1), s.lte(11))),
+      keyConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      modeConfidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

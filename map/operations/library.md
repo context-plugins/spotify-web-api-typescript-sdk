@@ -220,7 +220,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getAListOfCurrentUsersPlaylists
 
-- **Signature**: `getAListOfCurrentUsersPlaylists(request: Library.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingPlaylistObject, Library.GetAListOfCurrentUsersPlaylistsError>`
+- **Signature**: `getAListOfCurrentUsersPlaylists(request?: Library.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise<PagingPlaylistObject, Library.GetAListOfCurrentUsersPlaylistsError>`
 - **Wire**: `GET /me/playlists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -270,7 +270,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersSavedAlbums
 
-- **Signature**: `getUsersSavedAlbums(request: Library.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise<PagingSavedAlbumObject, Library.GetUsersSavedAlbumsError>`
+- **Signature**: `getUsersSavedAlbums(request?: Library.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise<PagingSavedAlbumObject, Library.GetUsersSavedAlbumsError>`
 - **Wire**: `GET /me/albums`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -295,7 +295,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersSavedAudiobooks
 
-- **Signature**: `getUsersSavedAudiobooks(request: Library.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise<PagingSavedAudiobookObject, Library.GetUsersSavedAudiobooksError>`
+- **Signature**: `getUsersSavedAudiobooks(request?: Library.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise<PagingSavedAudiobookObject, Library.GetUsersSavedAudiobooksError>`
 - **Wire**: `GET /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -319,7 +319,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersSavedEpisodes
 
-- **Signature**: `getUsersSavedEpisodes(request: Library.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise<PagingSavedEpisodeObject, Library.GetUsersSavedEpisodesError>`
+- **Signature**: `getUsersSavedEpisodes(request?: Library.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise<PagingSavedEpisodeObject, Library.GetUsersSavedEpisodesError>`
 - **Wire**: `GET /me/episodes`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -344,7 +344,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersSavedShows
 
-- **Signature**: `getUsersSavedShows(request: Library.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise<PagingSavedShowObject, Library.GetUsersSavedShowsError>`
+- **Signature**: `getUsersSavedShows(request?: Library.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise<PagingSavedShowObject, Library.GetUsersSavedShowsError>`
 - **Wire**: `GET /me/shows`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -368,7 +368,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersSavedTracks
 
-- **Signature**: `getUsersSavedTracks(request: Library.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise<PagingSavedTrackObject, Library.GetUsersSavedTracksError>`
+- **Signature**: `getUsersSavedTracks(request?: Library.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise<PagingSavedTrackObject, Library.GetUsersSavedTracksError>`
 - **Wire**: `GET /me/tracks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -393,7 +393,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersTopArtists
 
-- **Signature**: `getUsersTopArtists(request: Library.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Library.GetUsersTopArtistsError>`
+- **Signature**: `getUsersTopArtists(request?: Library.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise<PagingArtistObject, Library.GetUsersTopArtistsError>`
 - **Wire**: `GET /me/top/artists`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -418,7 +418,7 @@ Accessor: `client.library` · Source: `src/resources/library.ts` · 29 operation
 
 ### getUsersTopTracks
 
-- **Signature**: `getUsersTopTracks(request: Library.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Library.GetUsersTopTracksError>`
+- **Signature**: `getUsersTopTracks(request?: Library.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Library.GetUsersTopTracksError>`
 - **Wire**: `GET /me/top/tracks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

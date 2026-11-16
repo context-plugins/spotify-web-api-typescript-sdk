@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { albumRestrictionObjectSchema, type AlbumRestrictionObject } from "./album-restriction-object.js";
 import { albumTypeSchema, type AlbumType } from "./album-type.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
@@ -40,28 +40,33 @@ export type AlbumBase = {
    * album.
    */
   uri: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const albumBaseSchema: Schema<AlbumBase> = s.object<AlbumBase>({
-  albumType: albumTypeSchema,
-  totalTracks: s.int(),
-  availableMarkets: s.optional(s.array(s.string())),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  name: s.string(),
-  releaseDate: s.string(),
-  releaseDatePrecision: releaseDatePrecisionSchema,
-  restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
-  type: type2Schema,
-  uri: s.string(),
-  _keysMap: {
-    albumType: "album_type",
-    totalTracks: "total_tracks",
-    availableMarkets: "available_markets",
-    externalUrls: "external_urls",
-    releaseDate: "release_date",
-    releaseDatePrecision: "release_date_precision",
+export const albumBaseSchema: Schema<AlbumBase> = s.object<AlbumBase>(
+  {
+    albumType: albumTypeSchema,
+    totalTracks: s.int(),
+    availableMarkets: s.optional(s.array(s.string())),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    name: s.string(),
+    releaseDate: s.string(),
+    releaseDatePrecision: releaseDatePrecisionSchema,
+    restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
+    type: type2Schema,
+    uri: s.string(),
+    _keysMap: {
+      albumType: "album_type",
+      totalTracks: "total_tracks",
+      availableMarkets: "available_markets",
+      externalUrls: "external_urls",
+      releaseDate: "release_date",
+      releaseDatePrecision: "release_date_precision",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

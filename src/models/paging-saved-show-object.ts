@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { savedShowObjectSchema, type SavedShowObject } from "./saved-show-object.js";
 
 export type PagingSavedShowObject = {
@@ -16,14 +16,19 @@ export type PagingSavedShowObject = {
   /** The total number of items available to return. */
   total: number;
   items: SavedShowObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const pagingSavedShowObjectSchema: Schema<PagingSavedShowObject> = s.object<PagingSavedShowObject>({
-  href: s.string(),
-  limit: s.int(),
-  next: s.nullable(s.string()),
-  offset: s.int(),
-  previous: s.nullable(s.string()),
-  total: s.int(),
-  items: s.array(s.lazy(() => savedShowObjectSchema)),
-});
+export const pagingSavedShowObjectSchema: Schema<PagingSavedShowObject> = s.object<PagingSavedShowObject>(
+  {
+    href: s.string(),
+    limit: s.int(),
+    next: s.nullable(s.string()),
+    offset: s.int(),
+    previous: s.nullable(s.string()),
+    total: s.int(),
+    items: s.array(s.lazy(() => savedShowObjectSchema)),
+  },
+  { additionalProperties: s.json() },
+);

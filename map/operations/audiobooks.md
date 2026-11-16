@@ -106,7 +106,7 @@ Accessor: `client.audiobooks` · Source: `src/resources/audiobooks.ts` · 7 oper
 
 ### getUsersSavedAudiobooks
 
-- **Signature**: `getUsersSavedAudiobooks(request: Audiobooks.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise<PagingSavedAudiobookObject, Audiobooks.GetUsersSavedAudiobooksError>`
+- **Signature**: `getUsersSavedAudiobooks(request?: Audiobooks.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise<PagingSavedAudiobookObject, Audiobooks.GetUsersSavedAudiobooksError>`
 - **Wire**: `GET /me/audiobooks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

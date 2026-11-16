@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type DeviceObject = {
   /**
@@ -28,9 +28,11 @@ export type DeviceObject = {
   volumePercent?: number | null;
   /** If this device can be used to set the volume. */
   supportsVolume?: boolean;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const deviceObjectSchema: Schema<DeviceObject> = s.object<DeviceObject>({
+const deviceObjectProperties: s.Shape<DeviceObject> = {
   id: s.optionalNullable(s.string()),
   isActive: s.optional(s.boolean()),
   isPrivateSession: s.optional(s.boolean()),
@@ -46,4 +48,19 @@ export const deviceObjectSchema: Schema<DeviceObject> = s.object<DeviceObject>({
     volumePercent: "volume_percent",
     supportsVolume: "supports_volume",
   },
-});
+};
+
+export const deviceObjectInternalSchema: Schema<DeviceObject> = s.object<DeviceObject>(
+  deviceObjectProperties,
+  { additionalProperties: s.json() },
+);
+
+export const deviceObjectSchema: Schema<DeviceObject> = s.lazySchema(() =>
+  s.object<DeviceObject>(
+    {
+      ...deviceObjectProperties,
+      volumePercent: s.optionalNullable(s.int().check(s.gte(0), s.lte(100))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

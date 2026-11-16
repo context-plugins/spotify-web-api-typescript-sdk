@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { episodeBaseSchema, type EpisodeBase } from "./episode-base.js";
 
 export type PagingSimplifiedEpisodeObject = {
@@ -16,15 +16,20 @@ export type PagingSimplifiedEpisodeObject = {
   /** The total number of items available to return. */
   total: number;
   items: EpisodeBase[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const pagingSimplifiedEpisodeObjectSchema: Schema<PagingSimplifiedEpisodeObject> =
-  s.object<PagingSimplifiedEpisodeObject>({
-    href: s.string(),
-    limit: s.int(),
-    next: s.nullable(s.string()),
-    offset: s.int(),
-    previous: s.nullable(s.string()),
-    total: s.int(),
-    items: s.array(s.lazy(() => episodeBaseSchema)),
-  });
+  s.object<PagingSimplifiedEpisodeObject>(
+    {
+      href: s.string(),
+      limit: s.int(),
+      next: s.nullable(s.string()),
+      offset: s.int(),
+      previous: s.nullable(s.string()),
+      total: s.int(),
+      items: s.array(s.lazy(() => episodeBaseSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

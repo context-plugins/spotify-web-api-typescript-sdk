@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { chapterBaseSchema, type ChapterBase } from "./chapter-base.js";
 
 export type PagingSimplifiedChapterObject = {
@@ -16,15 +16,20 @@ export type PagingSimplifiedChapterObject = {
   /** The total number of items available to return. */
   total: number;
   items: ChapterBase[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const pagingSimplifiedChapterObjectSchema: Schema<PagingSimplifiedChapterObject> =
-  s.object<PagingSimplifiedChapterObject>({
-    href: s.string(),
-    limit: s.int(),
-    next: s.nullable(s.string()),
-    offset: s.int(),
-    previous: s.nullable(s.string()),
-    total: s.int(),
-    items: s.array(s.lazy(() => chapterBaseSchema)),
-  });
+  s.object<PagingSimplifiedChapterObject>(
+    {
+      href: s.string(),
+      limit: s.int(),
+      next: s.nullable(s.string()),
+      offset: s.int(),
+      previous: s.nullable(s.string()),
+      total: s.int(),
+      items: s.array(s.lazy(() => chapterBaseSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

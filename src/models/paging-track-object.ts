@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { trackObjectSchema, type TrackObject } from "./track-object.js";
 
 export type PagingTrackObject = {
@@ -16,14 +16,19 @@ export type PagingTrackObject = {
   /** The total number of items available to return. */
   total: number;
   items: TrackObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const pagingTrackObjectSchema: Schema<PagingTrackObject> = s.object<PagingTrackObject>({
-  href: s.string(),
-  limit: s.int(),
-  next: s.nullable(s.string()),
-  offset: s.int(),
-  previous: s.nullable(s.string()),
-  total: s.int(),
-  items: s.array(s.lazy(() => trackObjectSchema)),
-});
+export const pagingTrackObjectSchema: Schema<PagingTrackObject> = s.object<PagingTrackObject>(
+  {
+    href: s.string(),
+    limit: s.int(),
+    next: s.nullable(s.string()),
+    offset: s.int(),
+    previous: s.nullable(s.string()),
+    total: s.int(),
+    items: s.array(s.lazy(() => trackObjectSchema)),
+  },
+  { additionalProperties: s.json() },
+);

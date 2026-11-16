@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { track1Schema, type Track1 } from "./track1.js";
 
 export type PlaylistsTracksRequest2 = {
@@ -17,13 +17,18 @@ export type PlaylistsTracksRequest2 = {
    * more recent changes have been made to the playlist.
    */
   snapshotId?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const playlistsTracksRequest2Schema: Schema<PlaylistsTracksRequest2> =
-  s.object<PlaylistsTracksRequest2>({
-    tracks: s.array(s.lazy(() => track1Schema)),
-    snapshotId: s.optional(s.string()),
-    _keysMap: {
-      snapshotId: "snapshot_id",
+  s.object<PlaylistsTracksRequest2>(
+    {
+      tracks: s.array(s.lazy(() => track1Schema)),
+      snapshotId: s.optional(s.string()),
+      _keysMap: {
+        snapshotId: "snapshot_id",
+      },
     },
-  });
+    { additionalProperties: s.json() },
+  );

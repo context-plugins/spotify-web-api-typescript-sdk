@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { simplifiedAlbumObjectSchema, type SimplifiedAlbumObject } from "./simplified-album-object.js";
 
 export type PagingSimplifiedAlbumObject = {
@@ -16,15 +16,20 @@ export type PagingSimplifiedAlbumObject = {
   /** The total number of items available to return. */
   total: number;
   items: SimplifiedAlbumObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const pagingSimplifiedAlbumObjectSchema: Schema<PagingSimplifiedAlbumObject> =
-  s.object<PagingSimplifiedAlbumObject>({
-    href: s.string(),
-    limit: s.int(),
-    next: s.nullable(s.string()),
-    offset: s.int(),
-    previous: s.nullable(s.string()),
-    total: s.int(),
-    items: s.array(s.lazy(() => simplifiedAlbumObjectSchema)),
-  });
+  s.object<PagingSimplifiedAlbumObject>(
+    {
+      href: s.string(),
+      limit: s.int(),
+      next: s.nullable(s.string()),
+      offset: s.int(),
+      previous: s.nullable(s.string()),
+      total: s.int(),
+      items: s.array(s.lazy(() => simplifiedAlbumObjectSchema)),
+    },
+    { additionalProperties: s.json() },
+  );

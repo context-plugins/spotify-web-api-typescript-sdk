@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type SegmentObject = {
   /** The starting point (in seconds) of the segment. */
@@ -66,9 +66,11 @@ export type SegmentObject = {
    * below. Timbre vectors are best used in comparison with each other.
    */
   timbre?: number[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const segmentObjectSchema: Schema<SegmentObject> = s.object<SegmentObject>({
+const segmentObjectProperties: s.Shape<SegmentObject> = {
   start: s.optional(s.float64()),
   duration: s.optional(s.float64()),
   confidence: s.optional(s.float64()),
@@ -84,4 +86,20 @@ export const segmentObjectSchema: Schema<SegmentObject> = s.object<SegmentObject
     loudnessMaxTime: "loudness_max_time",
     loudnessEnd: "loudness_end",
   },
-});
+};
+
+export const segmentObjectInternalSchema: Schema<SegmentObject> = s.object<SegmentObject>(
+  segmentObjectProperties,
+  { additionalProperties: s.json() },
+);
+
+export const segmentObjectSchema: Schema<SegmentObject> = s.lazySchema(() =>
+  s.object<SegmentObject>(
+    {
+      ...segmentObjectProperties,
+      confidence: s.optional(s.float64().check(s.gte(0), s.lte(1))),
+      pitches: s.optional(s.array(s.float64().check(s.gte(0), s.lte(1)))),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

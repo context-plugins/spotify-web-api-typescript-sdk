@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { artistObjectSchema, type ArtistObject } from "./artist-object.js";
 import { cursorObjectSchema, type CursorObject } from "./cursor-object.js";
 
@@ -14,14 +14,19 @@ export type CursorPagingSimplifiedArtistObject = {
   /** The total number of items available to return. */
   total?: number;
   items?: ArtistObject[];
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const cursorPagingSimplifiedArtistObjectSchema: Schema<CursorPagingSimplifiedArtistObject> =
-  s.object<CursorPagingSimplifiedArtistObject>({
-    href: s.optional(s.string()),
-    limit: s.optional(s.int()),
-    next: s.optional(s.string()),
-    cursors: s.optional(s.lazy(() => cursorObjectSchema)),
-    total: s.optional(s.int()),
-    items: s.optional(s.array(s.lazy(() => artistObjectSchema))),
-  });
+  s.object<CursorPagingSimplifiedArtistObject>(
+    {
+      href: s.optional(s.string()),
+      limit: s.optional(s.int()),
+      next: s.optional(s.string()),
+      cursors: s.optional(s.lazy(() => cursorObjectSchema)),
+      total: s.optional(s.int()),
+      items: s.optional(s.array(s.lazy(() => artistObjectSchema))),
+    },
+    { additionalProperties: s.json() },
+  );

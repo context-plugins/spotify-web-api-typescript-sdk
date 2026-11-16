@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type PlaylistsRequest = {
   /** The new name for the playlist, for example `"My New Playlist Title"` */
@@ -14,11 +14,16 @@ export type PlaylistsRequest = {
   collaborative?: boolean;
   /** Value for playlist description as displayed in Spotify Clients and in the Web API. */
   description?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const playlistsRequestSchema: Schema<PlaylistsRequest> = s.object<PlaylistsRequest>({
-  name: s.optional(s.string()),
-  public: s.optional(s.boolean()),
-  collaborative: s.optional(s.boolean()),
-  description: s.optional(s.string()),
-});
+export const playlistsRequestSchema: Schema<PlaylistsRequest> = s.object<PlaylistsRequest>(
+  {
+    name: s.optional(s.string()),
+    public: s.optional(s.boolean()),
+    collaborative: s.optional(s.boolean()),
+    description: s.optional(s.string()),
+  },
+  { additionalProperties: s.json() },
+);

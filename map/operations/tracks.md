@@ -182,7 +182,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 
 ### getRecommendations
 
-- **Signature**: `getRecommendations(request: Tracks.GetRecommendationsRequest, options?: RequestOptions): ApiPromise<RecommendationsObject, Tracks.GetRecommendationsError>`
+- **Signature**: `getRecommendations(request?: Tracks.GetRecommendationsRequest, options?: RequestOptions): ApiPromise<RecommendationsObject, Tracks.GetRecommendationsError>`
 - **Wire**: `GET /recommendations`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -322,7 +322,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 
 ### getUsersSavedTracks
 
-- **Signature**: `getUsersSavedTracks(request: Tracks.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise<PagingSavedTrackObject, Tracks.GetUsersSavedTracksError>`
+- **Signature**: `getUsersSavedTracks(request?: Tracks.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise<PagingSavedTrackObject, Tracks.GetUsersSavedTracksError>`
 - **Wire**: `GET /me/tracks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent
@@ -347,7 +347,7 @@ Accessor: `client.tracks` · Source: `src/resources/tracks.ts` · 17 operations 
 
 ### getUsersTopTracks
 
-- **Signature**: `getUsersTopTracks(request: Tracks.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Tracks.GetUsersTopTracksError>`
+- **Signature**: `getUsersTopTracks(request?: Tracks.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise<PagingTrackObject, Tracks.GetUsersTopTracksError>`
 - **Wire**: `GET /me/top/tracks`
 - **Auth**: `oauth20`
 - **Request body**: none — no `Content-Type` header is sent

@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import {
   explicitContentSettingsObjectSchema,
   type ExplicitContentSettingsObject,
@@ -56,24 +56,29 @@ export type PrivateUserObject = {
    * user.
    */
   uri?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const privateUserObjectSchema: Schema<PrivateUserObject> = s.object<PrivateUserObject>({
-  country: s.optional(s.string()),
-  displayName: s.optional(s.string()),
-  email: s.optional(s.string()),
-  explicitContent: s.optional(s.lazy(() => explicitContentSettingsObjectSchema)),
-  externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
-  followers: s.optional(s.lazy(() => followersObjectSchema)),
-  href: s.optional(s.string()),
-  id: s.optional(s.string()),
-  images: s.optional(s.array(s.lazy(() => imageObjectSchema))),
-  product: s.optional(s.string()),
-  type: s.optional(s.string()),
-  uri: s.optional(s.string()),
-  _keysMap: {
-    displayName: "display_name",
-    explicitContent: "explicit_content",
-    externalUrls: "external_urls",
+export const privateUserObjectSchema: Schema<PrivateUserObject> = s.object<PrivateUserObject>(
+  {
+    country: s.optional(s.string()),
+    displayName: s.optional(s.string()),
+    email: s.optional(s.string()),
+    explicitContent: s.optional(s.lazy(() => explicitContentSettingsObjectSchema)),
+    externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
+    followers: s.optional(s.lazy(() => followersObjectSchema)),
+    href: s.optional(s.string()),
+    id: s.optional(s.string()),
+    images: s.optional(s.array(s.lazy(() => imageObjectSchema))),
+    product: s.optional(s.string()),
+    type: s.optional(s.string()),
+    uri: s.optional(s.string()),
+    _keysMap: {
+      displayName: "display_name",
+      explicitContent: "explicit_content",
+      externalUrls: "external_urls",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

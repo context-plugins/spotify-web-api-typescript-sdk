@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type PlaylistsTracksRequest1 = {
   uris?: string[];
@@ -22,19 +22,24 @@ export type PlaylistsTracksRequest1 = {
   rangeLength?: number;
   /** The playlist's snapshot ID against which you want to make the changes. */
   snapshotId?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
 export const playlistsTracksRequest1Schema: Schema<PlaylistsTracksRequest1> =
-  s.object<PlaylistsTracksRequest1>({
-    uris: s.optional(s.array(s.string())),
-    rangeStart: s.optional(s.int()),
-    insertBefore: s.optional(s.int()),
-    rangeLength: s.optional(s.int()),
-    snapshotId: s.optional(s.string()),
-    _keysMap: {
-      rangeStart: "range_start",
-      insertBefore: "insert_before",
-      rangeLength: "range_length",
-      snapshotId: "snapshot_id",
+  s.object<PlaylistsTracksRequest1>(
+    {
+      uris: s.optional(s.array(s.string())),
+      rangeStart: s.optional(s.int()),
+      insertBefore: s.optional(s.int()),
+      rangeLength: s.optional(s.int()),
+      snapshotId: s.optional(s.string()),
+      _keysMap: {
+        rangeStart: "range_start",
+        insertBefore: "insert_before",
+        rangeLength: "range_length",
+        snapshotId: "snapshot_id",
+      },
     },
-  });
+    { additionalProperties: s.json() },
+  );

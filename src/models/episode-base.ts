@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
 import { imageObjectSchema, type ImageObject } from "./image-object.js";
 import { releaseDatePrecisionSchema, type ReleaseDatePrecision } from "./release-date-precision.js";
@@ -68,38 +68,43 @@ export type EpisodeBase = {
    */
   uri: string;
   restrictions?: TrackRestrictionObject;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const episodeBaseSchema: Schema<EpisodeBase> = s.object<EpisodeBase>({
-  audioPreviewUrl: s.nullable(s.string()),
-  description: s.string(),
-  htmlDescription: s.string(),
-  durationMs: s.int(),
-  explicit: s.boolean(),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  isExternallyHosted: s.boolean(),
-  isPlayable: s.boolean(),
-  language: s.optional(s.string()),
-  languages: s.array(s.string()),
-  name: s.string(),
-  releaseDate: s.string(),
-  releaseDatePrecision: releaseDatePrecisionSchema,
-  resumePoint: s.optional(s.lazy(() => resumePointObjectSchema)),
-  type: type5Schema,
-  uri: s.string(),
-  restrictions: s.optional(s.lazy(() => trackRestrictionObjectSchema)),
-  _keysMap: {
-    audioPreviewUrl: "audio_preview_url",
-    htmlDescription: "html_description",
-    durationMs: "duration_ms",
-    externalUrls: "external_urls",
-    isExternallyHosted: "is_externally_hosted",
-    isPlayable: "is_playable",
-    releaseDate: "release_date",
-    releaseDatePrecision: "release_date_precision",
-    resumePoint: "resume_point",
+export const episodeBaseSchema: Schema<EpisodeBase> = s.object<EpisodeBase>(
+  {
+    audioPreviewUrl: s.nullable(s.string()),
+    description: s.string(),
+    htmlDescription: s.string(),
+    durationMs: s.int(),
+    explicit: s.boolean(),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    isExternallyHosted: s.boolean(),
+    isPlayable: s.boolean(),
+    language: s.optional(s.string()),
+    languages: s.array(s.string()),
+    name: s.string(),
+    releaseDate: s.string(),
+    releaseDatePrecision: releaseDatePrecisionSchema,
+    resumePoint: s.optional(s.lazy(() => resumePointObjectSchema)),
+    type: type5Schema,
+    uri: s.string(),
+    restrictions: s.optional(s.lazy(() => trackRestrictionObjectSchema)),
+    _keysMap: {
+      audioPreviewUrl: "audio_preview_url",
+      htmlDescription: "html_description",
+      durationMs: "duration_ms",
+      externalUrls: "external_urls",
+      isExternallyHosted: "is_externally_hosted",
+      isPlayable: "is_playable",
+      releaseDate: "release_date",
+      releaseDatePrecision: "release_date_precision",
+      resumePoint: "resume_point",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

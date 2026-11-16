@@ -33,10 +33,9 @@ npm install <path-to-sdk>
 Create one client and reuse it. Configure its behaviour through [ClientOptions](src/client-options.ts).
 
 ```ts
-import { PkceMethod, ServerEnvironment, SpotifyWebApiClient } from "spotify-web-api";
+import { PkceMethod, SpotifyWebApiClient } from "spotify-web-api";
 
 const client = new SpotifyWebApiClient({
-  serverEnvironment: ServerEnvironment.Production,
   oauth20: {
     clientId: "YOUR_CLIENT_ID",
     redirectUri: "YOUR_REDIRECT_URI",
@@ -47,7 +46,7 @@ const client = new SpotifyWebApiClient({
 });
 ```
 
-Nothing in `ClientOptions` is required — `new SpotifyWebApiClient()` compiles — and each option left out falls back to its default. `serverEnvironment` is spelled out above so the environment a call reaches is visible where the client is built rather than inherited silently.
+Nothing in `ClientOptions` is required — `new SpotifyWebApiClient()` compiles — and each option left out falls back to its default. This API declares one environment, so there is no environment to select and no host to state at the construction site.
 
 ### From CommonJS
 
@@ -57,7 +56,6 @@ The package ships both dialects from a single entry, so `require` works with ful
 import sdk = require("spotify-web-api");
 
 const client = new sdk.SpotifyWebApiClient({
-  serverEnvironment: sdk.ServerEnvironment.Production,
   oauth20: {
     clientId: "YOUR_CLIENT_ID",
     redirectUri: "YOUR_REDIRECT_URI",

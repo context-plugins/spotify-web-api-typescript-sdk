@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type ErrorObject = {
   /**
@@ -10,9 +10,25 @@ export type ErrorObject = {
   status: number;
   /** A short description of the cause of the error. */
   message: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const errorObjectSchema: Schema<ErrorObject> = s.object<ErrorObject>({
+const errorObjectProperties: s.Shape<ErrorObject> = {
   status: s.int(),
   message: s.string(),
+};
+
+export const errorObjectInternalSchema: Schema<ErrorObject> = s.object<ErrorObject>(errorObjectProperties, {
+  additionalProperties: s.json(),
 });
+
+export const errorObjectSchema: Schema<ErrorObject> = s.lazySchema(() =>
+  s.object<ErrorObject>(
+    {
+      ...errorObjectProperties,
+      status: s.int().check(s.gte(400), s.lte(599)),
+    },
+    { additionalProperties: s.json() },
+  ),
+);

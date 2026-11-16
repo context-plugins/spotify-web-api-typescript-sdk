@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { audiobookObjectSchema, type AudiobookObject } from "./audiobook-object.js";
 
 export type SavedAudiobookObject = {
@@ -11,12 +11,17 @@ export type SavedAudiobookObject = {
    */
   addedAt?: Date;
   audiobook?: AudiobookObject;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const savedAudiobookObjectSchema: Schema<SavedAudiobookObject> = s.object<SavedAudiobookObject>({
-  addedAt: s.optional(s.dateTime()),
-  audiobook: s.optional(s.lazy(() => audiobookObjectSchema)),
-  _keysMap: {
-    addedAt: "added_at",
+export const savedAudiobookObjectSchema: Schema<SavedAudiobookObject> = s.object<SavedAudiobookObject>(
+  {
+    addedAt: s.optional(s.dateTime()),
+    audiobook: s.optional(s.lazy(() => audiobookObjectSchema)),
+    _keysMap: {
+      addedAt: "added_at",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type PlaylistsTracksRequest = {
   /**
@@ -21,9 +21,14 @@ export type PlaylistsTracksRequest = {
    * 3}`
    */
   position?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const playlistsTracksRequestSchema: Schema<PlaylistsTracksRequest> = s.object<PlaylistsTracksRequest>({
-  uris: s.optional(s.array(s.string())),
-  position: s.optional(s.int()),
-});
+export const playlistsTracksRequestSchema: Schema<PlaylistsTracksRequest> = s.object<PlaylistsTracksRequest>(
+  {
+    uris: s.optional(s.array(s.string())),
+    position: s.optional(s.int()),
+  },
+  { additionalProperties: s.json() },
+);

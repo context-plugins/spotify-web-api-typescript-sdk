@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 
 export type Meta = {
   /** The version of the Analyzer used to analyze this track. */
@@ -18,21 +18,26 @@ export type Meta = {
   analysisTime?: number;
   /** The method used to read the track's audio data. */
   inputProcess?: string;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const metaSchema: Schema<Meta> = s.object<Meta>({
-  analyzerVersion: s.optional(s.string()),
-  platform: s.optional(s.string()),
-  detailedStatus: s.optional(s.string()),
-  statusCode: s.optional(s.int()),
-  timestamp: s.optional(s.int()),
-  analysisTime: s.optional(s.float64()),
-  inputProcess: s.optional(s.string()),
-  _keysMap: {
-    analyzerVersion: "analyzer_version",
-    detailedStatus: "detailed_status",
-    statusCode: "status_code",
-    analysisTime: "analysis_time",
-    inputProcess: "input_process",
+export const metaSchema: Schema<Meta> = s.object<Meta>(
+  {
+    analyzerVersion: s.optional(s.string()),
+    platform: s.optional(s.string()),
+    detailedStatus: s.optional(s.string()),
+    statusCode: s.optional(s.int()),
+    timestamp: s.optional(s.int()),
+    analysisTime: s.optional(s.float64()),
+    inputProcess: s.optional(s.string()),
+    _keysMap: {
+      analyzerVersion: "analyzer_version",
+      detailedStatus: "detailed_status",
+      statusCode: "status_code",
+      analysisTime: "analysis_time",
+      inputProcess: "input_process",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

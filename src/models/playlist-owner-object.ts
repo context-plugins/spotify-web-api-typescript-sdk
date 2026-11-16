@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
 import { followersObjectSchema, type FollowersObject } from "./followers-object.js";
 import { type4Schema, type Type4 } from "./type4.js";
@@ -24,18 +24,23 @@ export type PlaylistOwnerObject = {
   uri?: string;
   /** The name displayed on the user's profile. `null` if not available. */
   displayName?: string | null;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const playlistOwnerObjectSchema: Schema<PlaylistOwnerObject> = s.object<PlaylistOwnerObject>({
-  externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
-  followers: s.optional(s.lazy(() => followersObjectSchema)),
-  href: s.optional(s.string()),
-  id: s.optional(s.string()),
-  type: s.optional(s.lazy(() => type4Schema)),
-  uri: s.optional(s.string()),
-  displayName: s.optionalNullable(s.string()),
-  _keysMap: {
-    externalUrls: "external_urls",
-    displayName: "display_name",
+export const playlistOwnerObjectSchema: Schema<PlaylistOwnerObject> = s.object<PlaylistOwnerObject>(
+  {
+    externalUrls: s.optional(s.lazy(() => externalUrlObjectSchema)),
+    followers: s.optional(s.lazy(() => followersObjectSchema)),
+    href: s.optional(s.string()),
+    id: s.optional(s.string()),
+    type: s.optional(s.lazy(() => type4Schema)),
+    uri: s.optional(s.string()),
+    displayName: s.optionalNullable(s.string()),
+    _keysMap: {
+      externalUrls: "external_urls",
+      displayName: "display_name",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

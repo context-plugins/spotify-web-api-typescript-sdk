@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { copyrightObjectSchema, type CopyrightObject } from "./copyright-object.js";
 import { externalUrlObjectSchema, type ExternalUrlObject } from "./external-url-object.js";
 import { imageObjectSchema, type ImageObject } from "./image-object.js";
@@ -60,32 +60,37 @@ export type ShowBase = {
   uri: string;
   /** The total number of episodes in the show. */
   totalEpisodes: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const showBaseSchema: Schema<ShowBase> = s.object<ShowBase>({
-  availableMarkets: s.array(s.string()),
-  copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
-  description: s.string(),
-  htmlDescription: s.string(),
-  explicit: s.boolean(),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  isExternallyHosted: s.boolean(),
-  languages: s.array(s.string()),
-  mediaType: s.string(),
-  name: s.string(),
-  publisher: s.string(),
-  type: type6Schema,
-  uri: s.string(),
-  totalEpisodes: s.int(),
-  _keysMap: {
-    availableMarkets: "available_markets",
-    htmlDescription: "html_description",
-    externalUrls: "external_urls",
-    isExternallyHosted: "is_externally_hosted",
-    mediaType: "media_type",
-    totalEpisodes: "total_episodes",
+export const showBaseSchema: Schema<ShowBase> = s.object<ShowBase>(
+  {
+    availableMarkets: s.array(s.string()),
+    copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
+    description: s.string(),
+    htmlDescription: s.string(),
+    explicit: s.boolean(),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    isExternallyHosted: s.boolean(),
+    languages: s.array(s.string()),
+    mediaType: s.string(),
+    name: s.string(),
+    publisher: s.string(),
+    type: type6Schema,
+    uri: s.string(),
+    totalEpisodes: s.int(),
+    _keysMap: {
+      availableMarkets: "available_markets",
+      htmlDescription: "html_description",
+      externalUrls: "external_urls",
+      isExternallyHosted: "is_externally_hosted",
+      mediaType: "media_type",
+      totalEpisodes: "total_episodes",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

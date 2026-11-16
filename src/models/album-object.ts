@@ -1,5 +1,5 @@
 import * as s from "../core/validation/index.js";
-import type { Schema } from "../core/validation/schema.js";
+import type { JsonValue, Schema } from "../core/validation/schema.js";
 import { albumRestrictionObjectSchema, type AlbumRestrictionObject } from "./album-restriction-object.js";
 import { albumTypeSchema, type AlbumType } from "./album-type.js";
 import { copyrightObjectSchema, type CopyrightObject } from "./copyright-object.js";
@@ -67,36 +67,41 @@ export type AlbumObject = {
    * popular.
    */
   popularity?: number;
+  /** Properties the service sent or accepts beyond those declared. */
+  additionalProperties?: Record<string, JsonValue>;
 };
 
-export const albumObjectSchema: Schema<AlbumObject> = s.object<AlbumObject>({
-  albumType: albumTypeSchema,
-  totalTracks: s.int(),
-  availableMarkets: s.optional(s.array(s.string())),
-  externalUrls: externalUrlObjectSchema,
-  href: s.string(),
-  id: s.string(),
-  images: s.array(s.lazy(() => imageObjectSchema)),
-  name: s.string(),
-  releaseDate: s.string(),
-  releaseDatePrecision: releaseDatePrecisionSchema,
-  restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
-  type: type2Schema,
-  uri: s.string(),
-  artists: s.array(s.lazy(() => simplifiedArtistObjectSchema)),
-  tracks: pagingSimplifiedTrackObjectSchema,
-  copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
-  externalIds: externalIdObjectSchema,
-  genres: s.array(s.string()),
-  label: s.optional(s.string()),
-  popularity: s.optional(s.int()),
-  _keysMap: {
-    albumType: "album_type",
-    totalTracks: "total_tracks",
-    availableMarkets: "available_markets",
-    externalUrls: "external_urls",
-    releaseDate: "release_date",
-    releaseDatePrecision: "release_date_precision",
-    externalIds: "external_ids",
+export const albumObjectSchema: Schema<AlbumObject> = s.object<AlbumObject>(
+  {
+    albumType: albumTypeSchema,
+    totalTracks: s.int(),
+    availableMarkets: s.optional(s.array(s.string())),
+    externalUrls: externalUrlObjectSchema,
+    href: s.string(),
+    id: s.string(),
+    images: s.array(s.lazy(() => imageObjectSchema)),
+    name: s.string(),
+    releaseDate: s.string(),
+    releaseDatePrecision: releaseDatePrecisionSchema,
+    restrictions: s.optional(s.lazy(() => albumRestrictionObjectSchema)),
+    type: type2Schema,
+    uri: s.string(),
+    artists: s.array(s.lazy(() => simplifiedArtistObjectSchema)),
+    tracks: pagingSimplifiedTrackObjectSchema,
+    copyrights: s.array(s.lazy(() => copyrightObjectSchema)),
+    externalIds: externalIdObjectSchema,
+    genres: s.array(s.string()),
+    label: s.optional(s.string()),
+    popularity: s.optional(s.int()),
+    _keysMap: {
+      albumType: "album_type",
+      totalTracks: "total_tracks",
+      availableMarkets: "available_markets",
+      externalUrls: "external_urls",
+      releaseDate: "release_date",
+      releaseDatePrecision: "release_date_precision",
+      externalIds: "external_ids",
+    },
   },
-});
+  { additionalProperties: s.json() },
+);

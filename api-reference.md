@@ -48,9 +48,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.checkUsersSavedAlbums({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.albums
+  .checkUsersSavedAlbums({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -235,12 +235,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.getAnAlbumsTracks({
-  id: "4aawyAB9vmqN3uQ7FjRGTy",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.albums
+  .getAnAlbumsTracks({ id: "4aawyAB9vmqN3uQ7FjRGTy", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedTrackObject
@@ -338,13 +335,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.getAnArtistsAlbums({
-  id: "0TnOYISbd1XYRBk9myaseg",
-  includeGroups: "single,appears_on",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.albums
+  .getAnArtistsAlbums({
+    id: "0TnOYISbd1XYRBk9myaseg",
+    includeGroups: "single,appears_on",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingArtistDiscographyAlbumObject
@@ -440,10 +439,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.getMultipleAlbums({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-  market: "ES",
-}).asApiResult();
+const result = await client.albums
+  .getMultipleAlbums({
+    ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
+    market: "ES",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyAlbums
@@ -494,7 +495,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getNewReleases(request: Albums.GetNewReleasesRequest, options?: RequestOptions): ApiPromise&lt;PagedAlbums, Albums.GetNewReleasesError&gt;</code></summary>
+<summary><code>getNewReleases(request?: Albums.GetNewReleasesRequest, options?: RequestOptions): ApiPromise&lt;PagedAlbums, Albums.GetNewReleasesError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -584,7 +585,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedAlbums(request: Albums.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAlbumObject, Albums.GetUsersSavedAlbumsError&gt;</code></summary>
+<summary><code>getUsersSavedAlbums(request?: Albums.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAlbumObject, Albums.GetUsersSavedAlbumsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -715,9 +716,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.removeAlbumsUser({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.albums
+  .removeAlbumsUser({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -808,9 +809,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.albums.saveAlbumsUser({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.albums
+  .saveAlbumsUser({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -908,11 +909,13 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.addTracksToPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  position: 0,
-  uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
-}).asApiResult();
+const result = await client.tracks
+  .addTracksToPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    position: 0,
+    uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -1006,9 +1009,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.checkUsersSavedTracks({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.tracks
+  .checkUsersSavedTracks({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -1103,12 +1106,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getAnAlbumsTracks({
-  id: "4aawyAB9vmqN3uQ7FjRGTy",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.tracks
+  .getAnAlbumsTracks({ id: "4aawyAB9vmqN3uQ7FjRGTy", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedTrackObject
@@ -1200,10 +1200,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getAnArtistsTopTracks({
-  id: "0TnOYISbd1XYRBk9myaseg",
-  market: "ES",
-}).asApiResult();
+const result = await client.tracks
+  .getAnArtistsTopTracks({ id: "0TnOYISbd1XYRBk9myaseg", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyTracks
@@ -1478,13 +1477,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getPlaylistsTracks({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  market: "ES",
-  fields: "items(added_by.id,track(name,href,album(name,href)))",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.tracks
+  .getPlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+    limit: 10,
+    offset: 5,
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingPlaylistTrackObject
@@ -1539,7 +1540,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getRecommendations(request: Tracks.GetRecommendationsRequest, options?: RequestOptions): ApiPromise&lt;RecommendationsObject, Tracks.GetRecommendationsError&gt;</code></summary>
+<summary><code>getRecommendations(request?: Tracks.GetRecommendationsRequest, options?: RequestOptions): ApiPromise&lt;RecommendationsObject, Tracks.GetRecommendationsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -1586,13 +1587,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getRecommendations({
-  limit: 10,
-  market: "ES",
-  seedArtists: "4NHQUGzhtTLFvgF5SZesLK",
-  seedGenres: "classical,country",
-  seedTracks: "0c6xIDDpzE81m2q797ordA",
-}).asApiResult();
+const result = await client.tracks
+  .getRecommendations({
+    limit: 10,
+    market: "ES",
+    seedArtists: "4NHQUGzhtTLFvgF5SZesLK",
+    seedGenres: "classical,country",
+    seedTracks: "0c6xIDDpzE81m2q797ordA",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type RecommendationsObject
@@ -1729,9 +1732,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getSeveralAudioFeatures({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.tracks
+  .getSeveralAudioFeatures({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyAudioFeatures
@@ -1823,10 +1826,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getSeveralTracks({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-  market: "ES",
-}).asApiResult();
+const result = await client.tracks
+  .getSeveralTracks({
+    ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
+    market: "ES",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyTracks
@@ -1968,7 +1973,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedTracks(request: Tracks.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedTrackObject, Tracks.GetUsersSavedTracksError&gt;</code></summary>
+<summary><code>getUsersSavedTracks(request?: Tracks.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedTrackObject, Tracks.GetUsersSavedTracksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -2059,7 +2064,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopTracks(request: Tracks.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Tracks.GetUsersTopTracksError&gt;</code></summary>
+<summary><code>getUsersTopTracks(request?: Tracks.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Tracks.GetUsersTopTracksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -2098,11 +2103,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.getUsersTopTracks({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.tracks
+  .getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingTrackObject
@@ -2193,9 +2196,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.removeTracksPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.tracks
+  .removeTracksPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -2286,9 +2289,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.removeTracksUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.tracks
+  .removeTracksUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -2386,9 +2389,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.reorderOrReplacePlaylistsTracks({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.tracks
+  .reorderOrReplacePlaylistsTracks({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -2480,9 +2483,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.tracks.saveTracksUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.tracks
+  .saveTracksUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -2576,9 +2579,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.changePlaylistDetails({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.library
+  .changePlaylistDetails({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -2671,10 +2674,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkCurrentUserFollows({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.library
+  .checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -2766,9 +2771,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkUsersSavedAlbums({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.library
+  .checkUsersSavedAlbums({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -2859,9 +2864,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkUsersSavedAudiobooks({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.library
+  .checkUsersSavedAudiobooks({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -2953,9 +2958,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkUsersSavedEpisodes({
-  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
-}).asApiResult();
+const result = await client.library
+  .checkUsersSavedEpisodes({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -3046,9 +3051,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkUsersSavedShows({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-}).asApiResult();
+const result = await client.library
+  .checkUsersSavedShows({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -3139,9 +3144,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.checkUsersSavedTracks({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.library
+  .checkUsersSavedTracks({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -3324,10 +3329,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.followArtistsUsers({
-  type: ItemType2.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.library
+  .followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -3379,7 +3386,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getAListOfCurrentUsersPlaylists(request: Library.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingPlaylistObject, Library.GetAListOfCurrentUsersPlaylistsError&gt;</code></summary>
+<summary><code>getAListOfCurrentUsersPlaylists(request?: Library.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingPlaylistObject, Library.GetAListOfCurrentUsersPlaylistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -3513,11 +3520,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.getFollowed({
-  type: ItemType1.Artist,
-  after: "0I2XqVXqHScXjHhk6AYYRe",
-  limit: 10,
-}).asApiResult();
+const result = await client.library
+  .getFollowed({ type: ItemType1.Artist, after: "0I2XqVXqHScXjHhk6AYYRe", limit: 10 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type CursorPagedArtists
@@ -3569,7 +3574,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedAlbums(request: Library.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAlbumObject, Library.GetUsersSavedAlbumsError&gt;</code></summary>
+<summary><code>getUsersSavedAlbums(request?: Library.GetUsersSavedAlbumsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAlbumObject, Library.GetUsersSavedAlbumsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -3660,7 +3665,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedAudiobooks(request: Library.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAudiobookObject, Library.GetUsersSavedAudiobooksError&gt;</code></summary>
+<summary><code>getUsersSavedAudiobooks(request?: Library.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAudiobookObject, Library.GetUsersSavedAudiobooksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -3750,7 +3755,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedEpisodes(request: Library.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedEpisodeObject, Library.GetUsersSavedEpisodesError&gt;</code></summary>
+<summary><code>getUsersSavedEpisodes(request?: Library.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedEpisodeObject, Library.GetUsersSavedEpisodesError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -3790,11 +3795,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.getUsersSavedEpisodes({
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.library
+  .getUsersSavedEpisodes({ market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSavedEpisodeObject
@@ -3846,7 +3849,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedShows(request: Library.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedShowObject, Library.GetUsersSavedShowsError&gt;</code></summary>
+<summary><code>getUsersSavedShows(request?: Library.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedShowObject, Library.GetUsersSavedShowsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -3936,7 +3939,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedTracks(request: Library.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedTrackObject, Library.GetUsersSavedTracksError&gt;</code></summary>
+<summary><code>getUsersSavedTracks(request?: Library.GetUsersSavedTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedTrackObject, Library.GetUsersSavedTracksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -4027,7 +4030,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopArtists(request: Library.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Library.GetUsersTopArtistsError&gt;</code></summary>
+<summary><code>getUsersTopArtists(request?: Library.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Library.GetUsersTopArtistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -4070,11 +4073,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.getUsersTopArtists({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.library
+  .getUsersTopArtists({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingArtistObject
@@ -4126,7 +4127,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopTracks(request: Library.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Library.GetUsersTopTracksError&gt;</code></summary>
+<summary><code>getUsersTopTracks(request?: Library.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Library.GetUsersTopTracksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -4165,11 +4166,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.getUsersTopTracks({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.library
+  .getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingTrackObject
@@ -4261,9 +4260,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.removeAlbumsUser({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.library
+  .removeAlbumsUser({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4354,9 +4353,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.removeAudiobooksUser({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.library
+  .removeAudiobooksUser({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4447,9 +4446,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.removeEpisodesUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.library
+  .removeEpisodesUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4541,10 +4540,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.removeShowsUser({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-  market: "ES",
-}).asApiResult();
+const result = await client.library
+  .removeShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4636,9 +4634,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.removeTracksUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.library
+  .removeTracksUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4729,9 +4727,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.saveAlbumsUser({
-  ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc",
-}).asApiResult();
+const result = await client.library
+  .saveAlbumsUser({ ids: "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4822,9 +4820,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.saveAudiobooksUser({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.library
+  .saveAudiobooksUser({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -4913,9 +4911,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.saveEpisodesUser({
-  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
-}).asApiResult();
+const result = await client.library
+  .saveEpisodesUser({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -5004,9 +5002,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.saveShowsUser({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-}).asApiResult();
+const result = await client.library
+  .saveShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -5097,9 +5095,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.saveTracksUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.library
+  .saveTracksUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -5191,10 +5189,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.library.unfollowArtistsUsers({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.library
+  .unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -5292,10 +5292,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.checkCurrentUserFollows({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.artists
+  .checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -5387,10 +5389,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.followArtistsUsers({
-  type: ItemType2.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.artists
+  .followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -5576,13 +5580,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getAnArtistsAlbums({
-  id: "0TnOYISbd1XYRBk9myaseg",
-  includeGroups: "single,appears_on",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.artists
+  .getAnArtistsAlbums({
+    id: "0TnOYISbd1XYRBk9myaseg",
+    includeGroups: "single,appears_on",
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingArtistDiscographyAlbumObject
@@ -5675,9 +5681,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getAnArtistsRelatedArtists({
-  id: "0TnOYISbd1XYRBk9myaseg",
-}).asApiResult();
+const result = await client.artists
+  .getAnArtistsRelatedArtists({ id: "0TnOYISbd1XYRBk9myaseg" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyArtists
@@ -5766,10 +5772,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getAnArtistsTopTracks({
-  id: "0TnOYISbd1XYRBk9myaseg",
-  market: "ES",
-}).asApiResult();
+const result = await client.artists
+  .getAnArtistsTopTracks({ id: "0TnOYISbd1XYRBk9myaseg", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyTracks
@@ -5863,11 +5868,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getFollowed({
-  type: ItemType1.Artist,
-  after: "0I2XqVXqHScXjHhk6AYYRe",
-  limit: 10,
-}).asApiResult();
+const result = await client.artists
+  .getFollowed({ type: ItemType1.Artist, after: "0I2XqVXqHScXjHhk6AYYRe", limit: 10 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type CursorPagedArtists
@@ -5960,9 +5963,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getMultipleArtists({
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.artists
+  .getMultipleArtists({ ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyArtists
@@ -6012,7 +6015,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopArtists(request: Artists.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Artists.GetUsersTopArtistsError&gt;</code></summary>
+<summary><code>getUsersTopArtists(request?: Artists.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Artists.GetUsersTopArtistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -6055,11 +6058,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.getUsersTopArtists({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.artists
+  .getUsersTopArtists({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingArtistObject
@@ -6152,10 +6153,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.artists.unfollowArtistsUsers({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.artists
+  .unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -6252,9 +6255,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.checkUsersSavedAudiobooks({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.audiobooks
+  .checkUsersSavedAudiobooks({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -6343,10 +6346,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.getAnAudiobook({
-  id: "7iHfbu1YPACw6oZPAFJtqe",
-  market: "ES",
-}).asApiResult();
+const result = await client.audiobooks
+  .getAnAudiobook({ id: "7iHfbu1YPACw6oZPAFJtqe", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type AudiobookObject
@@ -6441,12 +6443,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.getAudiobookChapters({
-  id: "7iHfbu1YPACw6oZPAFJtqe",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.audiobooks
+  .getAudiobookChapters({ id: "7iHfbu1YPACw6oZPAFJtqe", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedChapterObject
@@ -6541,10 +6540,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.getMultipleAudiobooks({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-  market: "ES",
-}).asApiResult();
+const result = await client.audiobooks
+  .getMultipleAudiobooks({
+    ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
+    market: "ES",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyAudiobooks
@@ -6595,7 +6596,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedAudiobooks(request: Audiobooks.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAudiobookObject, Audiobooks.GetUsersSavedAudiobooksError&gt;</code></summary>
+<summary><code>getUsersSavedAudiobooks(request?: Audiobooks.GetUsersSavedAudiobooksRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedAudiobookObject, Audiobooks.GetUsersSavedAudiobooksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -6725,9 +6726,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.removeAudiobooksUser({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.audiobooks
+  .removeAudiobooksUser({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -6817,9 +6818,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.audiobooks.saveAudiobooksUser({
-  ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe",
-}).asApiResult();
+const result = await client.audiobooks
+  .saveAudiobooksUser({ ids: "18yVqkdbdRvS24c0Ilj2ci,1HGw3J3NxZO1TP1BTtVhpZ,7iHfbu1YPACw6oZPAFJtqe" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -6912,10 +6913,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.chapters.getAChapter({
-  id: "0D5wENdkdwbqlrHoaJ9g29",
-  market: "ES",
-}).asApiResult();
+const result = await client.chapters
+  .getAChapter({ id: "0D5wENdkdwbqlrHoaJ9g29", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ChapterObject
@@ -7010,12 +7010,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.chapters.getAudiobookChapters({
-  id: "7iHfbu1YPACw6oZPAFJtqe",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.chapters
+  .getAudiobookChapters({ id: "7iHfbu1YPACw6oZPAFJtqe", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedChapterObject
@@ -7110,10 +7107,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.chapters.getSeveralChapters({
-  ids: "0IsXVP0JmcB2adSE338GkK,3ZXb8FKZGU0EHALYX6uCzU,0D5wENdkdwbqlrHoaJ9g29",
-  market: "ES",
-}).asApiResult();
+const result = await client.chapters
+  .getSeveralChapters({
+    ids: "0IsXVP0JmcB2adSE338GkK,3ZXb8FKZGU0EHALYX6uCzU,0D5wENdkdwbqlrHoaJ9g29",
+    market: "ES",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyChapters
@@ -7211,11 +7210,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.categoriesApi.getACategoriesPlaylists({
-  categoryId: "dinner",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.categoriesApi
+  .getACategoriesPlaylists({ categoryId: "dinner", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
@@ -7306,10 +7303,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.categoriesApi.getACategory({
-  categoryId: "dinner",
-  locale: "sv_SE",
-}).asApiResult();
+const result = await client.categoriesApi
+  .getACategory({ categoryId: "dinner", locale: "sv_SE" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type CategoryObject
@@ -7360,7 +7356,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getCategories(request: CategoriesApi.GetCategoriesRequest, options?: RequestOptions): ApiPromise&lt;PagedCategories, CategoriesApi.GetCategoriesError&gt;</code></summary>
+<summary><code>getCategories(request?: CategoriesApi.GetCategoriesRequest, options?: RequestOptions): ApiPromise&lt;PagedCategories, CategoriesApi.GetCategoriesError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -7399,11 +7395,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.categoriesApi.getCategories({
-  locale: "sv_SE",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.categoriesApi
+  .getCategories({ locale: "sv_SE", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagedCategories
@@ -7501,9 +7495,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.checkUsersSavedEpisodes({
-  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
-}).asApiResult();
+const result = await client.episodes
+  .checkUsersSavedEpisodes({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -7597,12 +7591,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.getAShowsEpisodes({
-  id: "38bS44xjbVVZ3No3ByF1dJ",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.episodes
+  .getAShowsEpisodes({ id: "38bS44xjbVVZ3No3ByF1dJ", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedEpisodeObject
@@ -7695,10 +7686,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.getAnEpisode({
-  id: "512ojhOuo1ktJprKbVcKyQ",
-  market: "ES",
-}).asApiResult();
+const result = await client.episodes
+  .getAnEpisode({ id: "512ojhOuo1ktJprKbVcKyQ", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type EpisodeObject
@@ -7791,10 +7781,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.getMultipleEpisodes({
-  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
-  market: "ES",
-}).asApiResult();
+const result = await client.episodes
+  .getMultipleEpisodes({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManyEpisodes
@@ -7845,7 +7834,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedEpisodes(request: Episodes.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError&gt;</code></summary>
+<summary><code>getUsersSavedEpisodes(request?: Episodes.GetUsersSavedEpisodesRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedEpisodeObject, Episodes.GetUsersSavedEpisodesError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -7885,11 +7874,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.getUsersSavedEpisodes({
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.episodes
+  .getUsersSavedEpisodes({ market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSavedEpisodeObject
@@ -7982,9 +7969,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.removeEpisodesUser({
-  ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B",
-}).asApiResult();
+const result = await client.episodes
+  .removeEpisodesUser({ ids: "7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -8074,9 +8061,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.episodes.saveEpisodesUser({
-  ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf",
-}).asApiResult();
+const result = await client.episodes
+  .saveEpisodesUser({ ids: "77o6BIVlYM3msb4MMIL1jH,0Q86acNRm6V9GYx55SXKwf" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -8334,10 +8321,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.addToQueue({
-  uri: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .addToQueue({
+    uri: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh",
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -8465,7 +8454,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getInformationAboutTheUsersCurrentPlayback(request: Player.GetInformationAboutTheUsersCurrentPlaybackRequest, options?: RequestOptions): ApiPromise&lt;CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError&gt;</code></summary>
+<summary><code>getInformationAboutTheUsersCurrentPlayback(request?: Player.GetInformationAboutTheUsersCurrentPlaybackRequest, options?: RequestOptions): ApiPromise&lt;CurrentlyPlayingContextObject, Player.GetInformationAboutTheUsersCurrentPlaybackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -8632,7 +8621,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getRecentlyPlayed(request: Player.GetRecentlyPlayedRequest, options?: RequestOptions): ApiPromise&lt;CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError&gt;</code></summary>
+<summary><code>getRecentlyPlayed(request?: Player.GetRecentlyPlayedRequest, options?: RequestOptions): ApiPromise&lt;CursorPagingPlayHistoryObject, Player.GetRecentlyPlayedError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -8724,7 +8713,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getTheUsersCurrentlyPlayingTrack(request: Player.GetTheUsersCurrentlyPlayingTrackRequest, options?: RequestOptions): ApiPromise&lt;CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError&gt;</code></summary>
+<summary><code>getTheUsersCurrentlyPlayingTrack(request?: Player.GetTheUsersCurrentlyPlayingTrackRequest, options?: RequestOptions): ApiPromise&lt;CurrentlyPlayingObject, Player.GetTheUsersCurrentlyPlayingTrackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -8814,7 +8803,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>pauseAUsersPlayback(request: Player.PauseAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.PauseAUsersPlaybackError&gt;</code></summary>
+<summary><code>pauseAUsersPlayback(request?: Player.PauseAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.PauseAUsersPlaybackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -8852,9 +8841,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.pauseAUsersPlayback({
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .pauseAUsersPlayback({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -8945,10 +8934,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.seekToPositionInCurrentlyPlayingTrack({
-  positionMs: 25000,
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .seekToPositionInCurrentlyPlayingTrack({
+    positionMs: 25000,
+    deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9040,10 +9031,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.setRepeatModeOnUsersPlayback({
-  state: "context",
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .setRepeatModeOnUsersPlayback({ state: "context", deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9135,10 +9125,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.setVolumeForUsersPlayback({
-  volumePercent: 50,
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .setVolumeForUsersPlayback({ volumePercent: 50, deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9189,7 +9178,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>skipUsersPlaybackToNextTrack(request: Player.SkipUsersPlaybackToNextTrackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.SkipUsersPlaybackToNextTrackError&gt;</code></summary>
+<summary><code>skipUsersPlaybackToNextTrack(request?: Player.SkipUsersPlaybackToNextTrackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.SkipUsersPlaybackToNextTrackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -9227,9 +9216,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.skipUsersPlaybackToNextTrack({
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .skipUsersPlaybackToNextTrack({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9279,7 +9268,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>skipUsersPlaybackToPreviousTrack(request: Player.SkipUsersPlaybackToPreviousTrackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.SkipUsersPlaybackToPreviousTrackError&gt;</code></summary>
+<summary><code>skipUsersPlaybackToPreviousTrack(request?: Player.SkipUsersPlaybackToPreviousTrackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.SkipUsersPlaybackToPreviousTrackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -9319,9 +9308,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.skipUsersPlaybackToPreviousTrack({
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .skipUsersPlaybackToPreviousTrack({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9371,7 +9360,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>startAUsersPlayback(request: Player.StartAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.StartAUsersPlaybackError&gt;</code></summary>
+<summary><code>startAUsersPlayback(request?: Player.StartAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.StartAUsersPlaybackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -9409,9 +9398,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.startAUsersPlayback({
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .startAUsersPlayback({ deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9503,10 +9492,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.player.toggleShuffleForUsersPlayback({
-  state: true,
-  deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8",
-}).asApiResult();
+const result = await client.player
+  .toggleShuffleForUsersPlayback({ state: true, deviceId: "0d1841b0976bae2a3a310dd74c0f3df354899bc8" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9557,7 +9545,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>transferAUsersPlayback(request: Player.TransferAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.TransferAUsersPlaybackError&gt;</code></summary>
+<summary><code>transferAUsersPlayback(request?: Player.TransferAUsersPlaybackRequest, options?: RequestOptions): ApiPromise&lt;undefined, Player.TransferAUsersPlaybackError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -9692,11 +9680,13 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.addTracksToPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  position: 0,
-  uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
-}).asApiResult();
+const result = await client.playlists
+  .addTracksToPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    position: 0,
+    uris: "spotify:track:4iV5W9uYEdYUVa79Axb7Rh,spotify:track:1301WleyT98MSxVHPZCA6M",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -9788,9 +9778,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.changePlaylistDetails({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.playlists
+  .changePlaylistDetails({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -9883,10 +9873,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.checkIfUserFollowsPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  ids: "jmperezperez,thelinmichael,wizzler",
-}).asApiResult();
+const result = await client.playlists
+  .checkIfUserFollowsPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    ids: "jmperezperez,thelinmichael,wizzler",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -10161,11 +10153,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getACategoriesPlaylists({
-  categoryId: "dinner",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.playlists
+  .getACategoriesPlaylists({ categoryId: "dinner", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
@@ -10217,7 +10207,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getAListOfCurrentUsersPlaylists(request: Playlists.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingPlaylistObject, Playlists.GetAListOfCurrentUsersPlaylistsError&gt;</code></summary>
+<summary><code>getAListOfCurrentUsersPlaylists(request?: Playlists.GetAListOfCurrentUsersPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingPlaylistObject, Playlists.GetAListOfCurrentUsersPlaylistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -10308,7 +10298,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getFeaturedPlaylists(request: Playlists.GetFeaturedPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingFeaturedPlaylistObject, Playlists.GetFeaturedPlaylistsError&gt;</code></summary>
+<summary><code>getFeaturedPlaylists(request?: Playlists.GetFeaturedPlaylistsRequest, options?: RequestOptions): ApiPromise&lt;PagingFeaturedPlaylistObject, Playlists.GetFeaturedPlaylistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -10347,11 +10337,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getFeaturedPlaylists({
-  locale: "sv_SE",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.playlists
+  .getFeaturedPlaylists({ locale: "sv_SE", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingFeaturedPlaylistObject
@@ -10442,11 +10430,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getListUsersPlaylists({
-  userId: "smedjan",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.playlists
+  .getListUsersPlaylists({ userId: "smedjan", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingPlaylistObject
@@ -10541,11 +10527,13 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  market: "ES",
-  fields: "items(added_by.id,track(name,href,album(name,href)))",
-}).asApiResult();
+const result = await client.playlists
+  .getPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistObject
@@ -10637,9 +10625,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getPlaylistCover({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.playlists
+  .getPlaylistCover({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ImageObject[]
@@ -10734,13 +10722,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.getPlaylistsTracks({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  market: "ES",
-  fields: "items(added_by.id,track(name,href,album(name,href)))",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.playlists
+  .getPlaylistsTracks({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    market: "ES",
+    fields: "items(added_by.id,track(name,href,album(name,href)))",
+    limit: 10,
+    offset: 5,
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingPlaylistTrackObject
@@ -10834,9 +10824,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.removeTracksPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.playlists
+  .removeTracksPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -10934,9 +10924,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.reorderOrReplacePlaylistsTracks({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.playlists
+  .reorderOrReplacePlaylistsTracks({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PlaylistSnapshotId
@@ -11026,9 +11016,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.unfollowPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-}).asApiResult();
+const result = await client.playlists
+  .unfollowPlaylist({ playlistId: "3cEYpjA9oz9GiPac4AsH4n" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -11116,10 +11106,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.playlists.uploadCustomPlaylistCover({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  body: {},
-}).asApiResult();
+const result = await client.playlists
+  .uploadCustomPlaylistCover({ playlistId: "3cEYpjA9oz9GiPac4AsH4n", body: {} })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -11216,10 +11205,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.checkCurrentUserFollows({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.users
+  .checkCurrentUserFollows({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -11312,10 +11303,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.checkIfUserFollowsPlaylist({
-  playlistId: "3cEYpjA9oz9GiPac4AsH4n",
-  ids: "jmperezperez,thelinmichael,wizzler",
-}).asApiResult();
+const result = await client.users
+  .checkIfUserFollowsPlaylist({
+    playlistId: "3cEYpjA9oz9GiPac4AsH4n",
+    ids: "jmperezperez,thelinmichael,wizzler",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -11407,10 +11400,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.followArtistsUsers({
-  type: ItemType2.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.users
+  .followArtistsUsers({
+    type: ItemType2.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -11672,11 +11667,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.getFollowed({
-  type: ItemType1.Artist,
-  after: "0I2XqVXqHScXjHhk6AYYRe",
-  limit: 10,
-}).asApiResult();
+const result = await client.users
+  .getFollowed({ type: ItemType1.Artist, after: "0I2XqVXqHScXjHhk6AYYRe", limit: 10 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type CursorPagedArtists
@@ -11767,11 +11760,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.getListUsersPlaylists({
-  userId: "smedjan",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.users
+  .getListUsersPlaylists({ userId: "smedjan", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingPlaylistObject
@@ -11912,7 +11903,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopArtists(request: Users.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Users.GetUsersTopArtistsError&gt;</code></summary>
+<summary><code>getUsersTopArtists(request?: Users.GetUsersTopArtistsRequest, options?: RequestOptions): ApiPromise&lt;PagingArtistObject, Users.GetUsersTopArtistsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11951,11 +11942,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.getUsersTopArtists({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.users
+  .getUsersTopArtists({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingArtistObject
@@ -12007,7 +11996,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersTopTracks(request: Users.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Users.GetUsersTopTracksError&gt;</code></summary>
+<summary><code>getUsersTopTracks(request?: Users.GetUsersTopTracksRequest, options?: RequestOptions): ApiPromise&lt;PagingTrackObject, Users.GetUsersTopTracksError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12046,11 +12035,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.getUsersTopTracks({
-  timeRange: "medium_term",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.users
+  .getUsersTopTracks({ timeRange: "medium_term", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingTrackObject
@@ -12143,10 +12130,12 @@ try {
 <dd>
 
 ```ts
-const result = await client.users.unfollowArtistsUsers({
-  type: ItemType3.Artist,
-  ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
-}).asApiResult();
+const result = await client.users
+  .unfollowArtistsUsers({
+    type: ItemType3.Artist,
+    ids: "2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6",
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -12336,13 +12325,15 @@ try {
 <dd>
 
 ```ts
-const result = await client.search.search({
-  q: "remaster%20track:Doxy%20artist:Miles%20Davis",
-  type: [Itemtype.Album],
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.search
+  .search({
+    q: "remaster%20track:Doxy%20artist:Miles%20Davis",
+    type: [Itemtype.Album],
+    market: "ES",
+    limit: 10,
+    offset: 5,
+  })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type SearchItems
@@ -12442,9 +12433,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.shows.checkUsersSavedShows({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-}).asApiResult();
+const result = await client.shows
+  .checkUsersSavedShows({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type boolean[]
@@ -12629,12 +12620,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.shows.getAShowsEpisodes({
-  id: "38bS44xjbVVZ3No3ByF1dJ",
-  market: "ES",
-  limit: 10,
-  offset: 5,
-}).asApiResult();
+const result = await client.shows
+  .getAShowsEpisodes({ id: "38bS44xjbVVZ3No3ByF1dJ", market: "ES", limit: 10, offset: 5 })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type PagingSimplifiedEpisodeObject
@@ -12729,10 +12717,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.shows.getMultipleShows({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-  market: "ES",
-}).asApiResult();
+const result = await client.shows
+  .getMultipleShows({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: Use 'result.value' of type ManySimplifiedShows
@@ -12783,7 +12770,7 @@ if (result.ok) {
 </details>
 
 <details>
-<summary><code>getUsersSavedShows(request: Shows.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedShowObject, Shows.GetUsersSavedShowsError&gt;</code></summary>
+<summary><code>getUsersSavedShows(request?: Shows.GetUsersSavedShowsRequest, options?: RequestOptions): ApiPromise&lt;PagingSavedShowObject, Shows.GetUsersSavedShowsError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12911,10 +12898,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.shows.removeShowsUser({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-  market: "ES",
-}).asApiResult();
+const result = await client.shows
+  .removeShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ", market: "ES" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
@@ -13004,9 +12990,9 @@ try {
 <dd>
 
 ```ts
-const result = await client.shows.saveShowsUser({
-  ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ",
-}).asApiResult();
+const result = await client.shows
+  .saveShowsUser({ ids: "5CfCWKI5pZ28U0uOzXkDHe,5as3aKmN2k11yfDDDSrvaZ" })
+  .asApiResult();
 // TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
 if (result.ok) {
   // TODO: The call succeeded and resolves to no body
